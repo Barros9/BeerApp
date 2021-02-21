@@ -21,9 +21,9 @@ import com.barros.beerapp.R
 import com.barros.beerapp.adapter.BeerAdapter
 import com.barros.beerapp.databinding.FragmentMainBinding
 import com.barros.beerapp.model.BeerItem
+import com.barros.beerapp.model.Result.Error
 import com.barros.beerapp.model.Result.Loading
 import com.barros.beerapp.model.Result.Success
-import com.barros.beerapp.model.Result.Error
 import com.barros.beerapp.util.setGone
 import com.barros.beerapp.util.setVisible
 import com.google.android.material.chip.Chip
