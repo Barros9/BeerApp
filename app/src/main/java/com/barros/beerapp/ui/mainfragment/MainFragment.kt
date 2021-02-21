@@ -35,34 +35,26 @@ import kotlinx.coroutines.launch
 @ExperimentalPagingApi
 class MainFragment : Fragment() {
 
-    private val mainViewModel: MainViewModel by viewModels()
     private lateinit var beerAdapter: BeerAdapter
-
-    private var _binding: FragmentMainBinding? = null
-    private val binding get() = _binding!!
+    private val mainViewModel: MainViewModel by viewModels()
+    private var searchJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(inflater).apply {
+        return FragmentMainBinding.inflate(inflater).apply {
             viewModel = mainViewModel
             lifecycleOwner = this@MainFragment
-        }
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+            val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            beerAdapter = BeerAdapter(BeerAdapter.OnClickListener {
+                mainViewModel.displayPropertyDetails(it)
+            })
 
-        beerAdapter = BeerAdapter(BeerAdapter.OnClickListener {
-            mainViewModel.displayPropertyDetails(it)
-        })
-
-        binding.itemList.apply {
+            itemList.apply {
                 this.adapter = beerAdapter
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -75,13 +67,13 @@ class MainFragment : Fragment() {
                 })
             }
 
-        binding.searchText.apply {
+            searchText.apply {
                 setOnEditorActionListener(TextView.OnEditorActionListener { textView, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         inputMethodManager.hideSoftInputFromWindow(textView.windowToken, 0)
 
-                        val checkedId = binding.chipGroup.checkedChipId
-                        binding.chipGroup.children.forEach { chip ->
+                        val checkedId = chipGroup.checkedChipId
+                        chipGroup.children.forEach { chip ->
                             if ((chip as Chip).id == checkedId) {
                                 chip.isChecked = false
                             }
@@ -98,10 +90,10 @@ class MainFragment : Fragment() {
                 doOnTextChanged { text, _, _, _ ->
                     mainViewModel.search.value = text.toString()
 
-                    val checkedId = binding.chipGroup.checkedChipId
+                    val checkedId = chipGroup.checkedChipId
                     if (text!!.isEmpty()) {
                         if (checkedId != View.NO_ID) {
-                            binding.chipGroup.children.forEach { chip ->
+                            chipGroup.children.forEach { chip ->
                                 if ((chip as Chip).id == checkedId) {
                                     chip.isChecked = false
                                 }
@@ -113,20 +105,20 @@ class MainFragment : Fragment() {
                 }
             }
 
-            binding.chipGroup.setOnCheckedChangeListener { _, checkedId ->
-                inputMethodManager.hideSoftInputFromWindow(binding.chipGroup.windowToken, 0)
+            chipGroup.setOnCheckedChangeListener { _, checkedId ->
+                inputMethodManager.hideSoftInputFromWindow(chipGroup.windowToken, 0)
 
                 mainViewModel.search.value = when (checkedId) {
-                    R.id.chipBlonde -> binding.chipBlonde.text.toString()
-                    R.id.chipLager -> binding.chipLager.text.toString()
-                    R.id.chipMalts -> binding.chipMalts.text.toString()
-                    R.id.chipStouts -> binding.chipStouts.text.toString()
-                    R.id.chipPale -> binding.chipPale.text.toString()
-                    R.id.chipAle -> binding.chipAle.text.toString()
+                    R.id.chipBlonde -> chipBlonde.text.toString()
+                    R.id.chipLager -> chipLager.text.toString()
+                    R.id.chipMalts -> chipMalts.text.toString()
+                    R.id.chipStouts -> chipStouts.text.toString()
+                    R.id.chipPale -> chipPale.text.toString()
+                    R.id.chipAle -> chipAle.text.toString()
                     else -> ""
                 }
 
-                binding.searchText.setText(mainViewModel.search.value)
+                searchText.setText(mainViewModel.search.value)
                 if (checkedId != View.NO_ID) {
                     search()
                 }
@@ -155,7 +147,7 @@ class MainFragment : Fragment() {
                     mainViewModel.displayPropertyDetailsComplete()
                 }
             }
-        }
+        }.root
     }
 
     @ExperimentalPagingApi
