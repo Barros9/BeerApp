@@ -12,6 +12,7 @@ buildscript {
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlint_version"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$safe_args_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
     }
 }
 

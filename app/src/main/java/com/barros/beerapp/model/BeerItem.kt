@@ -3,9 +3,11 @@ package com.barros.beerapp.model
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(tableName = "beeritem")
 @Parcelize
 data class BeerItem(
@@ -14,6 +16,6 @@ data class BeerItem(
     val name: String,
     val tagline: String,
     val description: String,
-    @Json(name = "image_url")
+    @SerialName("image_url")
     val imageUrl: String? = ""
 ) : Parcelable

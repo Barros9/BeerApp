@@ -1,11 +1,11 @@
 package com.barros.beerapp.di
 
-import com.barros.beerapp.api.BeerApi
 import com.barros.beerapp.api.BeerService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -14,7 +14,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideBeerApi(): BeerApi {
-        return BeerService.create()
+    fun provideBeerHttpClient(): HttpClient {
+        return BeerService.createHttpClient()
     }
 }

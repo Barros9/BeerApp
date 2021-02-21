@@ -1,18 +1,26 @@
 package com.barros.beerapp.api
 
-import com.barros.beerapp.util.BASE_URL
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import kotlinx.serialization.json.Json
 
 object BeerService {
 
-    fun create(): BeerApi {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(KotlinJsonAdapterFactory()).build()))
-            .build()
-            .create(BeerApi::class.java)
+    fun createHttpClient(): HttpClient {
+        return HttpClient(Android) {
+            engine {
+                connectTimeout = 30_000
+                socketTimeout = 30_000
+            }
+            install(JsonFeature) {
+                serializer = KotlinxSerializer(Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                    encodeDefaults = false
+                })
+            }
+        }
     }
 }
