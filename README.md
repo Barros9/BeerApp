@@ -12,6 +12,7 @@ Used [Punk API](https://punkapi.com/) to display and search beers.
 * Navigation
 * Retrofit
 * Coroutines
+* Paging
 
 ## Branches
 

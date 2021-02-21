@@ -16,8 +16,4 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideBeerDatabase(@ApplicationContext context: Context) = BeerDatabase.getInstance(context)
-
-    @Singleton
-    @Provides
-    fun provideBeerDatabaseDao(beerDatabase: BeerDatabase) = beerDatabase.beerDao()
 }

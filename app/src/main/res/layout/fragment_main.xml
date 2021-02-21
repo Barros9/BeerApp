@@ -148,7 +148,6 @@
             android:layout_marginTop="@dimen/marginTopSmall"
             android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardViewOffers">
 
@@ -171,31 +170,31 @@
                     android:id="@+id/chipLager"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/lager" />
+                    android:text="@string/lager"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipMalts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/malts" />
+                    android:text="@string/malts"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipStouts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/stouts" />
+                    android:text="@string/stouts"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipPale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/pale" />
+                    android:text="@string/pale"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipAle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ale" />
+                    android:text="@string/ale"/>
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -217,7 +216,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
-            android:onClick="@{() -> viewModel.updateUiState()}"
+            android:onClick="@{() -> viewModel.getBeers()}"
             android:text="@string/retry"
             android:textColor="@color/colorAccent"
             android:visibility="gone"
@@ -225,18 +224,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardViewOffers" />
-
-        <TextView
-            android:id="@+id/emptyList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_list_text"
-            android:visibility="gone"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemList"

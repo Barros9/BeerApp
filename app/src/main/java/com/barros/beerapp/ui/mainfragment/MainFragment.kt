@@ -11,27 +11,28 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.barros.beerapp.R
 import com.barros.beerapp.adapter.BeerAdapter
+import com.barros.beerapp.adapter.LoadingStateAdapter
 import com.barros.beerapp.databinding.FragmentMainBinding
-import com.barros.beerapp.model.BeerItem
-import com.barros.beerapp.model.Result.Error
-import com.barros.beerapp.model.Result.Loading
-import com.barros.beerapp.model.Result.Success
-import com.barros.beerapp.util.setGone
-import com.barros.beerapp.util.setVisible
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-@InternalCoroutinesApi
+@ExperimentalPagingApi
 class MainFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by viewModels()
@@ -62,18 +63,17 @@ class MainFragment : Fragment() {
         })
 
         binding.itemList.apply {
-            this.adapter = beerAdapter
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
-                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == beerAdapter.itemCount - 1) {
-                        mainViewModel.page += 1
-                        mainViewModel.updateUiState()
+                this.adapter = beerAdapter
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(recyclerView, newState)
+                        val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
+                        if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == beerAdapter.itemCount - 1) {
+                            search()
+                        }
                     }
-                }
-            })
-        }
+                })
+            }
 
         binding.searchText.apply {
                 setOnEditorActionListener(TextView.OnEditorActionListener { textView, actionId, _ ->
@@ -88,8 +88,7 @@ class MainFragment : Fragment() {
                         }
 
                         mainViewModel.search.value = textView.text.toString()
-                        mainViewModel.page = 1
-                        mainViewModel.updateUiState()
+                        search()
 
                         return@OnEditorActionListener true
                     }
@@ -108,8 +107,7 @@ class MainFragment : Fragment() {
                                 }
                             }
                         } else {
-                            mainViewModel.page = 1
-                            mainViewModel.updateUiState()
+                            search()
                         }
                     }
                 }
@@ -130,16 +128,22 @@ class MainFragment : Fragment() {
 
                 binding.searchText.setText(mainViewModel.search.value)
                 if (checkedId != View.NO_ID) {
-                    mainViewModel.page = 1
-                    mainViewModel.updateUiState()
+                    search()
                 }
             }
 
-            mainViewModel.uiState.observe(viewLifecycleOwner) { result ->
-                when (result) {
-                    is Loading -> onLoading()
-                    is Success -> onSuccess(result.data)
-                    is Error -> onError()
+            itemList.adapter = beerAdapter.withLoadStateHeaderAndFooter(
+                header = LoadingStateAdapter(),
+                footer = LoadingStateAdapter()
+            )
+
+            beerAdapter.addLoadStateListener { loadState ->
+                this.itemList.isVisible = loadState.source.refresh is LoadState.NotLoading
+                this.loadingProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                this.retryButton.isVisible = loadState.source.refresh is LoadState.Error
+
+                if (loadState.source.refresh is LoadState.Error) {
+                    showToast(getString(R.string.error_text))
                 }
             }
 
@@ -148,46 +152,25 @@ class MainFragment : Fragment() {
                     this@MainFragment.findNavController().navigate(
                         MainFragmentDirections.actionMainFragmentToItemListDialogFragment(it)
                     )
+                    mainViewModel.displayPropertyDetailsComplete()
                 }
             }
         }
-
-    private fun onLoading() = with(binding) {
-        loadingProgressBar.setVisible()
-        retryButton.setGone()
-        itemList.setGone()
     }
 
-    private fun onSuccess(data: List<BeerItem>?) = with(binding) {
-        loadingProgressBar.setGone()
-        retryButton.setGone()
-        itemList.setVisible()
-        data?.let {
-            beerAdapter.submitList(it)
-
-            if (it.isEmpty()) {
-                emptyList.setVisible()
-            } else {
-                emptyList.setGone()
+    @ExperimentalPagingApi
+    private fun search() {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            mainViewModel.getBeers().collectLatest {
+                beerAdapter.submitData(it)
             }
         }
-    }
-
-    private fun onError() = with(binding) {
-        loadingProgressBar.setGone()
-        retryButton.setVisible()
-        itemList.setGone()
-        showToast(getString(R.string.error_text))
     }
 
     private fun showToast(message: String) {
         val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
         toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0)
         toast.show()
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 }

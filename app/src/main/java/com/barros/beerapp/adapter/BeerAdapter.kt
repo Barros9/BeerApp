@@ -2,15 +2,15 @@ package com.barros.beerapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.barros.beerapp.adapter.BeerAdapter.ItemViewHolder
 import com.barros.beerapp.databinding.ItemListBinding
 import com.barros.beerapp.model.BeerItem
 
 class BeerAdapter(private val onClickListener: OnClickListener) :
-    ListAdapter<BeerItem, ItemViewHolder>(DiffCallback()) {
+    PagingDataAdapter<BeerItem, ItemViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -18,8 +18,8 @@ class BeerAdapter(private val onClickListener: OnClickListener) :
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = getItem(position)
-        holder.itemView.setOnClickListener { onClickListener.onClick(item) }
-        holder.bind(item)
+        holder.itemView.setOnClickListener { onClickListener.onClick(item!!) }
+        holder.bind(item!!)
     }
 
     class ItemViewHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {

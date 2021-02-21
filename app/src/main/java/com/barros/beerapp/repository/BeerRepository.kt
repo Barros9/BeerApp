@@ -1,35 +1,43 @@
 package com.barros.beerapp.repository
 
-import com.barros.beerapp.api.BeerApi
-import com.barros.beerapp.api.BeerDataSource
-import com.barros.beerapp.database.BeerDao
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.barros.beerapp.api.BeerRemoteDataSource
+import com.barros.beerapp.database.BeerDatabase
 import com.barros.beerapp.model.BeerItem
-import com.barros.beerapp.model.Result
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
 @Singleton
 class BeerRepository @Inject constructor(
-    private val beerApi: BeerApi,
-    private val beerDao: BeerDao
-) : BeerDataSource() {
+    private val remoteSource: BeerRemoteDataSource,
+    private val database: BeerDatabase
+) {
 
-    @InternalCoroutinesApi
-    suspend fun getBeers(search: String, page: Int): Flow<Result<List<BeerItem>>> {
-        return if (search.isEmpty()) {
-            loadBeers(
-                loadFromDb = { beerDao.getBeers() },
-                createCall = { getResult { beerApi.getBeers(page) } },
-                saveCallResult = { beerDao.insertBeers(it) }
-            )
+    @ExperimentalPagingApi
+    fun getBeers(search: String): Flow<PagingData<BeerItem>> {
+
+        val pagingSourceFactory = if (search.isEmpty()) {
+            { database.beerDao().getBeers() }
         } else {
-            loadBeers(
-                loadFromDb = { beerDao.getBeersFilteredByName("%$search%") },
-                createCall = { getResult { beerApi.searchBeer(search, page) } },
-                saveCallResult = { beerDao.insertBeers(it) }
-            )
+            { database.beerDao().getBeersFilteredByName("%$search%") }
         }
+
+        return Pager(
+            config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
+            remoteMediator = BeerRemoteMediator(
+                search,
+                remoteSource,
+                database
+            ),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
+    }
+
+    companion object {
+        private const val NETWORK_PAGE_SIZE = 25
     }
 }
