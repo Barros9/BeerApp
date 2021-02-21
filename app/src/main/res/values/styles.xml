@@ -1,0 +1,76 @@
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="chipStyle">@style/Widget.App.Chip</item>
+    </style>
+
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
+    <style name="textStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="searchStyle" parent="textStyle">
+        <item name="android:textColor">@color/colorTextGrey</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="offerStyle" parent="textStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorTextDark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="offerDescriptionStyle" parent="offerStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="nameStyle" parent="textStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="descriptionStyle" parent="searchStyle">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="moreInfoStyle" parent="textStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="nameDetailStyle" parent="textStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="taglineDetailStyle" parent="searchStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_detail</item>
+    </style>
+
+    <style name="Widget.App.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/background_color_chip</item>
+        <item name="android:textColor">@color/text_color_chip</item>
+        <item name="textStartPadding">16dp</item>
+        <item name="textEndPadding">16dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Beer App</string>
+    <string name="title_text">Beer <b>App</b></string>
+    <string name="search_text">Search</string>
+    <string name="info_card_title">Find your beer</string>
+    <string name="info_card_description">You can search by category</string>
+    <string name="more_info">MORE INFO</string>
+    <string name="beer">beer</string>
+    <string name="present">present</string>
+    <string name="retry">Retry</string>
+    <string name="error_text">Unable to fetch data, please retry</string>
+    <string name="empty_list_text">Empty list</string>
+    <string name="blonde">Blonde</string>
+    <string name="lager">Lager</string>
+    <string name="malts">Malts</string>
+    <string name="stouts">Stouts</string>
+    <string name="pale">Pale</string>
+    <string name="ale">Ale</string>
+</resources>
