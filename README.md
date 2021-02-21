@@ -10,8 +10,9 @@ Used [Punk API](https://punkapi.com/) to display and search beers.
 * Work Manager
 * Hilt
 * Navigation
-* Retrofit
 * Coroutines
+* Ktor
+* Kotlin serialization
 
 ## Branches
 
