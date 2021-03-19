@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marginStart">16dp</dimen>
+    <dimen name="marginTop">16dp</dimen>
+    <dimen name="marginEnd">16dp</dimen>
+    <dimen name="marginBottom">16dp</dimen>
+    <dimen name="cornerRadius">16dp</dimen>
+    <dimen name="topTitleMargin">24dp</dimen>
+    <dimen name="marginTopSmall">8dp</dimen>
+    <dimen name="marginBottomSmall">8dp</dimen>
+    <dimen name="marginStartSmall">8dp</dimen>
+    <dimen name="marginEndSmall">8dp</dimen>
+    <dimen name="beerImageWidth">40dp</dimen>
+    <dimen name="beerLogoDimension">50dp</dimen>
+    <dimen name="bookmarkImageDimension">32dp</dimen>
+    <dimen name="paddingHorizontal">16dp</dimen>
+    <dimen name="chipSpacingHorizontal">16dp</dimen>
+    <dimen name="detailMargin">24dp</dimen>
+    <item name="viewLineDimension" type="dimen" format="float">0.5dp</item>
+</resources>
