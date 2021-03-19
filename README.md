@@ -4,7 +4,7 @@ Used [Punk API](https://punkapi.com/) to display and search beers.
 
 * MVVM
 * Data Binding
-* Live Data
+* LiveData
 * Flow
 * Room
 * Work Manager
@@ -12,6 +12,11 @@ Used [Punk API](https://punkapi.com/) to display and search beers.
 * Navigation
 * Retrofit
 * Coroutines
+
+## Branches
+
+* [feature/ktor](https://github.com/Barros9/BeerApp/tree/feature/ktor) -> Ktor and kotlinx.serialization instead of Retrofit
+* [feature/paging](https://github.com/Barros9/BeerApp/tree/feature/paging) -> Paging 3.0
 
 ### Thanks
 
