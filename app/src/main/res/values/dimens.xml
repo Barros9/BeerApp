@@ -16,5 +16,5 @@
     <dimen name="paddingHorizontal">16dp</dimen>
     <dimen name="chipSpacingHorizontal">16dp</dimen>
     <dimen name="detailMargin">24dp</dimen>
-    <item name="viewLineDimension" type="dimen" format="float">0.5dp</item>
+    <dimen name="viewLineDimension">1dp</dimen>
 </resources>

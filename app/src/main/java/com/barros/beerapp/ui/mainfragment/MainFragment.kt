@@ -34,7 +34,9 @@ import kotlinx.coroutines.InternalCoroutinesApi
 @InternalCoroutinesApi
 class MainFragment : Fragment() {
 
+    private val mainViewModel: MainViewModel by viewModels()
     private lateinit var beerAdapter: BeerAdapter
+
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
@@ -43,38 +45,43 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val mainViewModel: MainViewModel by viewModels()
         _binding = FragmentMainBinding.inflate(inflater).apply {
             viewModel = mainViewModel
             lifecycleOwner = this@MainFragment
+        }
+        return binding.root
+    }
 
-            val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-            beerAdapter = BeerAdapter(BeerAdapter.OnClickListener {
-                mainViewModel.displayPropertyDetails(it)
-            })
+        val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-            itemList.apply {
-                this.adapter = beerAdapter
-                addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                        super.onScrollStateChanged(recyclerView, newState)
-                        val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
-                        if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == beerAdapter.itemCount - 1) {
-                            mainViewModel.page += 1
-                            mainViewModel.updateUiState()
-                        }
+        beerAdapter = BeerAdapter(BeerAdapter.OnClickListener {
+            mainViewModel.displayPropertyDetails(it)
+        })
+
+        binding.itemList.apply {
+            this.adapter = beerAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == beerAdapter.itemCount - 1) {
+                        mainViewModel.page += 1
+                        mainViewModel.updateUiState()
                     }
-                })
-            }
+                }
+            })
+        }
 
-            searchText.apply {
+        binding.searchText.apply {
                 setOnEditorActionListener(TextView.OnEditorActionListener { textView, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         inputMethodManager.hideSoftInputFromWindow(textView.windowToken, 0)
 
-                        val checkedId = chipGroup.checkedChipId
-                        chipGroup.children.forEach { chip ->
+                        val checkedId = binding.chipGroup.checkedChipId
+                        binding.chipGroup.children.forEach { chip ->
                             if ((chip as Chip).id == checkedId) {
                                 chip.isChecked = false
                             }
@@ -92,10 +99,10 @@ class MainFragment : Fragment() {
                 doOnTextChanged { text, _, _, _ ->
                     mainViewModel.search.value = text.toString()
 
-                    val checkedId = chipGroup.checkedChipId
+                    val checkedId = binding.chipGroup.checkedChipId
                     if (text!!.isEmpty()) {
                         if (checkedId != View.NO_ID) {
-                            chipGroup.children.forEach { chip ->
+                            binding.chipGroup.children.forEach { chip ->
                                 if ((chip as Chip).id == checkedId) {
                                     chip.isChecked = false
                                 }
@@ -108,20 +115,20 @@ class MainFragment : Fragment() {
                 }
             }
 
-            chipGroup.setOnCheckedChangeListener { _, checkedId ->
-                inputMethodManager.hideSoftInputFromWindow(chipGroup.windowToken, 0)
+            binding.chipGroup.setOnCheckedChangeListener { _, checkedId ->
+                inputMethodManager.hideSoftInputFromWindow(binding.chipGroup.windowToken, 0)
 
                 mainViewModel.search.value = when (checkedId) {
-                    R.id.chipBlonde -> chipBlonde.text.toString()
-                    R.id.chipLager -> chipLager.text.toString()
-                    R.id.chipMalts -> chipMalts.text.toString()
-                    R.id.chipStouts -> chipStouts.text.toString()
-                    R.id.chipPale -> chipPale.text.toString()
-                    R.id.chipAle -> chipAle.text.toString()
+                    R.id.chipBlonde -> binding.chipBlonde.text.toString()
+                    R.id.chipLager -> binding.chipLager.text.toString()
+                    R.id.chipMalts -> binding.chipMalts.text.toString()
+                    R.id.chipStouts -> binding.chipStouts.text.toString()
+                    R.id.chipPale -> binding.chipPale.text.toString()
+                    R.id.chipAle -> binding.chipAle.text.toString()
                     else -> ""
                 }
 
-                searchText.setText(mainViewModel.search.value)
+                binding.searchText.setText(mainViewModel.search.value)
                 if (checkedId != View.NO_ID) {
                     mainViewModel.page = 1
                     mainViewModel.updateUiState()
@@ -144,9 +151,6 @@ class MainFragment : Fragment() {
                 }
             }
         }
-
-        return binding.root
-    }
 
     private fun onLoading() = with(binding) {
         loadingProgressBar.setVisible()

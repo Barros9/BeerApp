@@ -12,13 +12,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailFragment : BottomSheetDialogFragment() {
 
+    private val detailViewModel: DetailViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val detailViewModel: DetailViewModel by viewModels()
-
         return FragmentDetailBinding.inflate(inflater).apply {
             viewModel = detailViewModel
             lifecycleOwner = this@DetailFragment
