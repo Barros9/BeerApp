@@ -35,119 +35,129 @@ import kotlinx.coroutines.launch
 @ExperimentalPagingApi
 class MainFragment : Fragment() {
 
-    private lateinit var beerAdapter: BeerAdapter
     private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var beerAdapter: BeerAdapter
+
     private var searchJob: Job? = null
+
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentMainBinding.inflate(inflater).apply {
+        _binding = FragmentMainBinding.inflate(inflater).apply {
             viewModel = mainViewModel
             lifecycleOwner = this@MainFragment
+        }
+        return binding.root
+    }
 
-            val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-            beerAdapter = BeerAdapter(BeerAdapter.OnClickListener {
-                mainViewModel.displayPropertyDetails(it)
+        val inputMethodManager =
+            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        beerAdapter = BeerAdapter(BeerAdapter.OnClickListener {
+            mainViewModel.displayPropertyDetails(it)
+        })
+
+        binding.itemList.apply {
+            this.adapter = beerAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == beerAdapter.itemCount - 1) {
+                        search()
+                    }
+                }
             })
+        }
 
-            itemList.apply {
-                this.adapter = beerAdapter
-                addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                        super.onScrollStateChanged(recyclerView, newState)
-                        val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
-                        if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == beerAdapter.itemCount - 1) {
-                            search()
+        binding.searchText.apply {
+            setOnEditorActionListener(TextView.OnEditorActionListener { textView, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    inputMethodManager.hideSoftInputFromWindow(textView.windowToken, 0)
+
+                    val checkedId = binding.chipGroup.checkedChipId
+                    binding.chipGroup.children.forEach { chip ->
+                        if ((chip as Chip).id == checkedId) {
+                            chip.isChecked = false
                         }
                     }
-                })
-            }
 
-            searchText.apply {
-                setOnEditorActionListener(TextView.OnEditorActionListener { textView, actionId, _ ->
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        inputMethodManager.hideSoftInputFromWindow(textView.windowToken, 0)
+                    mainViewModel.search.value = textView.text.toString()
+                    search()
 
-                        val checkedId = chipGroup.checkedChipId
-                        chipGroup.children.forEach { chip ->
+                    return@OnEditorActionListener true
+                }
+                false
+            })
+
+            doOnTextChanged { text, _, _, _ ->
+                mainViewModel.search.value = text.toString()
+
+                val checkedId = binding.chipGroup.checkedChipId
+                if (text!!.isEmpty()) {
+                    if (checkedId != View.NO_ID) {
+                        binding.chipGroup.children.forEach { chip ->
                             if ((chip as Chip).id == checkedId) {
                                 chip.isChecked = false
                             }
                         }
-
-                        mainViewModel.search.value = textView.text.toString()
+                    } else {
                         search()
-
-                        return@OnEditorActionListener true
-                    }
-                    false
-                })
-
-                doOnTextChanged { text, _, _, _ ->
-                    mainViewModel.search.value = text.toString()
-
-                    val checkedId = chipGroup.checkedChipId
-                    if (text!!.isEmpty()) {
-                        if (checkedId != View.NO_ID) {
-                            chipGroup.children.forEach { chip ->
-                                if ((chip as Chip).id == checkedId) {
-                                    chip.isChecked = false
-                                }
-                            }
-                        } else {
-                            search()
-                        }
                     }
                 }
             }
+        }
 
-            chipGroup.setOnCheckedChangeListener { _, checkedId ->
-                inputMethodManager.hideSoftInputFromWindow(chipGroup.windowToken, 0)
+        binding.chipGroup.setOnCheckedChangeListener { _, checkedId ->
+            inputMethodManager.hideSoftInputFromWindow(binding.chipGroup.windowToken, 0)
 
-                mainViewModel.search.value = when (checkedId) {
-                    R.id.chipBlonde -> chipBlonde.text.toString()
-                    R.id.chipLager -> chipLager.text.toString()
-                    R.id.chipMalts -> chipMalts.text.toString()
-                    R.id.chipStouts -> chipStouts.text.toString()
-                    R.id.chipPale -> chipPale.text.toString()
-                    R.id.chipAle -> chipAle.text.toString()
-                    else -> ""
-                }
-
-                searchText.setText(mainViewModel.search.value)
-                if (checkedId != View.NO_ID) {
-                    search()
-                }
+            mainViewModel.search.value = when (checkedId) {
+                R.id.chipBlonde -> binding.chipBlonde.text.toString()
+                R.id.chipLager -> binding.chipLager.text.toString()
+                R.id.chipMalts -> binding.chipMalts.text.toString()
+                R.id.chipStouts -> binding.chipStouts.text.toString()
+                R.id.chipPale -> binding.chipPale.text.toString()
+                R.id.chipAle -> binding.chipAle.text.toString()
+                else -> ""
             }
 
-            itemList.adapter = beerAdapter.withLoadStateHeaderAndFooter(
-                header = LoadingStateAdapter(),
-                footer = LoadingStateAdapter()
-            )
-
-            beerAdapter.addLoadStateListener { loadState ->
-                this.itemList.isVisible = loadState.source.refresh is LoadState.NotLoading
-                this.loadingProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                this.retryButton.isVisible = loadState.source.refresh is LoadState.Error
-
-                if (loadState.source.refresh is LoadState.Error) {
-                    showToast(getString(R.string.error_text))
-                }
+            binding.searchText.setText(mainViewModel.search.value)
+            if (checkedId != View.NO_ID) {
+                search()
             }
+        }
 
-            mainViewModel.navigateToDetail.observe(viewLifecycleOwner) {
-                if (it != null && this@MainFragment.findNavController().currentDestination?.id == R.id.mainFragment) {
-                    this@MainFragment.findNavController().navigate(
-                        MainFragmentDirections.actionMainFragmentToItemListDialogFragment(it)
-                    )
-                    mainViewModel.displayPropertyDetailsComplete()
-                }
+        binding.itemList.adapter = beerAdapter.withLoadStateHeaderAndFooter(
+            header = LoadingStateAdapter(),
+            footer = LoadingStateAdapter()
+        )
+
+        beerAdapter.addLoadStateListener { loadState ->
+            binding.itemList.isVisible = loadState.source.refresh is LoadState.NotLoading
+            binding.loadingProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
+            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
+
+            if (loadState.source.refresh is LoadState.Error) {
+                showToast(getString(R.string.error_text))
             }
-        }.root
+        }
+
+        mainViewModel.navigateToDetail.observe(viewLifecycleOwner) {
+            if (it != null && this@MainFragment.findNavController().currentDestination?.id == R.id.mainFragment) {
+                this@MainFragment.findNavController().navigate(
+                    MainFragmentDirections.actionMainFragmentToItemListDialogFragment(it)
+                )
+                mainViewModel.displayPropertyDetailsComplete()
+            }
+        }
     }
 
     @ExperimentalPagingApi
