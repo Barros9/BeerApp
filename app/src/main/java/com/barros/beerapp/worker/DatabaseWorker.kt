@@ -6,15 +6,11 @@ import androidx.work.WorkerParameters
 import com.barros.beerapp.database.BeerDatabase
 import com.barros.beerapp.model.BeerItem
 import com.barros.beerapp.util.DATA_FILENAME
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.JsonReader
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
-import okio.Okio
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import timber.log.Timber
 
 class DatabaseWorker(
@@ -27,15 +23,10 @@ class DatabaseWorker(
             try {
                 @Suppress("BlockingMethodInNonBlockingContext")
                 applicationContext.assets.open(DATA_FILENAME).use { inputStream ->
-                    JsonReader.of(Okio.buffer(Okio.source(inputStream))).use { jsonReader ->
-                        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-                        val listType = Types.newParameterizedType(List::class.java, BeerItem::class.java)
-                        val adapter: JsonAdapter<List<BeerItem>> = moshi.adapter(listType)
-                        val list = adapter.fromJson(jsonReader)
-
-                        BeerDatabase.getInstance(applicationContext).beerDao().insertBeers(list!!)
-                        Result.success()
-                    }
+                    val jsonString = inputStream.bufferedReader().use { it.readText() }
+                    val list = Json.decodeFromString<List<BeerItem>>(jsonString)
+                    BeerDatabase.getInstance(applicationContext).beerDao().insertBeers(list)
+                    Result.success()
                 }
             } catch (e: Exception) {
                 Timber.e(e, "Error seeding database")
