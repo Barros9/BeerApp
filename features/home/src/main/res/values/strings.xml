@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_title">Beer App</string>
+    <string name="home_retry_error">Unable to fetch data, please retry</string>
+    <string name="home_retry">Retry</string>
+    <string name="home_more_info">More info</string>
+</resources>
