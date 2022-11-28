@@ -5,7 +5,7 @@ import com.barros.beerapp.libraries.beer.data.network.model.BeerNetworkModel
 import javax.inject.Inject
 
 internal class BeerRemoteDataSourceImpl @Inject constructor(
-    private val beerApi: BeerApi,
+    private val beerApi: BeerApi
 ) : BeerRemoteDataSource {
 
     override suspend fun getBeers(
