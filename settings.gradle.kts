@@ -27,7 +27,6 @@ dependencyResolutionManagement {
             version("activity-compose", "1.6.0")
             version("navigation-compose", "2.5.3")
             version("glide-compose", "2.0.2")
-            version("paging-compose", "1.0.0-alpha17")
             version("hilt-dagger", "2.44")
             version("hilt", "1.0.0")
             version("ktor", "2.1.2")
@@ -91,12 +90,6 @@ dependencyResolutionManagement {
             ).withoutVersion()
             bundle("compose", listOf("compose-material3", "compose-ui-tooling-preview"))
 
-            library(
-                "paging-compose",
-                "androidx.paging",
-                "paging-compose"
-            ).versionRef("paging-compose")
-
             library("compose-ui-tooling", "androidx.compose.ui", "ui-tooling").withoutVersion()
             library(
                 "compose-ui-test-manifest",
@@ -130,9 +123,8 @@ dependencyResolutionManagement {
             library("room-compiler", "androidx.room", "room-compiler").versionRef("room")
             library("room", "androidx.room", "room-runtime").versionRef("room")
             library("room-ktx", "androidx.room", "room-ktx").versionRef("room")
-            library("room-paging", "androidx.room", "room-paging").versionRef("room")
             library("room-test", "androidx.room", "room-testing").versionRef("room")
-            bundle("room", listOf("room", "room-ktx", "room-paging"))
+            bundle("room", listOf("room", "room-ktx"))
 
             library(
                 "mock-web-server",

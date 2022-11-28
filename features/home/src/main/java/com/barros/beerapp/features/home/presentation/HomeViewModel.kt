@@ -8,7 +8,6 @@ import com.barros.beerapp.features.home.presentation.model.HomeUiState
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result.Error
 import com.barros.beerapp.libraries.beer.domain.model.Result.Success
-import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersPagingUseCase
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
 import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
 import com.barros.beerapp.libraries.navigator.navigation.Navigator
@@ -21,7 +20,6 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navigator: Navigator,
-    private val getBeersPagingUseCase: GetBeersPagingUseCase,
     private val getBeersUseCase: GetBeersUseCase
 ) : ViewModel() {
 
@@ -34,13 +32,6 @@ class HomeViewModel @Inject constructor(
 
     private val beers = mutableListOf<Beer>()
     private var page = 1
-
-    private fun loadUiStatePaging() {
-        viewModelScope.launch(exceptionHandler) {
-            _uiState.value = HomeUiState.Loading
-            _uiState.value = HomeUiState.ShowBeersPaging(getBeersPagingUseCase())
-        }
-    }
 
     private fun loadUiState() {
         viewModelScope.launch(exceptionHandler) {

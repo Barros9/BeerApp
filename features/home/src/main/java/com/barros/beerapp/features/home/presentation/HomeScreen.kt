@@ -21,7 +21,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,11 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import com.barros.beerapp.features.home.R
 import com.barros.beerapp.features.home.presentation.model.HomeUiState
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
@@ -98,48 +93,6 @@ private fun HomeContent(
                         Text(stringResource(R.string.home_retry))
                     }
                 }
-                is HomeUiState.ShowBeersPaging -> {
-                    val beers = uiState.beers.collectAsLazyPagingItems()
-                    LazyColumn {
-                        items(beers) { beer ->
-                            BeerRow(
-                                beer = beer!!,
-                                onSelectBeer = { onSelectBeer(it) }
-                            )
-                        }
-                        beers.apply {
-                            when {
-                                loadState.refresh is LoadState.Loading -> {
-                                    item {
-                                        LoadingView(
-                                            modifier = Modifier.fillParentMaxSize()
-                                        )
-                                    }
-                                }
-                                loadState.append is LoadState.Loading -> {
-                                    item {
-                                        LoadingItem()
-                                    }
-                                }
-                                loadState.refresh is LoadState.Error -> {
-                                    item {
-                                        ErrorItem(
-                                            modifier = Modifier.fillParentMaxSize(),
-                                            onClickRetry = { retry() }
-                                        )
-                                    }
-                                }
-                                loadState.append is LoadState.Error -> {
-                                    item {
-                                        ErrorItem(
-                                            onClickRetry = { retry() }
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
                 is HomeUiState.ShowBeers -> {
                     val listState = rememberLazyListState()
 
@@ -162,7 +115,12 @@ private fun HomeContent(
                         }
                         if (uiState.loadNextPage) {
                             item {
-                                LoadingItem()
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(dimensionResource(R_UI.dimen.spacing_16))
+                                        .wrapContentWidth(Alignment.CenterHorizontally)
+                                )
                             }
                         }
                     }
@@ -229,49 +187,4 @@ private fun BeerRow(
         }
     }
     Divider(thickness = dimensionResource(R_UI.dimen.divider))
-}
-
-@Composable
-private fun LoadingView(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-private fun LoadingItem() {
-    CircularProgressIndicator(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .wrapContentWidth(Alignment.CenterHorizontally)
-    )
-}
-
-@Composable
-private fun ErrorItem(
-    modifier: Modifier = Modifier,
-    onClickRetry: () -> Unit
-) {
-    Row(
-        modifier = modifier.padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = Modifier.weight(1f),
-            text = stringResource(R.string.home_retry_error),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.error
-        )
-        OutlinedButton(onClick = onClickRetry) {
-            Text(text = stringResource(R.string.home_retry))
-        }
-    }
 }

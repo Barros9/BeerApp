@@ -26,9 +26,6 @@ dependencies {
     implementation(androidLibs.hilt.dagger.android)
     implementation(androidLibs.hilt.navigation.compose)
 
-    // Paging
-    implementation(androidLibs.paging.compose)
-
     // Test
     testImplementation(androidLibs.bundles.test)
 

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.barros.beerapp.libraries.beer.data.database.BeerAppDatabase
 import com.barros.beerapp.libraries.beer.data.database.BeerDao
-import com.barros.beerapp.libraries.beer.data.database.KeyDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,8 +27,4 @@ internal class DatabaseModule {
     @Provides
     @Singleton
     fun provideBeerDao(beerAppDatabase: BeerAppDatabase): BeerDao = beerAppDatabase.beerDao()
-
-    @Provides
-    @Singleton
-    fun provideKeyDao(beerAppDatabase: BeerAppDatabase): KeyDao = beerAppDatabase.keyDao()
 }
