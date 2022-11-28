@@ -5,7 +5,8 @@ import com.barros.beerapp.libraries.beer.data.database.model.BeerDatabaseModel
 import com.barros.beerapp.libraries.beer.data.database.model.KeyDatabaseModel
 
 internal interface BeerLocalDataSource {
-    fun getBeers(beerName: String? = null): PagingSource<Int, BeerDatabaseModel>
+    fun getBeersPaging(beerName: String? = null): PagingSource<Int, BeerDatabaseModel>
+    suspend fun getBeers(beerName: String? = null, page: Int, perPage: Int): List<BeerDatabaseModel>
     suspend fun getBeerById(beerId: Int): BeerDatabaseModel
     suspend fun insertBeers(beers: List<BeerDatabaseModel>)
     suspend fun clearBeers()

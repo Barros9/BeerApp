@@ -40,7 +40,7 @@ internal class BeerDaoTest {
 
         // When
         beerAppDatabase.beerDao().insertBeers(listOfBeerDatabaseModel)
-        val resultFromDb = beerAppDatabase.beerDao().getBeers(null)
+        val resultFromDb = beerAppDatabase.beerDao().getBeersPaging(null)
 
         // Then
         assertEquals(resultFromDb, listOfBeerDatabaseModel)

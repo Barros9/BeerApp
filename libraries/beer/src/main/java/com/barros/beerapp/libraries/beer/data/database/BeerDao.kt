@@ -11,7 +11,10 @@ import com.barros.beerapp.libraries.beer.data.database.model.BeerDatabaseModel
 internal interface BeerDao {
 
     @Query("SELECT * FROM beers WHERE (:beerName IS NULL OR name LIKE :beerName)")
-    fun getBeers(beerName: String?): PagingSource<Int, BeerDatabaseModel>
+    fun getBeersPaging(beerName: String?): PagingSource<Int, BeerDatabaseModel>
+
+    @Query("SELECT * FROM beers WHERE (:beerName IS NULL OR name LIKE :beerName) ORDER BY id ASC LIMIT :limitPerPage OFFSET :offset")
+    suspend fun getBeers(beerName: String?, offset: Int, limitPerPage: Int): List<BeerDatabaseModel>
 
     @Query("SELECT * FROM beers WHERE id LIKE :beerId")
     suspend fun getBeerById(beerId: Int): BeerDatabaseModel

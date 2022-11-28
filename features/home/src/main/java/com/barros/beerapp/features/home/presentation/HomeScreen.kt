@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -24,7 +26,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -52,8 +56,9 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
     HomeContent(
         modifier = Modifier,
         uiState = uiState,
-        onSelectedBeer = { beerId -> homeViewModel.onSelectedBeer(beerId) },
-        onRetry = { homeViewModel.onRetry() }
+        onSelectBeer = { beerId -> homeViewModel.onSelectBeer(beerId) },
+        onRetry = { homeViewModel.onRetry() },
+        searchNextPage = { homeViewModel.searchNextPage() },
     )
 }
 
@@ -61,8 +66,9 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
 private fun HomeContent(
     modifier: Modifier,
     uiState: HomeUiState,
-    onSelectedBeer: (Int) -> Unit,
+    onSelectBeer: (Int) -> Unit,
     onRetry: () -> Unit,
+    searchNextPage: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -92,13 +98,13 @@ private fun HomeContent(
                         Text(stringResource(R.string.home_retry))
                     }
                 }
-                is HomeUiState.ShowBeers -> {
+                is HomeUiState.ShowBeersPaging -> {
                     val beers = uiState.beers.collectAsLazyPagingItems()
                     LazyColumn {
                         items(beers) { beer ->
                             BeerRow(
                                 beer = beer!!,
-                                onSelectedBeer = { onSelectedBeer(it) }
+                                onSelectBeer = { onSelectBeer(it) }
                             )
                         }
                         beers.apply {
@@ -134,6 +140,36 @@ private fun HomeContent(
                         }
                     }
                 }
+                is HomeUiState.ShowBeers -> {
+                    val listState = rememberLazyListState()
+
+                    val isScrollToEnd by remember {
+                        derivedStateOf {
+                            listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == listState.layoutInfo.totalItemsCount - 1
+                        }
+                    }
+
+                    if (isScrollToEnd && uiState.loadNextPage.not()) {
+                        searchNextPage()
+                    }
+
+                    LazyColumn(state = listState) {
+                        items(uiState.beers) { beer ->
+                            BeerRow(
+                                beer = beer,
+                                onSelectBeer = { onSelectBeer(it) }
+                            )
+                        }
+                        if (uiState.loadNextPage) {
+                            item {
+                                LoadingItem()
+                            }
+                        }
+                    }
+                }
+                is HomeUiState.Empty -> {
+                    Text(stringResource(R.string.home_empty))
+                }
             }
         }
     }
@@ -142,12 +178,12 @@ private fun HomeContent(
 @Composable
 private fun BeerRow(
     beer: Beer,
-    onSelectedBeer: (Int) -> Unit = {},
+    onSelectBeer: (Int) -> Unit = {},
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = { onSelectedBeer(beer.id) })
+            .clickable(onClick = { onSelectBeer(beer.id) })
             .padding(dimensionResource(R_UI.dimen.spacing_16)),
         verticalAlignment = Alignment.CenterVertically
     ) {
