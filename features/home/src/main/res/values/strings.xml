@@ -3,5 +3,6 @@
     <string name="home_title">Beer App</string>
     <string name="home_retry_error">Unable to fetch data, please retry</string>
     <string name="home_retry">Retry</string>
+    <string name="home_empty">Empty list</string>
     <string name="home_more_info">More info</string>
 </resources>

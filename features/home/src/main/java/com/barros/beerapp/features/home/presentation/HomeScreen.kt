@@ -13,18 +13,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -34,11 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import com.barros.beerapp.features.home.R
 import com.barros.beerapp.features.home.presentation.model.HomeUiState
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
@@ -52,8 +51,9 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
     HomeContent(
         modifier = Modifier,
         uiState = uiState,
-        onSelectedBeer = { beerId -> homeViewModel.onSelectedBeer(beerId) },
-        onRetry = { homeViewModel.onRetry() }
+        onSelectBeer = { beerId -> homeViewModel.onSelectBeer(beerId) },
+        onRetry = { homeViewModel.onRetry() },
+        searchNextPage = { homeViewModel.searchNextPage() },
     )
 }
 
@@ -61,8 +61,9 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
 private fun HomeContent(
     modifier: Modifier,
     uiState: HomeUiState,
-    onSelectedBeer: (Int) -> Unit,
+    onSelectBeer: (Int) -> Unit,
     onRetry: () -> Unit,
+    searchNextPage: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -93,46 +94,39 @@ private fun HomeContent(
                     }
                 }
                 is HomeUiState.ShowBeers -> {
-                    val beers = uiState.beers.collectAsLazyPagingItems()
-                    LazyColumn {
-                        items(beers) { beer ->
+                    val listState = rememberLazyListState()
+
+                    val isScrollToEnd by remember {
+                        derivedStateOf {
+                            listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == listState.layoutInfo.totalItemsCount - 1
+                        }
+                    }
+
+                    if (isScrollToEnd && uiState.loadNextPage.not()) {
+                        searchNextPage()
+                    }
+
+                    LazyColumn(state = listState) {
+                        items(uiState.beers) { beer ->
                             BeerRow(
-                                beer = beer!!,
-                                onSelectedBeer = { onSelectedBeer(it) }
+                                beer = beer,
+                                onSelectBeer = { onSelectBeer(it) }
                             )
                         }
-                        beers.apply {
-                            when {
-                                loadState.refresh is LoadState.Loading -> {
-                                    item {
-                                        LoadingView(
-                                            modifier = Modifier.fillParentMaxSize()
-                                        )
-                                    }
-                                }
-                                loadState.append is LoadState.Loading -> {
-                                    item {
-                                        LoadingItem()
-                                    }
-                                }
-                                loadState.refresh is LoadState.Error -> {
-                                    item {
-                                        ErrorItem(
-                                            modifier = Modifier.fillParentMaxSize(),
-                                            onClickRetry = { retry() }
-                                        )
-                                    }
-                                }
-                                loadState.append is LoadState.Error -> {
-                                    item {
-                                        ErrorItem(
-                                            onClickRetry = { retry() }
-                                        )
-                                    }
-                                }
+                        if (uiState.loadNextPage) {
+                            item {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(dimensionResource(R_UI.dimen.spacing_16))
+                                        .wrapContentWidth(Alignment.CenterHorizontally)
+                                )
                             }
                         }
                     }
+                }
+                is HomeUiState.Empty -> {
+                    Text(stringResource(R.string.home_empty))
                 }
             }
         }
@@ -142,12 +136,12 @@ private fun HomeContent(
 @Composable
 private fun BeerRow(
     beer: Beer,
-    onSelectedBeer: (Int) -> Unit = {},
+    onSelectBeer: (Int) -> Unit = {},
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = { onSelectedBeer(beer.id) })
+            .clickable(onClick = { onSelectBeer(beer.id) })
             .padding(dimensionResource(R_UI.dimen.spacing_16)),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -193,49 +187,4 @@ private fun BeerRow(
         }
     }
     Divider(thickness = dimensionResource(R_UI.dimen.divider))
-}
-
-@Composable
-private fun LoadingView(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-private fun LoadingItem() {
-    CircularProgressIndicator(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .wrapContentWidth(Alignment.CenterHorizontally)
-    )
-}
-
-@Composable
-private fun ErrorItem(
-    modifier: Modifier = Modifier,
-    onClickRetry: () -> Unit
-) {
-    Row(
-        modifier = modifier.padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = Modifier.weight(1f),
-            text = stringResource(R.string.home_retry_error),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.error
-        )
-        OutlinedButton(onClick = onClickRetry) {
-            Text(text = stringResource(R.string.home_retry))
-        }
-    }
 }
