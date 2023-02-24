@@ -18,6 +18,8 @@ The app follows an implementation of mudularazition by features:
 This app is mentioned in the following articles:
 
 * [Android app modularization with Clean Architecture](https://barros9.medium.com/android-app-modularization-with-clean-architecture-9aa2e135a99a)
+* [Android: Single Source Of Truth Strategy (Offline-First)](https://barros9.medium.com/android-single-source-of-truth-strategy-offline-first-5f6028f39d34)
+* [A custom pagination in Compose — An alternative to the Android Paging Library](https://barros9.medium.com/a-custom-pagination-in-compose-an-alternative-to-the-android-paging-library-46dc043fb251)
 
 ## Libraries
 
