@@ -2,7 +2,6 @@
 
 package com.barros.beerapp.features.home.presentation
 
-import com.barros.beerapp.libraries.ui.R as R_UI
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,7 +37,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.barros.beerapp.features.home.R
+import com.barros.beerapp.R
 import com.barros.beerapp.features.home.presentation.model.HomeUiState
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.skydoves.landscapist.ImageOptions
@@ -118,7 +117,7 @@ private fun HomeContent(
                                 CircularProgressIndicator(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(dimensionResource(R_UI.dimen.spacing_16))
+                                        .padding(dimensionResource(R.dimen.spacing_16))
                                         .wrapContentWidth(Alignment.CenterHorizontally)
                                 )
                             }
@@ -142,22 +141,22 @@ private fun BeerRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = { onSelectBeer(beer.id) })
-            .padding(dimensionResource(R_UI.dimen.spacing_16)),
+            .padding(dimensionResource(R.dimen.spacing_16)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         GlideImage(
-            modifier = Modifier.width(dimensionResource(R_UI.dimen.row_image_width)),
+            modifier = Modifier.width(dimensionResource(R.dimen.row_image_width)),
             imageModel = { beer.imageUrl ?: "" },
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Fit
             ),
-            previewPlaceholder = R_UI.drawable.ic_loading,
-            failure = { ImageVector.vectorResource(R_UI.drawable.ic_broken_image) }
+            previewPlaceholder = R.drawable.ic_loading,
+            failure = { ImageVector.vectorResource(R.drawable.ic_broken_image) }
         )
 
         Column(
             modifier = Modifier
-                .padding(start = dimensionResource(R_UI.dimen.spacing_24))
+                .padding(start = dimensionResource(R.dimen.spacing_24))
                 .align(Alignment.CenterVertically)
         ) {
             Text(
@@ -177,7 +176,7 @@ private fun BeerRow(
                 )
             ) {
                 Text(
-                    modifier = Modifier.padding(top = dimensionResource(R_UI.dimen.spacing_8)),
+                    modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_8)),
                     text = beer.description,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 3,
@@ -186,5 +185,5 @@ private fun BeerRow(
             }
         }
     }
-    Divider(thickness = dimensionResource(R_UI.dimen.divider))
+    Divider(thickness = dimensionResource(R.dimen.divider))
 }

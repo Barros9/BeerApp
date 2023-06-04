@@ -14,6 +14,8 @@ allprojects {
     afterEvaluate {
         if (hasProperty("android")) {
             configure<com.android.build.gradle.BaseExtension> {
+                namespace = "com.barros.beerapp"
+
                 compileSdkVersion(extra["android.compileSdkVersion"].toString().toInt())
 
                 defaultConfig {

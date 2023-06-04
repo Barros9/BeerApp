@@ -7,7 +7,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
-import com.barros.beerapp.features.home.R
+import com.barros.beerapp.R
 import com.barros.beerapp.features.home.mock.HomeMock
 import com.barros.beerapp.features.home.presentation.HomeScreen
 import com.barros.beerapp.features.home.presentation.HomeViewModel
