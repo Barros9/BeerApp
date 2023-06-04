@@ -2,7 +2,6 @@
 
 package com.barros.beerapp.features.detail.presentation
 
-import com.barros.beerapp.libraries.ui.R as R_UI
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,7 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.barros.beerapp.features.detail.R
+import com.barros.beerapp.R
 import com.barros.beerapp.features.detail.presentation.model.DetailUiState
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
@@ -90,33 +89,33 @@ private fun DetailContent(
                     Column(
                         modifier = modifier
                             .fillMaxSize()
-                            .padding(dimensionResource(R_UI.dimen.spacing_24)),
+                            .padding(dimensionResource(R.dimen.spacing_24)),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top
                     ) {
                         GlideImage(
                             modifier = Modifier
-                                .width(dimensionResource(R_UI.dimen.detail_image_width))
-                                .height(dimensionResource(R_UI.dimen.detail_image_height)),
+                                .width(dimensionResource(R.dimen.detail_image_width))
+                                .height(dimensionResource(R.dimen.detail_image_height)),
                             imageModel = { uiState.beer.imageUrl ?: "" },
                             imageOptions = ImageOptions(
                                 contentScale = ContentScale.Fit
                             ),
-                            loading = { ImageVector.vectorResource(R_UI.drawable.ic_loading) },
-                            failure = { ImageVector.vectorResource(R_UI.drawable.ic_broken_image) }
+                            loading = { ImageVector.vectorResource(R.drawable.ic_loading) },
+                            failure = { ImageVector.vectorResource(R.drawable.ic_broken_image) }
                         )
-                        Spacer(modifier = Modifier.height(dimensionResource(R_UI.dimen.spacing_16)))
+                        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_16)))
                         Text(
                             text = uiState.beer.name,
                             style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.secondary
                         )
-                        Spacer(modifier = Modifier.height(dimensionResource(R_UI.dimen.spacing_8)))
+                        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_8)))
                         Text(
                             text = uiState.beer.tagline,
                             style = MaterialTheme.typography.titleLarge
                         )
-                        Spacer(modifier = Modifier.height(dimensionResource(R_UI.dimen.spacing_8)))
+                        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_8)))
                         CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
                             Text(
                                 text = uiState.beer.description,
