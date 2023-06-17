@@ -1,0 +1,65 @@
+[versions]
+activity = "1.7.2"
+android-gradle-plugin = "8.0.2"
+compose-bom = "2023.06.00"
+compose-compiler = "1.4.5"
+core = "1.10.1"
+dagger = "2.46.1"
+glide = "2.2.1"
+junit = "1.1.5"
+kotlinx-serialization = "1.7.1"
+kotlinx-coroutines = "1.7.1"
+hilt = "1.0.0"
+mockk = "1.13.5"
+mockwebserver = "4.11.0"
+navigation = "2.6.0"
+okhttp = "4.11.0"
+retrofit = "2.9.0"
+retrofit-converter = "1.0.0"
+robolectric = "4.10.3"
+room = "2.5.1"
+turbine = "0.13.0"
+
+[libraries]
+androidx-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
+androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt" }
+androidx-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junit" }
+androidx-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt" }
+androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "dagger" }
+dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "dagger" }
+landscapist-glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "glide" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+square-okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+square-okhttp3-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+square-okhttp3-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
+square-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+square-retrofit2-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-converter" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+
+[bundles]
+android-test = ["mockk-android", "androidx-compose-ui-test-junit4"]
+compose = ["androidx-compose-material3", "androidx-compose-ui-tooling-preview"]
+compose-debug = ["androidx-compose-ui-tooling", "androidx-compose-ui-test-manifest"]
+okhttp3 = ["square-okhttp3", "square-okhttp3-logging"]
+retrofit = ["square-retrofit2", "square-retrofit2-converter"]
+room = ["androidx-room-runtime", "androidx-room-ktx"]
+test = ["kotlinx-coroutines-test", "mockk", "androidx-junit", "androidx-room-testing", "robolectric", "square-okhttp3-mockwebserver", "turbine"]

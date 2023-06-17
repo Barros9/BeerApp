@@ -6,14 +6,14 @@ plugins {
 
 dependencies {
     // Hilt
-    kapt(androidLibs.hilt.dagger.compiler)
-    kapt(androidLibs.hilt.compiler)
-    implementation(androidLibs.hilt.dagger.android)
-    implementation(androidLibs.hilt.navigation.compose)
+    kapt(libs.dagger.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.hilt.navigation)
 
     // Navigation
-    implementation(androidLibs.navigation.compose)
+    implementation(libs.androidx.navigation)
 
     // Test
-    testImplementation(androidLibs.bundles.test)
+    testImplementation(libs.bundles.test)
 }

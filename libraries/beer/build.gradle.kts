@@ -7,22 +7,22 @@ plugins {
 
 dependencies {
     // Retrofit
-    implementation(androidLibs.bundles.okhttp3)
-    implementation(androidLibs.bundles.retrofit)
+    implementation(libs.bundles.okhttp3)
+    implementation(libs.bundles.retrofit)
 
     // Serialization
-    implementation(androidLibs.kotlinx.serialization)
+    implementation(libs.kotlinx.serialization)
 
     // Room
-    implementation(androidLibs.bundles.room)
-    kapt(androidLibs.room.compiler)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.bundles.room)
 
     // Hilt
-    kapt(androidLibs.hilt.dagger.compiler)
-    kapt(androidLibs.hilt.compiler)
-    implementation(androidLibs.hilt.dagger.android)
-    implementation(androidLibs.hilt.navigation.compose)
+    kapt(libs.dagger.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.hilt.navigation)
 
     // Test
-    testImplementation(androidLibs.bundles.test)
+    testImplementation(libs.bundles.test)
 }

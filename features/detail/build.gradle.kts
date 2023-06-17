@@ -11,24 +11,21 @@ dependencies {
     implementation(project(":libraries:ui"))
 
     // Compose
-    // TODO solve this
-//    implementation(platform(androidLibs.compose.bom))
-    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    implementation(androidLibs.bundles.compose)
-    debugImplementation(androidLibs.bundles.compose.debug)
+    implementation(libs.bundles.compose)
+    debugImplementation(libs.bundles.compose.debug)
 
     // Glide
-    implementation(androidLibs.glide.compose)
+    implementation(libs.landscapist.glide)
 
     // Hilt
-    kapt(androidLibs.hilt.dagger.compiler)
-    kapt(androidLibs.hilt.compiler)
-    implementation(androidLibs.hilt.dagger.android)
-    implementation(androidLibs.hilt.navigation.compose)
+    kapt(libs.dagger.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.hilt.navigation)
 
     // Test
-    testImplementation(androidLibs.bundles.test)
+    testImplementation(libs.bundles.test)
 
     // Android
-    androidTestImplementation(androidLibs.bundles.android.test)
+    androidTestImplementation(libs.bundles.android.test)
 }
