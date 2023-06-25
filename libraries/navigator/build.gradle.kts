@@ -1,19 +1,10 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
+    id("beerapp.plugin.android.library")
+    id("beerapp.plugin.hilt")
+    id("beerapp.plugin.navigation")
+    id("beerapp.plugin.test")
 }
 
-dependencies {
-    // Hilt
-    kapt(libs.dagger.hilt.compiler)
-    kapt(libs.androidx.hilt.compiler)
-    implementation(libs.dagger.hilt.android)
-    implementation(libs.androidx.hilt.navigation)
-
-    // Navigation
-    implementation(libs.androidx.navigation)
-
-    // Test
-    testImplementation(libs.bundles.test)
+android {
+    namespace = "com.barros.beerapp.libraries.navigator"
 }

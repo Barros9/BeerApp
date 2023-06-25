@@ -6,13 +6,11 @@ import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import com.barros.beerapp.libraries.navigator.navigation.NavigatorEvent
 import com.barros.beerapp.libraries.navigator.navigation.NavigatorImpl
 import com.barros.beerapp.libraries.navigator.navigation.NavigatorViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class NavigatorTest {
 
     private lateinit var navigator: Navigator

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.barros.beerapp.features.detail.presentation
 
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.barros.beerapp.R
+import com.barros.beerapp.features.detail.R
 import com.barros.beerapp.features.detail.presentation.model.DetailUiState
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
@@ -48,6 +46,7 @@ fun DetailScreen(detailViewModel: DetailViewModel = hiltViewModel()) {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DetailContent(
     modifier: Modifier,

@@ -1,28 +1,16 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    kotlin("plugin.serialization")
+    id("beerapp.plugin.android.library")
+    id("beerapp.plugin.hilt")
+    id("beerapp.plugin.network")
+    id("beerapp.plugin.room")
+    id("beerapp.plugin.test")
+    kotlin("plugin.serialization") //  TODO check this
+}
+
+android {
+    namespace = "com.barros.beerapp.libraries.beer"
 }
 
 dependencies {
-    // Retrofit
-    implementation(libs.bundles.okhttp3)
-    implementation(libs.bundles.retrofit)
-
-    // Serialization
-    implementation(libs.kotlinx.serialization)
-
-    // Room
-    kapt(libs.androidx.room.compiler)
-    implementation(libs.bundles.room)
-
-    // Hilt
-    kapt(libs.dagger.hilt.compiler)
-    kapt(libs.androidx.hilt.compiler)
-    implementation(libs.dagger.hilt.android)
-    implementation(libs.androidx.hilt.navigation)
-
-    // Test
-    testImplementation(libs.bundles.test)
+    implementation(libs.jetbrains.serialization)
 }

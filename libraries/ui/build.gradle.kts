@@ -1,10 +1,8 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id("beerapp.plugin.android.library")
+    id("beerapp.plugin.compose.library")
 }
 
-dependencies {
-    // Compose
-    implementation(libs.bundles.compose)
-    debugImplementation(libs.bundles.compose.debug)
+android {
+    namespace = "com.barros.beerapp.libraries.ui"
 }

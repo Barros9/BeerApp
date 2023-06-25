@@ -22,7 +22,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class DetailViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()

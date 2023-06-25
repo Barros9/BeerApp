@@ -37,7 +37,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.barros.beerapp.R
+import com.barros.beerapp.features.home.R
 import com.barros.beerapp.features.home.presentation.model.HomeUiState
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.skydoves.landscapist.ImageOptions

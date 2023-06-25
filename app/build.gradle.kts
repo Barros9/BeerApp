@@ -1,8 +1,9 @@
 plugins {
-    id("com.android.application")
-    id("dagger.hilt.android.plugin")
-    kotlin("android")
-    kotlin("kapt")
+    id("beerapp.plugin.android.application")
+    id("beerapp.plugin.compose.application")
+    id("beerapp.plugin.hilt")
+    id("beerapp.plugin.navigation")
+    id("beerapp.plugin.test")
 }
 
 android {
@@ -34,20 +35,4 @@ dependencies {
     // Android
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
-
-    // Compose
-    implementation(libs.bundles.compose)
-    debugImplementation(libs.bundles.compose.debug)
-
-    // Hilt
-    kapt(libs.dagger.hilt.compiler)
-    kapt(libs.androidx.hilt.compiler)
-    implementation(libs.dagger.hilt.android)
-    implementation(libs.androidx.hilt.navigation)
-
-    // Navigation
-    implementation(libs.androidx.navigation)
-
-    // Test
-    testImplementation(libs.bundles.test)
 }
