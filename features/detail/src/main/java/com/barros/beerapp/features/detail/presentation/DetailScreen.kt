@@ -34,6 +34,7 @@ import com.barros.beerapp.features.detail.R
 import com.barros.beerapp.features.detail.presentation.model.DetailUiState
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
+import com.barros.beerapp.libraries.ui.R as R_UI
 
 @Composable
 fun DetailScreen(detailViewModel: DetailViewModel = hiltViewModel()) {
@@ -81,21 +82,23 @@ private fun DetailContent(
                 is DetailUiState.Loading -> {
                     CircularProgressIndicator()
                 }
+
                 is DetailUiState.Error -> {
                     Text(stringResource(R.string.detail_error))
                 }
+
                 is DetailUiState.ShowBeer -> {
                     Column(
                         modifier = modifier
                             .fillMaxSize()
-                            .padding(dimensionResource(R.dimen.spacing_24)),
+                            .padding(dimensionResource(R_UI.dimen.spacing_24)),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top
                     ) {
                         GlideImage(
                             modifier = Modifier
-                                .width(dimensionResource(R.dimen.detail_image_width))
-                                .height(dimensionResource(R.dimen.detail_image_height)),
+                                .width(dimensionResource(R_UI.dimen.detail_image_width))
+                                .height(dimensionResource(R_UI.dimen.detail_image_height)),
                             imageModel = { uiState.beer.imageUrl ?: "" },
                             imageOptions = ImageOptions(
                                 contentScale = ContentScale.Fit
@@ -103,18 +106,18 @@ private fun DetailContent(
                             loading = { ImageVector.vectorResource(R.drawable.ic_loading) },
                             failure = { ImageVector.vectorResource(R.drawable.ic_broken_image) }
                         )
-                        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_16)))
+                        Spacer(modifier = Modifier.height(dimensionResource(R_UI.dimen.spacing_16)))
                         Text(
                             text = uiState.beer.name,
                             style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.secondary
                         )
-                        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_8)))
+                        Spacer(modifier = Modifier.height(dimensionResource(R_UI.dimen.spacing_8)))
                         Text(
                             text = uiState.beer.tagline,
                             style = MaterialTheme.typography.titleLarge
                         )
-                        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_8)))
+                        Spacer(modifier = Modifier.height(dimensionResource(R_UI.dimen.spacing_8)))
                         CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
                             Text(
                                 text = uiState.beer.description,
