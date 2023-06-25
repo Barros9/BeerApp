@@ -16,7 +16,11 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 33
+                with(defaultConfig) {
+                    targetSdk = providers.gradleProperty("android.targetSdk").get().toInt()
+                    versionCode = providers.gradleProperty("android.versionCode").get().toInt()
+                    versionName = providers.gradleProperty("android.versionName").get()
+                }
             }
 
             dependencies {
