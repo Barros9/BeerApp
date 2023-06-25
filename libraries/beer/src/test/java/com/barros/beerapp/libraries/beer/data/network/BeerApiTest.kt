@@ -17,7 +17,6 @@ import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
 
-@OptIn(ExperimentalSerializationApi::class)
 class BeerApiTest {
 
     private val mockWebServer = MockWebServer()
