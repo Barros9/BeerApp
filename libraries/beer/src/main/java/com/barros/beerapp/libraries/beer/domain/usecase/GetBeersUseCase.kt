@@ -3,8 +3,8 @@ package com.barros.beerapp.libraries.beer.domain.usecase
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 class GetBeersUseCase @Inject constructor(
     private val beerRepository: BeerRepository

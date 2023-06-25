@@ -10,6 +10,6 @@ internal interface BeerApi {
     suspend fun getBeers(
         @Query("beer_name") beerName: String? = null,
         @Query("page") page: Int = 1,
-        @Query("per_page") perPage: Int = 25,
+        @Query("per_page") perPage: Int = 25
     ): List<BeerNetworkModel>
 }

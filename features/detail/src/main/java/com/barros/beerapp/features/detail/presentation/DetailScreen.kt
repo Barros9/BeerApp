@@ -52,7 +52,7 @@ fun DetailScreen(detailViewModel: DetailViewModel = hiltViewModel()) {
 private fun DetailContent(
     modifier: Modifier,
     uiState: DetailUiState,
-    navigateUp: () -> Unit,
+    navigateUp: () -> Unit
 ) {
     Scaffold(
         topBar = {

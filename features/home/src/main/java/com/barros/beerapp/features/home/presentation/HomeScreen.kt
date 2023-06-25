@@ -50,7 +50,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
         uiState = uiState,
         onSelectBeer = { beerId -> homeViewModel.onSelectBeer(beerId) },
         onRetry = { homeViewModel.onRetry() },
-        searchNextPage = { homeViewModel.searchNextPage() },
+        searchNextPage = { homeViewModel.searchNextPage() }
     )
 }
 
@@ -60,7 +60,7 @@ private fun HomeContent(
     uiState: HomeUiState,
     onSelectBeer: (Int) -> Unit,
     onRetry: () -> Unit,
-    searchNextPage: () -> Unit,
+    searchNextPage: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -136,7 +136,7 @@ private fun HomeContent(
 @Composable
 private fun BeerRow(
     beer: Beer,
-    onSelectBeer: (Int) -> Unit = {},
+    onSelectBeer: (Int) -> Unit = {}
 ) {
     Row(
         modifier = Modifier

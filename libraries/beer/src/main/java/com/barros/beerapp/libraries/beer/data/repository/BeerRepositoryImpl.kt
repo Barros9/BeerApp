@@ -11,9 +11,9 @@ import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.model.getResult
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.flow.Flow
 
 @Singleton
 internal class BeerRepositoryImpl @Inject constructor(
@@ -40,5 +40,4 @@ internal class BeerRepositoryImpl @Inject constructor(
                 beerLocalDataSource.insertBeers(beers.map(Beer::mapFromDomainModel))
             }
         )
-
 }

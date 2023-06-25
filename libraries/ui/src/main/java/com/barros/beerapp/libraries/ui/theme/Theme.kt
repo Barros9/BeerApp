@@ -23,7 +23,7 @@ private val darkColorPalette = darkColorScheme(
 @Composable
 fun BeerAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     MaterialTheme(
         colorScheme = if (darkTheme) darkColorPalette else lightColorPalette,
