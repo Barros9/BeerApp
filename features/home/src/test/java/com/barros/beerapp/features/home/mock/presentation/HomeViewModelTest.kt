@@ -59,6 +59,20 @@ internal class HomeViewModelTest {
     }
 
     @Test
+    fun `called getBeersUseCase and returns an empty list`() = runTest {
+        // Given
+        assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
+        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(emptyList()))
+
+        // When
+        dispatcher.scheduler.advanceUntilIdle()
+
+        // Then
+        coVerify { getBeersUseCase(any(), any()) }
+        assertEquals(HomeUiState.Empty, homeViewModel.uiState.value)
+    }
+
+    @Test
     fun `called getBeersUseCase and returns an error`() = runTest {
         // Given
         assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
@@ -98,5 +112,35 @@ internal class HomeViewModelTest {
 
         // Then
         coVerify { getBeersUseCase(any(), any()) }
+    }
+
+    @Test
+    fun `called searchNextPage to show more items`() = runTest {
+        // Given
+        assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
+        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(HomeMock.listOfBeers))
+
+        // When
+        dispatcher.scheduler.advanceUntilIdle()
+        homeViewModel.searchNextPage()
+        dispatcher.scheduler.advanceUntilIdle()
+
+        // Then
+        coVerify(exactly = 2) { getBeersUseCase(any(), any()) }
+    }
+
+    @Test
+    fun `called onSelectBeer to navigate`() = runTest {
+        // Given
+        assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
+        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(HomeMock.listOfBeers))
+        coEvery { navigator.navigate(any()) } returns true
+
+        // When
+        dispatcher.scheduler.advanceUntilIdle()
+        homeViewModel.onSelectBeer(0)
+
+        // Then
+        coVerify { navigator.navigate(any()) }
     }
 }

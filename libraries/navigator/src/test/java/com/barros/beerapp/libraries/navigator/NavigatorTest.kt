@@ -1,6 +1,7 @@
 package com.barros.beerapp.libraries.navigator
 
 import app.cash.turbine.test
+import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
 import com.barros.beerapp.libraries.navigator.destinations.HomeDestination
 import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import com.barros.beerapp.libraries.navigator.navigation.NavigatorEvent
@@ -34,6 +35,21 @@ class NavigatorTest {
             // Then
             assert(result is NavigatorEvent.Directions)
             assertEquals(HomeDestination.route(), (result as NavigatorEvent.Directions).destination)
+        }
+    }
+
+    @Test
+    fun `navigate to detail with success`() = runTest {
+        // Given
+
+        // When
+        navigator.destinations.test {
+            navigatorViewModel.navigate(DetailDestination.createBeerDetailsRoute(0)) { popUpTo(0) }
+            val result = awaitItem()
+
+            // Then
+            assert(result is NavigatorEvent.Directions)
+            assertEquals(DetailDestination.createBeerDetailsRoute(0), (result as NavigatorEvent.Directions).destination)
         }
     }
 

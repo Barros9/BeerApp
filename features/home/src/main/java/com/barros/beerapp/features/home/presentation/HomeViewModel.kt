@@ -13,7 +13,6 @@ import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
 import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -63,7 +62,7 @@ class HomeViewModel @Inject constructor(
             if (_uiState.value is HomeUiState.ShowBeers && (_uiState.value as HomeUiState.ShowBeers).loadNextPage.not()) {
                 page++
                 _uiState.value = HomeUiState.ShowBeers(beers = beers, loadNextPage = true)
-                delay(1_000)
+//                delay(1_000)
                 loadList()
             }
         }
