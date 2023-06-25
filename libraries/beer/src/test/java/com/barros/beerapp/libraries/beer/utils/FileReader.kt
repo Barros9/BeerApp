@@ -9,7 +9,6 @@ object FileReader {
 
     @Throws(IOException::class)
     fun readFileFromResources(fileName: String): String {
-
         var inputStream: InputStream? = null
         return try {
             inputStream = javaClass.classLoader?.getResourceAsStream(fileName)

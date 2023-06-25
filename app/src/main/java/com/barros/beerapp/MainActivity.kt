@@ -17,8 +17,8 @@ import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import com.barros.beerapp.libraries.navigator.navigation.NavigatorEvent
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class MainActivity : ComponentActivity() {

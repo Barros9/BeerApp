@@ -10,5 +10,5 @@ internal data class BeerNetworkModel(
     val tagline: String,
     val description: String,
     @SerialName("image_url")
-    val imageUrl: String? = "",
+    val imageUrl: String? = ""
 )

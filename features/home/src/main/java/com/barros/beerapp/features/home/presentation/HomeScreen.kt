@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.barros.beerapp.features.home.presentation
 
 import androidx.compose.foundation.clickable
@@ -17,7 +15,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -37,11 +34,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.barros.beerapp.R
+import com.barros.beerapp.features.home.R
 import com.barros.beerapp.features.home.presentation.model.HomeUiState
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
+import com.barros.beerapp.libraries.ui.R as R_UI
 
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
@@ -52,7 +50,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
         uiState = uiState,
         onSelectBeer = { beerId -> homeViewModel.onSelectBeer(beerId) },
         onRetry = { homeViewModel.onRetry() },
-        searchNextPage = { homeViewModel.searchNextPage() },
+        searchNextPage = { homeViewModel.searchNextPage() }
     )
 }
 
@@ -62,7 +60,7 @@ private fun HomeContent(
     uiState: HomeUiState,
     onSelectBeer: (Int) -> Unit,
     onRetry: () -> Unit,
-    searchNextPage: () -> Unit,
+    searchNextPage: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -86,12 +84,14 @@ private fun HomeContent(
                 is HomeUiState.Loading -> {
                     CircularProgressIndicator()
                 }
+
                 is HomeUiState.Error -> {
                     Text(stringResource(R.string.home_retry_error))
                     Button(onClick = { onRetry() }) {
                         Text(stringResource(R.string.home_retry))
                     }
                 }
+
                 is HomeUiState.ShowBeers -> {
                     val listState = rememberLazyListState()
 
@@ -117,13 +117,14 @@ private fun HomeContent(
                                 CircularProgressIndicator(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(dimensionResource(R.dimen.spacing_16))
+                                        .padding(dimensionResource(R_UI.dimen.spacing_16))
                                         .wrapContentWidth(Alignment.CenterHorizontally)
                                 )
                             }
                         }
                     }
                 }
+
                 is HomeUiState.Empty -> {
                     Text(stringResource(R.string.home_empty))
                 }
@@ -135,17 +136,17 @@ private fun HomeContent(
 @Composable
 private fun BeerRow(
     beer: Beer,
-    onSelectBeer: (Int) -> Unit = {},
+    onSelectBeer: (Int) -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = { onSelectBeer(beer.id) })
-            .padding(dimensionResource(R.dimen.spacing_16)),
+            .padding(dimensionResource(R_UI.dimen.spacing_16)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         GlideImage(
-            modifier = Modifier.width(dimensionResource(R.dimen.row_image_width)),
+            modifier = Modifier.width(dimensionResource(R_UI.dimen.row_image_width)),
             imageModel = { beer.imageUrl ?: "" },
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Fit
@@ -156,7 +157,7 @@ private fun BeerRow(
 
         Column(
             modifier = Modifier
-                .padding(start = dimensionResource(R.dimen.spacing_24))
+                .padding(start = dimensionResource(R_UI.dimen.spacing_24))
                 .align(Alignment.CenterVertically)
         ) {
             Text(
@@ -176,7 +177,7 @@ private fun BeerRow(
                 )
             ) {
                 Text(
-                    modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_8)),
+                    modifier = Modifier.padding(top = dimensionResource(R_UI.dimen.spacing_8)),
                     text = beer.description,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 3,
@@ -185,5 +186,5 @@ private fun BeerRow(
             }
         }
     }
-    Divider(thickness = dimensionResource(R.dimen.divider))
+    Divider(thickness = dimensionResource(R_UI.dimen.divider))
 }

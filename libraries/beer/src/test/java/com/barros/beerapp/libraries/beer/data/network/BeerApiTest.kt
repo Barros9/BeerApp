@@ -3,9 +3,7 @@ package com.barros.beerapp.libraries.beer.data.network
 import com.barros.beerapp.libraries.beer.mock.BeerMock
 import com.barros.beerapp.libraries.beer.utils.FileReader.readFileFromResources
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -16,8 +14,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
 
-@OptIn(ExperimentalSerializationApi::class)
 class BeerApiTest {
 
     private val mockWebServer = MockWebServer()

@@ -1,0 +1,74 @@
+[versions]
+android-gradle-plugin = "8.0.2"
+androidDesugarJdkLibs = "2.0.3"
+androidx-activity = "1.7.2"
+androidx-compose-bom = "2023.06.01"
+androidx-compose-compiler = "1.4.7"
+androidx-core = "1.10.1"
+androidx-hilt = "1.0.0"
+androidx-junit = "1.1.5"
+google-dagger = "2.46.1"
+jetbrains-coroutines = "1.7.1"
+jetbrains-kotlin = "1.8.21"
+jetbrains-serialization = "1.5.1"
+landscapist-glide = "2.2.1"
+kover = "0.7.1"
+ktlint = "11.4.2"
+ksp = "1.8.21-1.0.11"
+mockk = "1.13.5"
+square-okhttp3-mockwebserver = "4.11.0"
+navigation = "2.6.0"
+square-okhttp3 = "4.11.0"
+square-retrofit2 = "2.9.0"
+square-retrofit2-converter = "1.0.0"
+robolectric = "4.10.3"
+androidx-room = "2.5.2"
+turbine = "0.13.0"
+
+[libraries]
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+androidx-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity" }
+androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "androidx-hilt" }
+androidx-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidx-junit" }
+androidx-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidx-hilt" }
+androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidx-room" }
+androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "androidx-room" }
+dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "google-dagger" }
+dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "google-dagger" }
+landscapist-glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "landscapist-glide" }
+jetbrains-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "jetbrains-coroutines" }
+jetbrains-kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "jetbrains-serialization" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+square-okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "square-okhttp3" }
+square-okhttp3-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "square-okhttp3" }
+square-okhttp3-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "square-okhttp3-mockwebserver" }
+square-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "square-retrofit2" }
+square-retrofit2-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "square-retrofit2-converter" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+
+# Dependencies of the included build-logic
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "jetbrains-kotlin" }
+ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
+dagger = { id = "com.google.dagger.hilt.android", version.ref = "google-dagger" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrains-kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "jetbrains-kotlin" }

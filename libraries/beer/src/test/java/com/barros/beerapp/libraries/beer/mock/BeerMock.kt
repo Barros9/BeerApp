@@ -41,7 +41,7 @@ internal object BeerMock {
             tagline = "Bloggers' Imperial Pilsner.",
             description = "An Imperial Pilsner in collaboration with beer writers. Tradition. Homage. Revolution. We wanted to showcase the awesome backbone of the Czech brewing tradition, the noble Saaz hop, and also tip our hats to the modern beers that rock our world, and the people who make them.",
             imageUrl = "https://images.punkapi.com/v2/5.png"
-        ),
+        )
     )
 
     val listOfBeerDatabaseModel = listOf(
@@ -79,7 +79,7 @@ internal object BeerMock {
             tagline = "Bloggers' Imperial Pilsner.",
             description = "An Imperial Pilsner in collaboration with beer writers. Tradition. Homage. Revolution. We wanted to showcase the awesome backbone of the Czech brewing tradition, the noble Saaz hop, and also tip our hats to the modern beers that rock our world, and the people who make them.",
             imageUrl = "https://images.punkapi.com/v2/5.png"
-        ),
+        )
     )
 
     val listOfBeers = listOf(
@@ -117,6 +117,6 @@ internal object BeerMock {
             tagline = "Bloggers' Imperial Pilsner.",
             description = "An Imperial Pilsner in collaboration with beer writers. Tradition. Homage. Revolution. We wanted to showcase the awesome backbone of the Czech brewing tradition, the noble Saaz hop, and also tip our hats to the modern beers that rock our world, and the people who make them.",
             imageUrl = "https://images.punkapi.com/v2/5.png"
-        ),
+        )
     )
 }

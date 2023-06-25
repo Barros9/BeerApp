@@ -11,14 +11,14 @@ import com.barros.beerapp.libraries.beer.domain.usecase.GetBeerByIdUseCase
 import com.barros.beerapp.libraries.navigator.destinations.DetailDestination.BEER_ID_PARAM
 import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val navigator: Navigator,
     private val savedStateHandle: SavedStateHandle,
-    private val getBeerByIdUseCase: GetBeerByIdUseCase,
+    private val getBeerByIdUseCase: GetBeerByIdUseCase
 ) : ViewModel() {
 
     private val beerId

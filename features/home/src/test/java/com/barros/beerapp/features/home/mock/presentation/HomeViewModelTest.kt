@@ -11,7 +11,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -22,7 +21,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class HomeViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
@@ -58,6 +56,20 @@ internal class HomeViewModelTest {
         // Then
         coVerify { getBeersUseCase(any(), any()) }
         assertEquals(HomeUiState.ShowBeers(HomeMock.listOfBeers, false), homeViewModel.uiState.value)
+    }
+
+    @Test
+    fun `called getBeersUseCase and returns an empty list`() = runTest {
+        // Given
+        assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
+        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(emptyList()))
+
+        // When
+        dispatcher.scheduler.advanceUntilIdle()
+
+        // Then
+        coVerify { getBeersUseCase(any(), any()) }
+        assertEquals(HomeUiState.Empty, homeViewModel.uiState.value)
     }
 
     @Test
@@ -100,5 +112,35 @@ internal class HomeViewModelTest {
 
         // Then
         coVerify { getBeersUseCase(any(), any()) }
+    }
+
+    @Test
+    fun `called searchNextPage to show more items`() = runTest {
+        // Given
+        assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
+        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(HomeMock.listOfBeers))
+
+        // When
+        dispatcher.scheduler.advanceUntilIdle()
+        homeViewModel.searchNextPage()
+        dispatcher.scheduler.advanceUntilIdle()
+
+        // Then
+        coVerify(exactly = 2) { getBeersUseCase(any(), any()) }
+    }
+
+    @Test
+    fun `called onSelectBeer to navigate`() = runTest {
+        // Given
+        assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
+        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(HomeMock.listOfBeers))
+        coEvery { navigator.navigate(any()) } returns true
+
+        // When
+        dispatcher.scheduler.advanceUntilIdle()
+        homeViewModel.onSelectBeer(0)
+
+        // Then
+        coVerify { navigator.navigate(any()) }
     }
 }

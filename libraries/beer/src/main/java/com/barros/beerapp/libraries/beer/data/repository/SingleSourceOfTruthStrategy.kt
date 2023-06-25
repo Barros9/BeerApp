@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 internal fun singleSourceOfTruthStrategy(
     readLocalData: suspend () -> List<Beer>,
     readRemoteData: suspend () -> List<Beer>,
-    saveLocalData: suspend (List<Beer>) -> Unit,
+    saveLocalData: suspend (List<Beer>) -> Unit
 ): Flow<Result<List<Beer>>> = flow {
     val localData = getResult { readLocalData() }
     if (localData is Result.Success && localData.data.isNotEmpty()) {
