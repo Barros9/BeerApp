@@ -5,10 +5,6 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    // TODO
-    plugins {
-        kotlin("plugin.serialization") version extra["settings.kotlin"].toString()
-    }
 }
 
 dependencyResolutionManagement {
