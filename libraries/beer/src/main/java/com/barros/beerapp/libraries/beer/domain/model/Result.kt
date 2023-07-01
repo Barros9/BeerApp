@@ -5,10 +5,8 @@ sealed class Result<out R> {
     data class Error(val errorMessage: String, val throwable: Throwable) : Result<Nothing>()
 }
 
-suspend fun <T> getResult(invoke: suspend () -> T): Result<T> {
-    return runCatching {
-        Result.Success(invoke())
-    }.getOrElse {
-        Result.Error("Error", it)
-    }
+suspend fun <T> getResult(invoke: suspend () -> T): Result<T> = runCatching {
+    Result.Success(invoke())
+}.getOrElse {
+    Result.Error("Error", it)
 }

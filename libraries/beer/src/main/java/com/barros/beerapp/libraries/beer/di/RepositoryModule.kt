@@ -14,5 +14,6 @@ internal class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideBeerRepository(beerRepository: BeerRepositoryImpl): BeerRepository = beerRepository
+    fun provideBeerRepository(beerRepository: BeerRepositoryImpl): BeerRepository =
+        beerRepository
 }

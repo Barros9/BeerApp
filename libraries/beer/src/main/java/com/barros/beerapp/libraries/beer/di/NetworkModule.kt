@@ -16,9 +16,13 @@ import javax.inject.Singleton
 @Module
 internal class NetworkModule {
 
+    companion object {
+        const val baseUrl = "https://api.punkapi.com/v2/"
+    }
+
     @Singleton
     @Provides
-    fun provideBaseUrl(): String = "https://api.punkapi.com/v2/"
+    fun provideBaseUrl(): String = baseUrl
 
     @Provides
     @Singleton
@@ -29,11 +33,13 @@ internal class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().build()
+    fun provideOkHttpClient(): OkHttpClient =
+        OkHttpClient.Builder().build()
 
     @Provides
     @Singleton
-    fun provideBeerApiService(retrofit: Retrofit): BeerApi = retrofit.create(BeerApi::class.java)
+    fun provideBeerApiService(retrofit: Retrofit): BeerApi =
+        retrofit.create(BeerApi::class.java)
 
     @Provides
     @Singleton
