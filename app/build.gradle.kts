@@ -4,6 +4,7 @@ plugins {
     id("beerapp.plugin.hilt")
     id("beerapp.plugin.navigation")
     id("beerapp.plugin.test")
+    id("beerapp.plugin.work")
 }
 
 android {

@@ -61,5 +61,9 @@ gradlePlugin {
             id = "beerapp.plugin.test"
             implementationClass = "TestConventionPlugin"
         }
+        register("pluginWork") {
+            id = "beerapp.plugin.work"
+            implementationClass = "WorkConventionPlugin"
+        }
     }
 }
