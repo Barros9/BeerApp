@@ -29,33 +29,33 @@ internal class DatabaseModule {
     @Provides
     @Singleton
     fun provideRoomDb(
-        @ApplicationContext context: Context,
-        databaseCallback: RoomDatabase.Callback
+        @ApplicationContext context: Context, databaseCallback: RoomDatabase.Callback
     ): BeerAppDatabase =
         Room.databaseBuilder(context, BeerAppDatabase::class.java, beerAppDatabaseName)
-            .fallbackToDestructiveMigration()
-            .addCallback(databaseCallback)
-            .build()
+            .fallbackToDestructiveMigration().addCallback(databaseCallback).build()
 
     @Provides
     @Singleton
-    fun provideBeerDao(beerAppDatabase: BeerAppDatabase): BeerDao =
-        beerAppDatabase.beerDao()
+    fun provideBeerDao(beerAppDatabase: BeerAppDatabase): BeerDao = beerAppDatabase.beerDao()
 
     @Provides
     @Singleton
     fun provideDatabaseCallback(
-        @ApplicationContext context: Context
+        workManager: WorkManager
     ) = object : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            WorkManager
-                .getInstance(context)
-                .enqueueUniqueWork(
-                    beerDatabaseWorkerName,
-                    ExistingWorkPolicy.REPLACE,
-                    OneTimeWorkRequestBuilder<DatabaseWorker>().build()
-                )
+            workManager.enqueueUniqueWork(
+                beerDatabaseWorkerName,
+                ExistingWorkPolicy.REPLACE,
+                OneTimeWorkRequestBuilder<DatabaseWorker>().build()
+            )
         }
     }
+
+    @Provides
+    @Singleton
+    fun provideWorkManager(
+        @ApplicationContext context: Context
+    ) = WorkManager.getInstance(context)
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.barros.beerapp.libraries.beer.data.database.model.BeerDatabaseModel
+import dagger.Lazy
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -13,13 +13,12 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import javax.inject.Provider
 
 @HiltWorker
 internal class DatabaseWorker @AssistedInject constructor(
-    @Assisted context: Context,
+    @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val beerDao: Provider<BeerDao>
+    private val beerDao: Lazy<BeerDao>
 ) : CoroutineWorker(context, workerParams) {
 
     companion object {
@@ -30,7 +29,7 @@ internal class DatabaseWorker @AssistedInject constructor(
     override suspend fun doWork(): Result = coroutineScope {
         withContext(Dispatchers.IO) {
             runCatching {
-                applicationContext.assets.open(prePopulateDatabaseFile).use { inputStream ->
+                context.assets.open(prePopulateDatabaseFile).use { inputStream ->
                     beerDao.get().insertBeers(Json.decodeFromStream(inputStream))
                 }
                 Result.success()
