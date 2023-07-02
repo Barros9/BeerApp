@@ -30,9 +30,11 @@ internal class DatabaseModule {
     @Singleton
     fun provideRoomDb(
         @ApplicationContext context: Context, databaseCallback: RoomDatabase.Callback
-    ): BeerAppDatabase =
-        Room.databaseBuilder(context, BeerAppDatabase::class.java, beerAppDatabaseName)
-            .fallbackToDestructiveMigration().addCallback(databaseCallback).build()
+    ): BeerAppDatabase = Room
+        .databaseBuilder(context, BeerAppDatabase::class.java, beerAppDatabaseName)
+        .fallbackToDestructiveMigration()
+        .addCallback(databaseCallback)
+        .build()
 
     @Provides
     @Singleton
@@ -55,7 +57,5 @@ internal class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideWorkManager(
-        @ApplicationContext context: Context
-    ) = WorkManager.getInstance(context)
+    fun provideWorkManager(@ApplicationContext context: Context) = WorkManager.getInstance(context)
 }
