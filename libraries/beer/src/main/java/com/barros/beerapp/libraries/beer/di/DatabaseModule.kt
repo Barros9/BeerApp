@@ -29,7 +29,8 @@ internal class DatabaseModule {
     @Provides
     @Singleton
     fun provideRoomDb(
-        @ApplicationContext context: Context, databaseCallback: RoomDatabase.Callback
+        @ApplicationContext context: Context,
+        databaseCallback: RoomDatabase.Callback
     ): BeerAppDatabase = Room
         .databaseBuilder(context, BeerAppDatabase::class.java, beerAppDatabaseName)
         .fallbackToDestructiveMigration()

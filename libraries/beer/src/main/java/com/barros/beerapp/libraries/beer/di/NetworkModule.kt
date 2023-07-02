@@ -1,6 +1,5 @@
 package com.barros.beerapp.libraries.beer.di
 
-import android.util.Log
 import com.barros.beerapp.libraries.beer.data.network.BeerApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
