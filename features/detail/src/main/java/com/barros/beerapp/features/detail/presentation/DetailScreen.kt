@@ -29,9 +29,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.barros.beerapp.features.detail.R
 import com.barros.beerapp.features.detail.presentation.model.DetailUiState
+import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.barros.beerapp.libraries.ui.R as R_UI
@@ -129,5 +132,49 @@ private fun DetailContent(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailContentPreviewLoading() {
+    BeerAppTheme {
+        DetailContent(
+            modifier = Modifier,
+            uiState = DetailUiState.Loading,
+            navigateUp = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailContentPreviewError() {
+    BeerAppTheme {
+        DetailContent(
+            modifier = Modifier,
+            uiState = DetailUiState.Error,
+            navigateUp = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailContentPreviewShowBeer() {
+    BeerAppTheme {
+        DetailContent(
+            modifier = Modifier,
+            uiState = DetailUiState.ShowBeer(
+                beer = Beer(
+                    id = 0,
+                    name = "Buzz",
+                    tagline = "A Real Bitter Experience.",
+                    description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+                    imageUrl = "https://images.punkapi.com/v2/keg.png"
+                )
+            ),
+            navigateUp = {}
+        )
     }
 }
