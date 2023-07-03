@@ -8,7 +8,6 @@ import dagger.Lazy
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -26,16 +25,14 @@ internal class DatabaseWorker @AssistedInject constructor(
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun doWork(): Result = coroutineScope {
-        withContext(Dispatchers.IO) {
-            runCatching {
-                context.assets.open(prePopulateDatabaseFile).use { inputStream ->
-                    beerDao.get().insertBeers(Json.decodeFromStream(inputStream))
-                }
-                Result.success()
-            }.getOrElse {
-                Result.failure()
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        runCatching {
+            context.assets.open(prePopulateDatabaseFile).use { inputStream ->
+                beerDao.get().insertBeers(Json.decodeFromStream(inputStream))
             }
+            Result.success()
+        }.getOrElse {
+            Result.failure()
         }
     }
 }

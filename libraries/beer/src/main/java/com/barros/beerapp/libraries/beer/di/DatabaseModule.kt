@@ -2,14 +2,8 @@ package com.barros.beerapp.libraries.beer.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.barros.beerapp.libraries.beer.data.database.BeerAppDatabase
 import com.barros.beerapp.libraries.beer.data.database.BeerDao
-import com.barros.beerapp.libraries.beer.data.database.DatabaseWorker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,40 +17,19 @@ internal class DatabaseModule {
 
     companion object {
         const val beerAppDatabaseName = "BeerAppDatabase"
-        const val beerDatabaseWorkerName = "DatabaseWorker"
     }
 
     @Provides
     @Singleton
     fun provideRoomDb(
         @ApplicationContext context: Context,
-        databaseCallback: RoomDatabase.Callback
     ): BeerAppDatabase = Room
         .databaseBuilder(context, BeerAppDatabase::class.java, beerAppDatabaseName)
-        .fallbackToDestructiveMigration()
-        .addCallback(databaseCallback)
+        .createFromAsset("$beerAppDatabaseName.db")
         .build()
 
     @Provides
     @Singleton
-    fun provideBeerDao(beerAppDatabase: BeerAppDatabase): BeerDao = beerAppDatabase.beerDao()
-
-    @Provides
-    @Singleton
-    fun provideDatabaseCallback(
-        workManager: WorkManager
-    ) = object : RoomDatabase.Callback() {
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-            workManager.enqueueUniqueWork(
-                beerDatabaseWorkerName,
-                ExistingWorkPolicy.REPLACE,
-                OneTimeWorkRequestBuilder<DatabaseWorker>().build()
-            )
-        }
-    }
-
-    @Provides
-    @Singleton
-    fun provideWorkManager(@ApplicationContext context: Context) = WorkManager.getInstance(context)
+    fun provideBeerDao(beerAppDatabase: BeerAppDatabase): BeerDao =
+        beerAppDatabase.beerDao()
 }
