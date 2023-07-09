@@ -55,7 +55,7 @@ internal class HomeScreenTest {
     @Test
     fun beerListIsDisplayed() {
         // Given
-        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.ShowBeers(HomeMock.listOfBeers, false))
+        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(HomeMock.listOfBeers, false))
 
         // When
         composeTestRule.setContent {
@@ -72,7 +72,7 @@ internal class HomeScreenTest {
     @Test
     fun onClickSelectBeer() {
         // Given
-        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.ShowBeers(HomeMock.listOfBeers, false))
+        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(HomeMock.listOfBeers, false))
         coEvery { homeViewModel.onSelectBeer(any()) } returns Unit
 
         // When

@@ -22,7 +22,7 @@ internal class DatabaseModule {
     @Provides
     @Singleton
     fun provideRoomDb(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): BeerAppDatabase = Room
         .databaseBuilder(context, BeerAppDatabase::class.java, beerAppDatabaseName)
         .createFromAsset("$beerAppDatabaseName.db")

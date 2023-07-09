@@ -15,9 +15,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -34,13 +33,17 @@ import com.barros.beerapp.libraries.ui.R as R_UI
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
     val uiState by homeViewModel.uiState
+    val isLoadingNextPage by homeViewModel.isLoadingNextPage
+    val isPaginationExhaust by homeViewModel.isPaginationExhaust
 
     HomeContent(
         modifier = Modifier,
         uiState = uiState,
+        isLoadingNextPage = isLoadingNextPage,
+        isPaginationExhaust = isPaginationExhaust,
         onSelectBeer = { beerId -> homeViewModel.onSelectBeer(beerId) },
         onRetry = { homeViewModel.onRetry() },
-        onSearchNextPage = { homeViewModel.searchNextPage() }
+        onSearchNextPage = { homeViewModel.onSearchNextPage() }
     )
 }
 
@@ -48,6 +51,8 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
 private fun HomeContent(
     modifier: Modifier,
     uiState: HomeUiState,
+    isLoadingNextPage: Boolean,
+    isPaginationExhaust: Boolean,
     onSelectBeer: (Int) -> Unit,
     onRetry: () -> Unit,
     onSearchNextPage: () -> Unit
@@ -71,28 +76,25 @@ private fun HomeContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             when (uiState) {
-                is HomeUiState.Loading -> {
-                    CircularProgressIndicator()
+                is HomeUiState.Empty -> {
+                    Text(stringResource(R.string.home_empty))
                 }
-
                 is HomeUiState.Error -> {
                     Text(stringResource(R.string.home_retry_error))
                     Button(onClick = { onRetry() }) {
                         Text(stringResource(R.string.home_retry))
                     }
                 }
-
-                is HomeUiState.ShowBeers -> {
+                is HomeUiState.Loading -> {
+                    CircularProgressIndicator()
+                }
+                is HomeUiState.Success -> {
                     val listState = rememberLazyListState()
 
-                    val isScrollToEnd by remember {
-                        derivedStateOf {
-                            listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == listState.layoutInfo.totalItemsCount - 1
+                    LaunchedEffect(listState.canScrollForward.not()) {
+                        if (listState.canScrollForward.not() && isLoadingNextPage.not() && isPaginationExhaust.not()) {
+                            onSearchNextPage()
                         }
-                    }
-
-                    if (isScrollToEnd && uiState.loadNextPage.not()) {
-                        onSearchNextPage()
                     }
 
                     LazyColumn(state = listState) {
@@ -102,7 +104,7 @@ private fun HomeContent(
                                 onSelectBeer = { onSelectBeer(it) }
                             )
                         }
-                        if (uiState.loadNextPage) {
+                        if (isLoadingNextPage) {
                             item {
                                 CircularProgressIndicator(
                                     modifier = Modifier
@@ -112,11 +114,18 @@ private fun HomeContent(
                                 )
                             }
                         }
+                        if (isPaginationExhaust) {
+                            item {
+                                Text(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(dimensionResource(R_UI.dimen.spacing_16))
+                                        .wrapContentWidth(Alignment.CenterHorizontally),
+                                    text = "isPaginationExhaust" // TODO update this
+                                )
+                            }
+                        }
                     }
-                }
-
-                is HomeUiState.Empty -> {
-                    Text(stringResource(R.string.home_empty))
                 }
             }
         }
@@ -130,6 +139,8 @@ private fun HomeContentPreviewLoading() {
         HomeContent(
             modifier = Modifier,
             uiState = HomeUiState.Empty,
+            isLoadingNextPage = false,
+            isPaginationExhaust = false,
             onSelectBeer = {},
             onRetry = {},
             onSearchNextPage = {}
@@ -144,6 +155,8 @@ private fun HomeContentPreviewError() {
         HomeContent(
             modifier = Modifier,
             uiState = HomeUiState.Error,
+            isLoadingNextPage = false,
+            isPaginationExhaust = false,
             onSelectBeer = {},
             onRetry = {},
             onSearchNextPage = {}
@@ -157,7 +170,7 @@ private fun HomeContentPreviewShowBeers() {
     BeerAppTheme {
         HomeContent(
             modifier = Modifier,
-            uiState = HomeUiState.ShowBeers(
+            uiState = HomeUiState.Success(
                 beers = listOf(
                     Beer(
                         id = 0,
@@ -201,9 +214,10 @@ private fun HomeContentPreviewShowBeers() {
                         description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
                         imageUrl = "https://images.punkapi.com/v2/keg.png"
                     )
-                ),
-                loadNextPage = false
+                )
             ),
+            isLoadingNextPage = false,
+            isPaginationExhaust = false,
             onSelectBeer = {},
             onRetry = {},
             onSearchNextPage = {}

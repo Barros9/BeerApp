@@ -54,7 +54,7 @@ internal fun BeerRow(
                 .align(Alignment.CenterVertically)
         ) {
             Text(
-                text = beer.name,
+                text = "${beer.id} - ${beer.name}",
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.secondary
             )
@@ -88,7 +88,7 @@ private fun BeerRowPreview() {
     BeerAppTheme {
         BeerRow(
             beer = Beer(
-                id = 0,
+                id = 1,
                 name = "Buzz",
                 tagline = "A Real Bitter Experience.",
                 description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",

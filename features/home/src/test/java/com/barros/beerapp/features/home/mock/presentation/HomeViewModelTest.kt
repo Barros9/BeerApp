@@ -55,7 +55,7 @@ internal class HomeViewModelTest {
 
         // Then
         coVerify { getBeersUseCase(any(), any()) }
-        assertEquals(HomeUiState.ShowBeers(HomeMock.listOfBeers, false), homeViewModel.uiState.value)
+        assertEquals(HomeUiState.Success(HomeMock.listOfBeers, false), homeViewModel.uiState.value)
     }
 
     @Test
@@ -122,7 +122,7 @@ internal class HomeViewModelTest {
 
         // When
         dispatcher.scheduler.advanceUntilIdle()
-        homeViewModel.searchNextPage()
+        homeViewModel.onSearchNextPage()
         dispatcher.scheduler.advanceUntilIdle()
 
         // Then
