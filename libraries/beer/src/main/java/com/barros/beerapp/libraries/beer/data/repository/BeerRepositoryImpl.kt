@@ -23,7 +23,6 @@ internal class BeerRepositoryImpl @Inject constructor(
 
     companion object {
         const val MAX_ITEM_PER_PAGE = 25
-        // TODO max page is 13, puoi bloccare tutto qui
     }
 
     override suspend fun getBeerById(beerId: Int): Result<Beer> =

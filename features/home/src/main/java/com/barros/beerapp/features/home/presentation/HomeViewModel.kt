@@ -14,6 +14,7 @@ import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,29 +53,31 @@ class HomeViewModel @Inject constructor(
 
                 delay(1_000)
 
-                getBeersUseCase(page = page).collect { result ->
-                    when (result) {
-                        is Error -> HomeUiState.Error
-                        is Success -> {
-                            _isPaginationExhaust.value = result.data.count() != 25
+                getBeersUseCase(page = page)
+                    .distinctUntilChanged()
+                    .collect { result ->
+                        _uiState.value = when (result) {
+                            is Error -> HomeUiState.Error
+                            is Success -> {
+                                _isPaginationExhaust.value = result.data.count() != 25
 
-                            if (page == 1) {
-                                beers.clear()
-                                beers.addAll(result.data)
-                            } else {
-                                beers.addAll(result.data)
-                            }
+                                if (page == 1) {
+                                    beers.clear()
+                                    beers.addAll(result.data)
+                                } else {
+                                    beers.addAll(result.data)
+                                }
 
-                            if (beers.isEmpty()) {
-                                _uiState.value = HomeUiState.Empty
-                            } else {
-                                _isLoadingNextPage.value = false
-                                if (_isPaginationExhaust.value.not()) page++
-                                _uiState.value = HomeUiState.Success(beers = beers)
+                                if (beers.isEmpty()) {
+                                    HomeUiState.Empty
+                                } else {
+                                    _isLoadingNextPage.value = false
+                                    if (_isPaginationExhaust.value.not()) page++
+                                    HomeUiState.Success(beers = beers)
+                                }
                             }
                         }
                     }
-                }
             }
         }
     }
