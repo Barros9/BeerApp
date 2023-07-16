@@ -5,4 +5,6 @@
     <string name="home_retry">Retry</string>
     <string name="home_empty">Empty list</string>
     <string name="home_more_info">More info</string>
+    <string name="home_card_title">Find your beer</string>
+    <string name="home_card_subtitle">You can search by category</string>
 </resources>

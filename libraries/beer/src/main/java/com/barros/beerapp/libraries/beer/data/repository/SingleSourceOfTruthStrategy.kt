@@ -12,7 +12,6 @@ internal fun <T> singleSourceOfTruthStrategy(
     readRemoteData: suspend () -> T,
     saveLocalData: suspend (T) -> Unit
 ): Flow<Result<T>> = flow {
-
     // Try to read local data, we are using a prepopulate database
     when (val localData = getResult { readLocalData() }) {
         is Success -> {
