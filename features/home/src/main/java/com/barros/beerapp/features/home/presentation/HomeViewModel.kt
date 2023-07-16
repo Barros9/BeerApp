@@ -1,6 +1,7 @@
 package com.barros.beerapp.features.home.presentation
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,11 +10,13 @@ import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result.Error
 import com.barros.beerapp.libraries.beer.domain.model.Result.Success
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
+import com.barros.beerapp.libraries.beer.domain.util.MAX_ITEM_PER_PAGE
 import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
 import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,7 +42,7 @@ class HomeViewModel @Inject constructor(
     private val _isPaginationExhaust by lazy { mutableStateOf(false) }
     internal val isPaginationExhaust: State<Boolean> by lazy { _isPaginationExhaust }
 
-    private val beers = mutableListOf<Beer>()
+    private val beers = mutableSetOf<Beer>()
     private var page = 1
 
     private fun loadUiState() {
@@ -55,12 +58,10 @@ class HomeViewModel @Inject constructor(
 
                 getBeersUseCase(page = page)
                     .distinctUntilChanged()
-                    .collect { result ->
+                    .collectLatest { result ->
                         _uiState.value = when (result) {
                             is Error -> HomeUiState.Error
                             is Success -> {
-                                _isPaginationExhaust.value = result.data.count() != 25
-
                                 if (page == 1) {
                                     beers.clear()
                                     beers.addAll(result.data)
@@ -71,9 +72,10 @@ class HomeViewModel @Inject constructor(
                                 if (beers.isEmpty()) {
                                     HomeUiState.Empty
                                 } else {
+                                    _isPaginationExhaust.value = result.data.count() != MAX_ITEM_PER_PAGE
                                     _isLoadingNextPage.value = false
                                     if (_isPaginationExhaust.value.not()) page++
-                                    HomeUiState.Success(beers = beers)
+                                    HomeUiState.Success(beers = beers.toList())
                                 }
                             }
                         }
