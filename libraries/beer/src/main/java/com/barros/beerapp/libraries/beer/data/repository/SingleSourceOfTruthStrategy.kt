@@ -5,7 +5,6 @@ import com.barros.beerapp.libraries.beer.domain.model.Result.Error
 import com.barros.beerapp.libraries.beer.domain.model.Result.Success
 import com.barros.beerapp.libraries.beer.domain.model.getResult
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 
 internal fun <T> singleSourceOfTruthStrategy(
@@ -18,7 +17,6 @@ internal fun <T> singleSourceOfTruthStrategy(
     when (val localData = getResult { readLocalData() }) {
         is Success -> {
             // If Success, emit local data
-            // TODO emette anche pagine vuote, se non ho mai scaricato una pagina localmente
             emit(localData)
 
             // Meanwhile check for new remote data

@@ -11,6 +11,7 @@ import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.model.getResult
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
+import com.barros.beerapp.libraries.beer.domain.util.MAX_ITEM_PER_PAGE
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,10 +21,6 @@ internal class BeerRepositoryImpl @Inject constructor(
     private val beerLocalDataSource: BeerLocalDataSource,
     private val beerRemoteDataSource: BeerRemoteDataSource
 ) : BeerRepository {
-
-    companion object {
-        const val MAX_ITEM_PER_PAGE = 25
-    }
 
     override suspend fun getBeerById(beerId: Int): Result<Beer> =
         getResult { beerLocalDataSource.getBeerById(beerId = beerId).mapToDomainModel() }
