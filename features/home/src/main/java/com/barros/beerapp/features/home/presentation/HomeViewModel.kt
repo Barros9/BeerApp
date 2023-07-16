@@ -34,11 +34,9 @@ class HomeViewModel @Inject constructor(
     private val _uiState by lazy { mutableStateOf<HomeUiState>(HomeUiState.Loading) }
     internal val uiState: State<HomeUiState> by lazy { _uiState.apply { loadUiState() } }
 
-    // TODO try to use Success with copy
     private val _isLoadingNextPage by lazy { mutableStateOf(false) }
     internal val isLoadingNextPage: State<Boolean> by lazy { _isLoadingNextPage }
 
-    // TODO try to use Success with copy
     private val _isPaginationExhaust by lazy { mutableStateOf(false) }
     internal val isPaginationExhaust: State<Boolean> by lazy { _isPaginationExhaust }
 
