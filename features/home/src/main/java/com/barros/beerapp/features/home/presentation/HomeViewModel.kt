@@ -16,7 +16,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,32 +50,30 @@ class HomeViewModel @Inject constructor(
                     _isLoadingNextPage.value = true
                 }
 
-                delay(1_000)
+                getBeersUseCase(page = page).collectLatest { result ->
+                    delay(1_000)
 
-                getBeersUseCase(page = page)
-                    .distinctUntilChanged()
-                    .collectLatest { result ->
-                        _uiState.value = when (result) {
-                            is Error -> HomeUiState.Error
-                            is Success -> {
-                                if (page == 1) {
-                                    beers.clear()
-                                    beers.addAll(result.data)
-                                } else {
-                                    beers.addAll(result.data)
-                                }
+                    _uiState.value = when (result) {
+                        is Error -> HomeUiState.Error
+                        is Success -> {
+                            if (page == 1) {
+                                beers.clear()
+                                beers.addAll(result.data)
+                            } else {
+                                beers.addAll(result.data)
+                            }
 
-                                if (beers.isEmpty()) {
-                                    HomeUiState.Empty
-                                } else {
-                                    _isPaginationExhaust.value = result.data.count() != MAX_ITEM_PER_PAGE
-                                    _isLoadingNextPage.value = false
-                                    if (_isPaginationExhaust.value.not()) page++
-                                    HomeUiState.Success(beers = beers.toList())
-                                }
+                            if (beers.isEmpty()) {
+                                HomeUiState.Empty
+                            } else {
+                                _isPaginationExhaust.value = result.data.count() != MAX_ITEM_PER_PAGE
+                                _isLoadingNextPage.value = false
+                                if (_isPaginationExhaust.value.not()) page++
+                                HomeUiState.Success(beers = beers.toList())
                             }
                         }
                     }
+                }
             }
         }
     }

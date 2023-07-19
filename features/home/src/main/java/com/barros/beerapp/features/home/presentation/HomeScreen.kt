@@ -133,7 +133,7 @@ private fun HomeContent(
                     val listState = rememberLazyListState()
 
                     LaunchedEffect(listState.canScrollForward.not()) {
-                        if (listState.canScrollForward.not() && isLoadingNextPage.not() && isPaginationExhaust.not()) {
+                        if (listState.canScrollForward.not() && isLoadingNextPage.not()) {
                             onSearchNextPage()
                         }
                     }
@@ -176,6 +176,23 @@ private fun HomeContent(
 @Preview(showBackground = true)
 @Composable
 private fun HomeContentPreviewLoading() {
+    BeerAppTheme {
+        HomeContent(
+            modifier = Modifier,
+            uiState = HomeUiState.Loading,
+            isLoadingNextPage = false,
+            isPaginationExhaust = false,
+            onSelectBeer = {},
+            onRetry = {},
+            onSearchNextPage = {}
+        )
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeContentPreviewEmpty() {
     BeerAppTheme {
         HomeContent(
             modifier = Modifier,

@@ -23,14 +23,17 @@ internal fun <T> singleSourceOfTruthStrategy(
                 is Success -> {
                     // If Success, rewrite local data with new ones and emit again
                     saveLocalData(remoteData.data)
-                    val localDataUpdated = getResult { readLocalData() }
-                    emit(localDataUpdated)
+                    when (val localDataUpdated = getResult { readLocalData() }) {
+                        is Success -> emit(localDataUpdated)
+                        is Error -> emit(Error("Error reading data", localDataUpdated.throwable))
+                    }
                 }
                 is Error -> {
                     // If Error, do nothing, local data already emitted
                 }
             }
         }
+
         is Error -> {
             // If Error, emit the error, it means that something went wrong reading database
             emit(Error("Error reading data", localData.throwable))
