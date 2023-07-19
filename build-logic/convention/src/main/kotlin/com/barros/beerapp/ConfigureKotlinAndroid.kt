@@ -14,12 +14,22 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, 
 
         defaultConfig {
             minSdk = providers.gradleProperty("android.minSdk").get().toInt()
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_11
             targetCompatibility = JavaVersion.VERSION_11
             isCoreLibraryDesugaringEnabled = true
+        }
+
+        packaging {
+            resources.excludes.addAll(
+                listOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md"
+                )
+            )
         }
     }
 
