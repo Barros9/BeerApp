@@ -10,6 +10,8 @@ import com.barros.beerapp.libraries.beer.domain.model.Result.Error
 import com.barros.beerapp.libraries.beer.domain.model.Result.Success
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
 import com.barros.beerapp.libraries.beer.domain.util.MAX_ITEM_PER_PAGE
+import com.barros.beerapp.libraries.domain.entity.Theme
+import com.barros.beerapp.libraries.domain.usecase.SaveThemePreferenceUseCase
 import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
 import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navigator: Navigator,
-    private val getBeersUseCase: GetBeersUseCase
+    private val getBeersUseCase: GetBeersUseCase,
+    private val saveThemePreferenceUseCase: SaveThemePreferenceUseCase
 ) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
@@ -88,5 +91,11 @@ class HomeViewModel @Inject constructor(
 
     fun onSearchNextPage() {
         loadUiState()
+    }
+
+    fun onSelectTheme(theme: Theme) {
+        viewModelScope.launch {
+            saveThemePreferenceUseCase(theme)
+        }
     }
 }

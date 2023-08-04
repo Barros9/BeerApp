@@ -18,25 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.barros.beerapp.features.home.R
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 
 @Composable
 internal fun HomeHeader(
-    modifier: Modifier,
+    modifier: Modifier
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.displayMedium,
-            text = stringResource(R.string.home_title),
-            color = MaterialTheme.colorScheme.primary,
-            textAlign = TextAlign.Center
-        )
         Card(
             modifier = Modifier
                 .fillMaxWidth()

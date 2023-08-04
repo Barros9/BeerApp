@@ -41,6 +41,10 @@ gradlePlugin {
             id = "beerapp.plugin.compose.library"
             implementationClass = "ComposeLibraryConventionPlugin"
         }
+        register("pluginDataStore") {
+            id = "beerapp.plugin.datastore"
+            implementationClass = "DataStoreConventionPlugin"
+        }
         register("pluginHilt") {
             id = "beerapp.plugin.hilt"
             implementationClass = "HiltConventionPlugin"

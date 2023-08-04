@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="home_title">Beer App</string>
+    <string name="home_light_mode">Light Mode</string>
+    <string name="home_dark_mode">Dark Mode</string>
     <string name="home_retry_error">Unable to fetch data, please retry</string>
     <string name="home_retry">Retry</string>
     <string name="home_empty">Empty list</string>
