@@ -1,7 +1,7 @@
 package com.barros.beerapp
 
 sealed class ThemeUiModel {
-    object Loading: ThemeUiModel()
-    object Dark: ThemeUiModel()
-    object Light: ThemeUiModel()
+    data object Loading : ThemeUiModel()
+    data object Dark : ThemeUiModel()
+    data object Light : ThemeUiModel()
 }

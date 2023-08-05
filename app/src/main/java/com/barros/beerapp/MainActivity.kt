@@ -7,13 +7,13 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.barros.beerapp.features.detail.presentation.DetailScreen
 import com.barros.beerapp.features.home.presentation.HomeScreen
-import com.barros.beerapp.libraries.domain.entity.Theme
 import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
 import com.barros.beerapp.libraries.navigator.destinations.HomeDestination
 import com.barros.beerapp.libraries.navigator.navigation.NavigationDestination
@@ -33,6 +33,7 @@ internal class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()

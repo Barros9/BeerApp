@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.File
 
-internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*, *, *, *>) {
+internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*, *, *, *, *>) {
     commonExtension.apply {
         buildFeatures {
             compose = true

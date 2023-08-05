@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(
     val theme: StateFlow<ThemeUiModel> =
         subscribeOnThemePreferenceUseCase()
             .map {
-                when(it) {
+                when (it) {
                     Theme.Light -> ThemeUiModel.Light
                     Theme.Dark -> ThemeUiModel.Dark
                 }
@@ -30,4 +30,3 @@ class MainViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000)
             )
 }
-

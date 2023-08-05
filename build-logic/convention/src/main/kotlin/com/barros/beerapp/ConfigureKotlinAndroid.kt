@@ -8,7 +8,7 @@ import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *>) {
+internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *, *>) {
     commonExtension.apply {
         compileSdk = providers.gradleProperty("android.compileSdkVersion").get().toInt()
 
@@ -36,7 +36,7 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, 
     configureKotlin()
 
     dependencies {
-        add("coreLibraryDesugaring", libs.findLibrary("android.desugar.jdk.libs").get())
+//        add("coreLibraryDesugaring", libs.findLibrary("android.desugar.jdk.libs").get())
     }
 }
 
