@@ -37,13 +37,9 @@ internal class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val theme by viewModel.theme.collectAsStateWithLifecycle()
+            if (theme is ThemeUiModel.Loading) return@setContent
 
-            val isDarkTheme = when (theme) {
-                Theme.Dark -> true
-                Theme.Light -> false
-            }
-
-            BeerAppTheme(isDarkTheme) {
+            BeerAppTheme(theme is ThemeUiModel.Dark) {
                 LaunchedEffect(navController) {
                     navigator.destinations.collectLatest {
                         when (val event = it) {
