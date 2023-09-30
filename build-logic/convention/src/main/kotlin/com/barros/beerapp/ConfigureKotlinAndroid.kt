@@ -20,7 +20,6 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, 
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_11
             targetCompatibility = JavaVersion.VERSION_11
-            isCoreLibraryDesugaringEnabled = true
         }
 
         packaging {
@@ -34,10 +33,6 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, 
     }
 
     configureKotlin()
-
-    dependencies {
-//        add("coreLibraryDesugaring", libs.findLibrary("android.desugar.jdk.libs").get())
-    }
 }
 
 private fun Project.configureKotlin() {

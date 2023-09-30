@@ -17,6 +17,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertTrue
 
 @ExperimentalCoroutinesApi
 internal class BeerRepositoryTest {
@@ -55,6 +56,22 @@ internal class BeerRepositoryTest {
     }
 
     @Test
+    fun `call getBeers and return an error reading from database`() = runTest {
+        // Given
+        coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } throws Exception()
+
+        // When
+        beerRepository.getBeers(beerName = null, page = 1).test {
+            val localData = awaitItem()
+            awaitComplete()
+
+            // Then
+            coVerify(exactly = 1) { beerLocalDataSource.getBeers(any(), any(), any()) }
+            assertTrue { localData is Result.Error }
+        }
+    }
+
+    @Test
     fun `call getBeers and return a list of beer fetched from remote cause local list is empty`() = runTest {
         // Given
         coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } returnsMany listOf(emptyList(), BeerMock.listOfBeerDatabaseModel)
@@ -63,32 +80,55 @@ internal class BeerRepositoryTest {
 
         // When
         beerRepository.getBeers(beerName = null, page = 1).test {
-            val result = awaitItem()
+            val localData = awaitItem()
+            val remoteData = awaitItem()
             awaitComplete()
 
             // Then
-            coVerify { beerLocalDataSource.getBeers(any(), any(), any()) }
-            coVerify { beerRemoteDataSource.getBeers(any(), any(), any()) }
-            coVerify { beerLocalDataSource.insertBeers(any()) }
-            assertEquals(BeerMock.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (result as Result.Success<List<Beer>>).data)
+            coVerify(exactly = 2) { beerLocalDataSource.getBeers(any(), any(), any()) }
+            coVerify(exactly = 1) { beerRemoteDataSource.getBeers(any(), any(), any()) }
+            coVerify(exactly = 1) { beerLocalDataSource.insertBeers(any()) }
+            assertTrue { (localData as Result.Success<List<Beer>>).data.isEmpty() }
+            assertEquals(BeerMock.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (remoteData as Result.Success<List<Beer>>).data)
         }
     }
 
     @Test
-    fun `call getBeers and return an error cause local list is empty and remote data throws exception`() = runTest {
+    fun `call getBeers and return an error cause local list is empty, remote data is working but there is an error reading from database`() = runTest {
+        // Given
+        coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } returns emptyList() andThenThrows Exception("Error")
+        coEvery { beerRemoteDataSource.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerNetworkModel
+
+        // When
+        beerRepository.getBeers(beerName = null, page = 1).test {
+            val localData = awaitItem()
+            val remoteData = awaitItem()
+            awaitComplete()
+
+            // Then
+            coVerify(exactly = 2) { beerLocalDataSource.getBeers(any(), any(), any()) }
+            coVerify(exactly = 1) { beerRemoteDataSource.getBeers(any(), any(), any()) }
+            coVerify(exactly = 1) { beerLocalDataSource.insertBeers(any()) }
+            assertTrue { (localData as Result.Success<List<Beer>>).data.isEmpty() }
+            assertTrue { remoteData is Result.Error }
+        }
+    }
+
+    @Test
+    fun `call getBeers and return an empty list cause local list is empty and remote data throws exception`() = runTest {
         // Given
         coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } returns emptyList()
         coEvery { beerRemoteDataSource.getBeers(any(), any(), any()) } throws Exception("Error")
 
         // When
         beerRepository.getBeers(beerName = null, page = 1).test {
-            val result = awaitItem()
+            val localData = awaitItem()
             awaitComplete()
 
             // Then
-            coVerify { beerLocalDataSource.getBeers(any(), any(), any()) }
-            coVerify { beerRemoteDataSource.getBeers(any(), any(), any()) }
-            assert(result is Result.Error)
+            coVerify(exactly = 1) { beerLocalDataSource.getBeers(any(), any(), any()) }
+            coVerify(exactly = 1) { beerRemoteDataSource.getBeers(any(), any(), any()) }
+            assertTrue { (localData as Result.Success<List<Beer>>).data.isEmpty() }
         }
     }
 

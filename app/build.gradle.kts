@@ -52,7 +52,6 @@ extensions.configure<kotlinx.kover.gradle.plugin.dsl.KoverReportExtension> {
             excludes {
                 // Hilt
                 classes("*.di.*")
-                classes("*.di.*")
                 classes("dagger.hilt.**")
                 classes("hilt_aggregated_deps.*")
                 classes("*.*_Factory")

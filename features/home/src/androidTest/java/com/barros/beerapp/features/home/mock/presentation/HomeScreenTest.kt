@@ -40,6 +40,8 @@ internal class HomeScreenTest {
     fun errorIsDisplayed() {
         // Given
         coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Error)
+        coEvery { homeViewModel.isLoadingNextPage } returns mutableStateOf(false)
+        coEvery { homeViewModel.isPaginationExhaust } returns mutableStateOf(false)
 
         // When
         composeTestRule.setContent {
@@ -56,6 +58,8 @@ internal class HomeScreenTest {
     fun beerListIsDisplayed() {
         // Given
         coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(HomeMock.listOfBeers))
+        coEvery { homeViewModel.isLoadingNextPage } returns mutableStateOf(false)
+        coEvery { homeViewModel.isPaginationExhaust } returns mutableStateOf(false)
 
         // When
         composeTestRule.setContent {
@@ -73,6 +77,8 @@ internal class HomeScreenTest {
     fun onClickSelectBeer() {
         // Given
         coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(HomeMock.listOfBeers))
+        coEvery { homeViewModel.isLoadingNextPage } returns mutableStateOf(false)
+        coEvery { homeViewModel.isPaginationExhaust } returns mutableStateOf(false)
         coEvery { homeViewModel.onSelectBeer(any()) } returns Unit
 
         // When
@@ -93,6 +99,8 @@ internal class HomeScreenTest {
     fun onClickRetry() {
         // Given
         coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Error)
+        coEvery { homeViewModel.isLoadingNextPage } returns mutableStateOf(false)
+        coEvery { homeViewModel.isPaginationExhaust } returns mutableStateOf(false)
 
         // When
         composeTestRule.setContent {

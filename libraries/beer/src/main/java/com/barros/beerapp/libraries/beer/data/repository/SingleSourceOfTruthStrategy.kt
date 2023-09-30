@@ -33,7 +33,6 @@ internal fun <T> singleSourceOfTruthStrategy(
                 }
             }
         }
-
         is Error -> {
             // If Error, emit the error, it means that something went wrong reading database
             emit(Error("Error reading data", localData.throwable))

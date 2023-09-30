@@ -54,7 +54,7 @@ internal fun BeerRow(
                 .align(Alignment.CenterVertically)
         ) {
             Text(
-                text = "${beer.id} - ${beer.name}",
+                text = beer.name,
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.secondary
             )
