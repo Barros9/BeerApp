@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -46,7 +47,8 @@ fun DetailScreen(detailViewModel: DetailViewModel = hiltViewModel()) {
     DetailContent(
         modifier = Modifier,
         uiState = uiState,
-        navigateUp = { detailViewModel.navigateUp() }
+        onNavigateUp = { detailViewModel.onNavigateUp() },
+        onRetry = { detailViewModel.onRetry() }
     )
 }
 
@@ -55,7 +57,8 @@ fun DetailScreen(detailViewModel: DetailViewModel = hiltViewModel()) {
 private fun DetailContent(
     modifier: Modifier,
     uiState: DetailUiState,
-    navigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onRetry: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -64,7 +67,7 @@ private fun DetailContent(
                     Text(text = stringResource(R.string.detail_beer_top_app_bar_title))
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navigateUp() }) {
+                    IconButton(onClick = { onNavigateUp() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.detail_go_back)
@@ -88,6 +91,9 @@ private fun DetailContent(
 
                 is DetailUiState.Error -> {
                     Text(stringResource(R.string.detail_error))
+                    Button(onClick = { onRetry() }) {
+                        Text(stringResource(R.string.detail_retry))
+                    }
                 }
 
                 is DetailUiState.ShowBeer -> {
@@ -142,7 +148,8 @@ private fun DetailContentPreviewLoading() {
         DetailContent(
             modifier = Modifier,
             uiState = DetailUiState.Loading,
-            navigateUp = {}
+            onNavigateUp = {},
+            onRetry = {},
         )
     }
 }
@@ -154,7 +161,8 @@ private fun DetailContentPreviewError() {
         DetailContent(
             modifier = Modifier,
             uiState = DetailUiState.Error,
-            navigateUp = {}
+            onNavigateUp = {},
+            onRetry = {},
         )
     }
 }
@@ -174,7 +182,8 @@ private fun DetailContentPreviewShowBeer() {
                     imageUrl = "https://images.punkapi.com/v2/keg.png"
                 )
             ),
-            navigateUp = {}
+            onNavigateUp = {},
+            onRetry = {},
         )
     }
 }

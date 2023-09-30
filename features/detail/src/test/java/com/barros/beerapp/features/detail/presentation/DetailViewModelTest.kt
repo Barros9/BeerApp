@@ -92,7 +92,7 @@ internal class DetailViewModelTest {
 
         // When
         dispatcher.scheduler.advanceUntilIdle()
-        detailViewModel.navigateUp()
+        detailViewModel.onNavigateUp()
 
         // Then
         verify { navigator.navigateUp() }
