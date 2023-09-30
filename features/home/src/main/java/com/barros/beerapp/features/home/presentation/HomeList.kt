@@ -79,15 +79,16 @@ internal fun HomeList(
                         }
                     }
                     if (isPaginationExhaust) {
-                        item {
-                            Text(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(dimensionResource(com.barros.beerapp.libraries.ui.R.dimen.spacing_16))
-                                    .wrapContentWidth(Alignment.CenterHorizontally),
-                                text = "isPaginationExhaust" // TODO update this
-                            )
-                        }
+                        // TODO update this
+//                        item {
+//                            Text(
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .padding(dimensionResource(com.barros.beerapp.libraries.ui.R.dimen.spacing_16))
+//                                    .wrapContentWidth(Alignment.CenterHorizontally),
+//                                text = "isPaginationExhaust"
+//                            )
+//                        }
                     }
                 }
             }
