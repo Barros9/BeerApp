@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,6 +16,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -61,6 +64,29 @@ private fun HomeContent(
     onSelectTheme: (Theme) -> Unit
 ) {
     var showMenu by remember { mutableStateOf(false) }
+    val showInfoDialog = remember { mutableStateOf(false) }
+
+    if (showInfoDialog.value) {
+        AlertDialog(
+            icon = { Icon(Icons.Filled.Face, contentDescription = null) },
+            title = { Text(text = stringResource(id = R.string.home_info_title)) },
+            text = {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.home_info_message, "1.0.0"), // TODO find a way to use BuildConfig
+                    textAlign = TextAlign.Center
+                )
+            },
+            onDismissRequest = { showInfoDialog.value = false },
+            confirmButton = {
+                TextButton(
+                    onClick = { showInfoDialog.value = false }
+                ) {
+                    Text(stringResource(id = R.string.home_ok))
+                }
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -96,6 +122,13 @@ private fun HomeContent(
                             text = { Text(stringResource(id = R.string.home_dark_mode)) },
                             onClick = {
                                 onSelectTheme(Theme.Dark)
+                                showMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(id = R.string.home_info_title)) },
+                            onClick = {
+                                showInfoDialog.value = true
                                 showMenu = false
                             }
                         )

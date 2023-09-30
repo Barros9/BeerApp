@@ -58,7 +58,7 @@ private fun DetailContent(
     modifier: Modifier,
     uiState: DetailUiState,
     onNavigateUp: () -> Unit,
-    onRetry: () -> Unit,
+    onRetry: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -149,7 +149,7 @@ private fun DetailContentPreviewLoading() {
             modifier = Modifier,
             uiState = DetailUiState.Loading,
             onNavigateUp = {},
-            onRetry = {},
+            onRetry = {}
         )
     }
 }
@@ -162,7 +162,7 @@ private fun DetailContentPreviewError() {
             modifier = Modifier,
             uiState = DetailUiState.Error,
             onNavigateUp = {},
-            onRetry = {},
+            onRetry = {}
         )
     }
 }
@@ -183,7 +183,7 @@ private fun DetailContentPreviewShowBeer() {
                 )
             ),
             onNavigateUp = {},
-            onRetry = {},
+            onRetry = {}
         )
     }
 }

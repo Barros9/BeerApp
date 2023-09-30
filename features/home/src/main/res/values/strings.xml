@@ -2,6 +2,9 @@
 <resources>
     <string name="home_title">Beer App</string>
     <string name="home_light_mode">Light Mode</string>
+    <string name="home_info_title">Info</string>
+    <string name="home_info_message">Made by Barros9\nVersion %s</string>
+    <string name="home_ok">OK</string>
     <string name="home_dark_mode">Dark Mode</string>
     <string name="home_retry_error">Unable to fetch data, please retry</string>
     <string name="home_retry">Retry</string>
