@@ -1,23 +1,26 @@
 [versions]
-android-gradle-plugin = "8.0.2"
-androidDesugarJdkLibs = "2.0.3"
+android-gradle-plugin = "8.1.1"
 androidx-activity = "1.7.2"
-androidx-compose-bom = "2023.06.01"
-androidx-compose-compiler = "1.4.7"
-androidx-core = "1.10.1"
+androidx-compose-bom = "2023.09.01"
+androidx-compose-compiler = "1.5.2"
+androidx-core = "1.12.0"
+androidx-core-splashscreen = "1.0.1"
+androidx-datastore = "1.0.0"
+androidx-lifecycle = "2.6.2"
 androidx-hilt = "1.0.0"
 androidx-junit = "1.1.5"
-google-dagger = "2.46.1"
-jetbrains-coroutines = "1.7.1"
-jetbrains-kotlin = "1.8.21"
+androidx-work = "2.8.1"
+google-dagger = "2.47"
+jetbrains-coroutines = "1.7.3"
+jetbrains-kotlin = "1.9.0"
 jetbrains-serialization = "1.5.1"
 landscapist-glide = "2.2.1"
-kover = "0.7.1"
+kover = "0.7.3"
 ktlint = "11.4.2"
-ksp = "1.8.21-1.0.11"
-mockk = "1.13.5"
+ksp = "1.9.0-1.0.11"
+mockk = "1.13.8"
 square-okhttp3-mockwebserver = "4.11.0"
-navigation = "2.6.0"
+navigation = "2.7.3"
 square-okhttp3 = "4.11.0"
 square-retrofit2 = "2.9.0"
 square-retrofit2-converter = "1.0.0"
@@ -26,16 +29,19 @@ androidx-room = "2.5.2"
 turbine = "0.13.0"
 
 [libraries]
-android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 androidx-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-core-splashscreen" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidx-datastore"  }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle"  }
 androidx-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "androidx-hilt" }
+androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "androidx-hilt" }
 androidx-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidx-junit" }
 androidx-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidx-hilt" }
 androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
@@ -43,8 +49,10 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidx-room" }
 androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "androidx-room" }
+androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidx-work" }
 dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "google-dagger" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "google-dagger" }
+dagger-hilt-android-compiler-test = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "google-dagger" }
 landscapist-glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "landscapist-glide" }
 jetbrains-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "jetbrains-coroutines" }
 jetbrains-kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "jetbrains-serialization" }

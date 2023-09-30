@@ -11,6 +11,7 @@ import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.model.getResult
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
+import com.barros.beerapp.libraries.beer.domain.util.MAX_ITEM_PER_PAGE
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,23 +22,29 @@ internal class BeerRepositoryImpl @Inject constructor(
     private val beerRemoteDataSource: BeerRemoteDataSource
 ) : BeerRepository {
 
-    companion object {
-        const val MAX_ITEM_PER_PAGE = 25
-    }
-
     override suspend fun getBeerById(beerId: Int): Result<Beer> =
         getResult { beerLocalDataSource.getBeerById(beerId = beerId).mapToDomainModel() }
 
     override suspend fun getBeers(beerName: String?, page: Int): Flow<Result<List<Beer>>> =
         singleSourceOfTruthStrategy(
             readLocalData = {
-                beerLocalDataSource.getBeers(beerName = beerName, page = page, perPage = MAX_ITEM_PER_PAGE).map(BeerDatabaseModel::mapToDomainModel)
+                beerLocalDataSource.getBeers(
+                    beerName = beerName,
+                    page = page,
+                    perPage = MAX_ITEM_PER_PAGE
+                )
+                    .map(BeerDatabaseModel::mapToDomainModel)
             },
             readRemoteData = {
-                beerRemoteDataSource.getBeers(beerName = beerName, page = page, perPage = MAX_ITEM_PER_PAGE).map(BeerNetworkModel::mapToDomainModel)
+                beerRemoteDataSource.getBeers(
+                    beerName = beerName,
+                    page = page,
+                    perPage = MAX_ITEM_PER_PAGE
+                )
+                    .map(BeerNetworkModel::mapToDomainModel)
             },
             saveLocalData = { beers ->
-                beerLocalDataSource.insertBeers(beers.map(Beer::mapFromDomainModel))
+                beerLocalDataSource.insertBeers(beers = beers.map(Beer::mapFromDomainModel))
             }
         )
 }

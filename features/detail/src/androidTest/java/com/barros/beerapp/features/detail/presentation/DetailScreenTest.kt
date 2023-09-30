@@ -48,7 +48,11 @@ internal class DetailScreenTest {
         }
 
         // Then
-        composeTestRule.onNodeWithText(context.resources.getString(R.string.detail_error))
+        composeTestRule
+            .onNodeWithText(context.resources.getString(R.string.detail_error))
+            .assertIsDisplayed()
+        composeTestRule
+            .onNodeWithText(context.resources.getString(R.string.detail_retry))
             .assertIsDisplayed()
     }
 
@@ -73,7 +77,7 @@ internal class DetailScreenTest {
     fun onNavigateUp() {
         // Given
         coEvery { detailViewModel.uiState } returns mutableStateOf(DetailUiState.ShowBeer(DetailMock.beer))
-        coEvery { detailViewModel.navigateUp() } returns Unit
+        coEvery { detailViewModel.onNavigateUp() } returns Unit
 
         // When
         composeTestRule.setContent {
@@ -88,6 +92,6 @@ internal class DetailScreenTest {
         composeTestRule.onNodeWithContentDescription(context.resources.getString(R.string.detail_go_back))
             .performClick()
 
-        coVerify { detailViewModel.navigateUp() }
+        coVerify { detailViewModel.onNavigateUp() }
     }
 }

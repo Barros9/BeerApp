@@ -3,8 +3,12 @@ package com.barros.beerapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -26,12 +30,17 @@ internal class MainActivity : ComponentActivity() {
     @Inject
     lateinit var navigator: Navigator
 
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
+            val theme by viewModel.theme.collectAsStateWithLifecycle()
+            if (theme is ThemeUiModel.Loading) return@setContent
 
-            BeerAppTheme {
+            BeerAppTheme(theme is ThemeUiModel.Dark) {
                 LaunchedEffect(navController) {
                     navigator.destinations.collectLatest {
                         when (val event = it) {

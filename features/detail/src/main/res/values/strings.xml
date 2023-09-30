@@ -3,4 +3,5 @@
     <string name="detail_error">Error showing this beer.</string>
     <string name="detail_beer_top_app_bar_title">Detail</string>
     <string name="detail_go_back">Go back</string>
+    <string name="detail_retry">Retry</string>
 </resources>

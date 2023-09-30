@@ -41,6 +41,10 @@ gradlePlugin {
             id = "beerapp.plugin.compose.library"
             implementationClass = "ComposeLibraryConventionPlugin"
         }
+        register("pluginDataStore") {
+            id = "beerapp.plugin.datastore"
+            implementationClass = "DataStoreConventionPlugin"
+        }
         register("pluginHilt") {
             id = "beerapp.plugin.hilt"
             implementationClass = "HiltConventionPlugin"
@@ -60,6 +64,10 @@ gradlePlugin {
         register("pluginTest") {
             id = "beerapp.plugin.test"
             implementationClass = "TestConventionPlugin"
+        }
+        register("pluginWork") {
+            id = "beerapp.plugin.work"
+            implementationClass = "WorkConventionPlugin"
         }
     }
 }

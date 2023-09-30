@@ -4,6 +4,7 @@ plugins {
     id("beerapp.plugin.hilt")
     id("beerapp.plugin.navigation")
     id("beerapp.plugin.test")
+    id("beerapp.plugin.work")
 }
 
 android {
@@ -40,8 +41,9 @@ dependencies {
     kover(project(":libraries:ui"))
 
     // Android
-    implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.core.splashscreen)
 }
 
 extensions.configure<kotlinx.kover.gradle.plugin.dsl.KoverReportExtension> {
@@ -49,7 +51,6 @@ extensions.configure<kotlinx.kover.gradle.plugin.dsl.KoverReportExtension> {
         filters {
             excludes {
                 // Hilt
-                classes("*.di.*")
                 classes("*.di.*")
                 classes("dagger.hilt.**")
                 classes("hilt_aggregated_deps.*")

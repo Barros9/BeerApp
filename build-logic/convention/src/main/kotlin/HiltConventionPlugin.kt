@@ -18,6 +18,7 @@ class HiltConventionPlugin : Plugin<Project> {
                 "kapt"(libs.findLibrary("androidx.hilt.compiler").get())
                 "implementation"(libs.findLibrary("dagger.hilt.android").get())
                 "implementation"(libs.findLibrary("androidx.hilt.navigation").get())
+                "implementation"(libs.findLibrary("androidx.hilt.work").get())
             }
         }
     }

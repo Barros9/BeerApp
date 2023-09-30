@@ -9,17 +9,23 @@ import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result.Error
 import com.barros.beerapp.libraries.beer.domain.model.Result.Success
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
+import com.barros.beerapp.libraries.beer.domain.util.MAX_ITEM_PER_PAGE
+import com.barros.beerapp.libraries.domain.entity.Theme
+import com.barros.beerapp.libraries.domain.usecase.SaveThemePreferenceUseCase
 import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
 import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navigator: Navigator,
-    private val getBeersUseCase: GetBeersUseCase
+    private val getBeersUseCase: GetBeersUseCase,
+    private val saveThemePreferenceUseCase: SaveThemePreferenceUseCase
 ) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
@@ -29,41 +35,48 @@ class HomeViewModel @Inject constructor(
     private val _uiState by lazy { mutableStateOf<HomeUiState>(HomeUiState.Loading) }
     internal val uiState: State<HomeUiState> by lazy { _uiState.apply { loadUiState() } }
 
-    private val beers = mutableListOf<Beer>()
+    private val _isLoadingNextPage by lazy { mutableStateOf(false) }
+    internal val isLoadingNextPage: State<Boolean> by lazy { _isLoadingNextPage }
+
+    private val _isPaginationExhaust by lazy { mutableStateOf(false) }
+    internal val isPaginationExhaust: State<Boolean> by lazy { _isPaginationExhaust }
+
+    private val beers = mutableSetOf<Beer>()
     private var page = 1
 
     private fun loadUiState() {
         viewModelScope.launch(exceptionHandler) {
-            _uiState.value = HomeUiState.Loading
-            loadList()
-        }
-    }
+            if (page == 1 || page != 1 && _isPaginationExhaust.value.not()) {
+                if (page == 1) {
+                    _uiState.value = HomeUiState.Loading
+                } else {
+                    _isLoadingNextPage.value = true
+                }
 
-    private fun loadList() {
-        viewModelScope.launch(exceptionHandler) {
-            getBeersUseCase(page = page).collect { result ->
-                _uiState.value = when (result) {
-                    is Success -> {
-                        beers.addAll(result.data)
-                        if (beers.isEmpty() && result.data.isEmpty()) {
-                            HomeUiState.Empty
-                        } else {
-                            HomeUiState.ShowBeers(beers = beers, loadNextPage = false)
+                getBeersUseCase(page = page).collectLatest { result ->
+                    delay(1_000)
+
+                    _uiState.value = when (result) {
+                        is Error -> HomeUiState.Error
+                        is Success -> {
+                            if (page == 1) {
+                                beers.clear()
+                                beers.addAll(result.data)
+                            } else {
+                                beers.addAll(result.data)
+                            }
+
+                            if (beers.isEmpty()) {
+                                HomeUiState.Empty
+                            } else {
+                                _isPaginationExhaust.value = result.data.count() != MAX_ITEM_PER_PAGE
+                                _isLoadingNextPage.value = false
+                                if (_isPaginationExhaust.value.not()) page++
+                                HomeUiState.Success(beers = beers.toList())
+                            }
                         }
                     }
-                    is Error -> HomeUiState.Error
                 }
-            }
-        }
-    }
-
-    fun searchNextPage() {
-        viewModelScope.launch(exceptionHandler) {
-            if (_uiState.value is HomeUiState.ShowBeers && (_uiState.value as HomeUiState.ShowBeers).loadNextPage.not()) {
-                page++
-                _uiState.value = HomeUiState.ShowBeers(beers = beers, loadNextPage = true)
-//                delay(1_000)
-                loadList()
             }
         }
     }
@@ -74,5 +87,15 @@ class HomeViewModel @Inject constructor(
 
     fun onRetry() {
         loadUiState()
+    }
+
+    fun onSearchNextPage() {
+        loadUiState()
+    }
+
+    fun onSelectTheme(theme: Theme) {
+        viewModelScope.launch {
+            saveThemePreferenceUseCase(theme)
+        }
     }
 }

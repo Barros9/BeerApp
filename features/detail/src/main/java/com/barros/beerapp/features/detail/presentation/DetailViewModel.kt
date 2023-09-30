@@ -38,7 +38,11 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun navigateUp() {
+    fun onNavigateUp() {
         navigator.navigateUp()
+    }
+
+    fun onRetry() {
+        loadUiState()
     }
 }

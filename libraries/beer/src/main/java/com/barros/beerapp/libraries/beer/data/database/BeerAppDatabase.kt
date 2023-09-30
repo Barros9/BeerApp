@@ -9,7 +9,6 @@ import com.barros.beerapp.libraries.beer.data.database.model.BeerDatabaseModel
     version = 1,
     exportSchema = false
 )
-
 internal abstract class BeerAppDatabase : RoomDatabase() {
     abstract fun beerDao(): BeerDao
 }

@@ -5,6 +5,7 @@ import com.barros.beerapp.features.home.presentation.HomeViewModel
 import com.barros.beerapp.features.home.presentation.model.HomeUiState
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
+import com.barros.beerapp.libraries.domain.usecase.SaveThemePreferenceUseCase
 import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -32,11 +33,18 @@ internal class HomeViewModelTest {
     @MockK
     private lateinit var getBeersUseCase: GetBeersUseCase
 
+    @MockK
+    private lateinit var saveThemePreferenceUseCase: SaveThemePreferenceUseCase
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         Dispatchers.setMain(dispatcher)
-        homeViewModel = HomeViewModel(navigator = navigator, getBeersUseCase = getBeersUseCase)
+        homeViewModel = HomeViewModel(
+            navigator = navigator,
+            getBeersUseCase = getBeersUseCase,
+            saveThemePreferenceUseCase = saveThemePreferenceUseCase
+        )
     }
 
     @After
@@ -55,7 +63,7 @@ internal class HomeViewModelTest {
 
         // Then
         coVerify { getBeersUseCase(any(), any()) }
-        assertEquals(HomeUiState.ShowBeers(HomeMock.listOfBeers, false), homeViewModel.uiState.value)
+        assertEquals(HomeUiState.Success(HomeMock.listOfBeers), homeViewModel.uiState.value)
     }
 
     @Test
@@ -122,7 +130,7 @@ internal class HomeViewModelTest {
 
         // When
         dispatcher.scheduler.advanceUntilIdle()
-        homeViewModel.searchNextPage()
+        homeViewModel.onSearchNextPage()
         dispatcher.scheduler.advanceUntilIdle()
 
         // Then

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,9 +30,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.barros.beerapp.features.detail.R
 import com.barros.beerapp.features.detail.presentation.model.DetailUiState
+import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.barros.beerapp.libraries.ui.R as R_UI
@@ -43,7 +47,8 @@ fun DetailScreen(detailViewModel: DetailViewModel = hiltViewModel()) {
     DetailContent(
         modifier = Modifier,
         uiState = uiState,
-        navigateUp = { detailViewModel.navigateUp() }
+        onNavigateUp = { detailViewModel.onNavigateUp() },
+        onRetry = { detailViewModel.onRetry() }
     )
 }
 
@@ -52,7 +57,8 @@ fun DetailScreen(detailViewModel: DetailViewModel = hiltViewModel()) {
 private fun DetailContent(
     modifier: Modifier,
     uiState: DetailUiState,
-    navigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onRetry: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -61,7 +67,7 @@ private fun DetailContent(
                     Text(text = stringResource(R.string.detail_beer_top_app_bar_title))
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navigateUp() }) {
+                    IconButton(onClick = { onNavigateUp() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.detail_go_back)
@@ -85,6 +91,9 @@ private fun DetailContent(
 
                 is DetailUiState.Error -> {
                     Text(stringResource(R.string.detail_error))
+                    Button(onClick = { onRetry() }) {
+                        Text(stringResource(R.string.detail_retry))
+                    }
                 }
 
                 is DetailUiState.ShowBeer -> {
@@ -129,5 +138,52 @@ private fun DetailContent(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailContentPreviewLoading() {
+    BeerAppTheme {
+        DetailContent(
+            modifier = Modifier,
+            uiState = DetailUiState.Loading,
+            onNavigateUp = {},
+            onRetry = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailContentPreviewError() {
+    BeerAppTheme {
+        DetailContent(
+            modifier = Modifier,
+            uiState = DetailUiState.Error,
+            onNavigateUp = {},
+            onRetry = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailContentPreviewShowBeer() {
+    BeerAppTheme {
+        DetailContent(
+            modifier = Modifier,
+            uiState = DetailUiState.ShowBeer(
+                beer = Beer(
+                    id = 0,
+                    name = "Buzz",
+                    tagline = "A Real Bitter Experience.",
+                    description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+                    imageUrl = "https://images.punkapi.com/v2/keg.png"
+                )
+            ),
+            onNavigateUp = {},
+            onRetry = {},
+        )
     }
 }
