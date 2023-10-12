@@ -63,9 +63,7 @@ internal class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = HomeDestination.route()) {
                     composableDestinations.forEach { entry ->
                         val destination = entry.key
-                        composable(destination.route(), destination.arguments) {
-                            entry.value()
-                        }
+                        composable(destination.route(), destination.arguments) { entry.value() }
                     }
                 }
             }
