@@ -18,10 +18,17 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
+
+                buildFeatures {
+                    buildConfig = true
+                }
+
                 with(defaultConfig) {
+                    val version = providers.gradleProperty("android.versionName").get()
                     targetSdk = providers.gradleProperty("android.targetSdk").get().toInt()
                     versionCode = providers.gradleProperty("android.versionCode").get().toInt()
-                    versionName = providers.gradleProperty("android.versionName").get()
+                    versionName = version
+                    buildConfigField("String", "VERSION_NAME", "\"$version\"")
                 }
             }
 

@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.barros.beerapp.features.home.BuildConfig
 import com.barros.beerapp.features.home.R
 import com.barros.beerapp.features.home.presentation.model.HomeUiState
 import com.barros.beerapp.libraries.domain.entity.Theme
@@ -73,7 +74,7 @@ private fun HomeContent(
             text = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.home_info_message, "1.0.0"), // TODO find a way to use BuildConfig
+                    text = stringResource(id = R.string.home_info_message, BuildConfig.VERSION_NAME),
                     textAlign = TextAlign.Center
                 )
             },
