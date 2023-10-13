@@ -34,7 +34,7 @@ internal class BeerLocalDataSourceTest {
         coEvery { beerDao.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerDatabaseModel
 
         // When
-        val result = beerLocalDataSource.getBeers(beerName = null, page = 1, perPage = 5)
+        val result = beerLocalDataSource.getBeers(search = "", page = 1, perPage = 5)
 
         // Then
         coVerify { beerDao.getBeers(any(), any(), any()) }

@@ -7,8 +7,8 @@ import javax.inject.Inject
 internal class BeerLocalDataSourceImpl @Inject constructor(
     private val beerDao: BeerDao
 ) : BeerLocalDataSource {
-    override suspend fun getBeers(beerName: String?, page: Int, perPage: Int): List<BeerDatabaseModel> =
-        beerDao.getBeers(beerName = beerName, offset = (page - 1) * perPage, limitPerPage = perPage)
+    override suspend fun getBeers(search: String, page: Int, perPage: Int): List<BeerDatabaseModel> =
+        beerDao.getBeers(search = search, offset = (page - 1) * perPage, limitPerPage = perPage)
 
     override suspend fun getBeerById(beerId: Int): BeerDatabaseModel =
         beerDao.getBeerById(beerId = beerId)

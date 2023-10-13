@@ -9,6 +9,6 @@ import javax.inject.Inject
 class GetBeersUseCase @Inject constructor(
     private val beerRepository: BeerRepository
 ) {
-    suspend operator fun invoke(beerName: String? = null, page: Int): Flow<Result<List<Beer>>> =
-        beerRepository.getBeers(beerName = beerName, page = page)
+    suspend operator fun invoke(search: String, page: Int): Flow<Result<List<Beer>>> =
+        beerRepository.getBeers(search = search, page = page)
 }

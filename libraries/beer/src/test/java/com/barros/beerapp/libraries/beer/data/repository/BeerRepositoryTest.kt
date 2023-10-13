@@ -45,7 +45,7 @@ internal class BeerRepositoryTest {
         coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerDatabaseModel
 
         // When
-        beerRepository.getBeers(beerName = null, page = 1).test {
+        beerRepository.getBeers(search = "", page = 1).test {
             val localData = awaitItem()
             awaitComplete()
 
@@ -61,7 +61,11 @@ internal class BeerRepositoryTest {
         coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } throws Exception()
 
         // When
-        beerRepository.getBeers(beerName = null, page = 1).test {
+        beerRepository.getBeers(
+            search = "" +
+                "",
+            page = 1
+        ).test {
             val localData = awaitItem()
             awaitComplete()
 
@@ -79,7 +83,7 @@ internal class BeerRepositoryTest {
         coEvery { beerLocalDataSource.insertBeers(any()) } returns Unit
 
         // When
-        beerRepository.getBeers(beerName = null, page = 1).test {
+        beerRepository.getBeers(search = "", page = 1).test {
             val localData = awaitItem()
             val remoteData = awaitItem()
             awaitComplete()
@@ -100,7 +104,7 @@ internal class BeerRepositoryTest {
         coEvery { beerRemoteDataSource.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerNetworkModel
 
         // When
-        beerRepository.getBeers(beerName = null, page = 1).test {
+        beerRepository.getBeers(search = "", page = 1).test {
             val localData = awaitItem()
             val remoteData = awaitItem()
             awaitComplete()
@@ -121,7 +125,7 @@ internal class BeerRepositoryTest {
         coEvery { beerRemoteDataSource.getBeers(any(), any(), any()) } throws Exception("Error")
 
         // When
-        beerRepository.getBeers(beerName = null, page = 1).test {
+        beerRepository.getBeers(search = "", page = 1).test {
             val localData = awaitItem()
             awaitComplete()
 

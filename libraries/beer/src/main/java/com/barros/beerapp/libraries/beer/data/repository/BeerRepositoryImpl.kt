@@ -25,11 +25,11 @@ internal class BeerRepositoryImpl @Inject constructor(
     override suspend fun getBeerById(beerId: Int): Result<Beer> =
         getResult { beerLocalDataSource.getBeerById(beerId = beerId).mapToDomainModel() }
 
-    override suspend fun getBeers(beerName: String?, page: Int): Flow<Result<List<Beer>>> =
+    override suspend fun getBeers(search: String, page: Int): Flow<Result<List<Beer>>> =
         singleSourceOfTruthStrategy(
             readLocalData = {
                 beerLocalDataSource.getBeers(
-                    beerName = beerName,
+                    search = search,
                     page = page,
                     perPage = MAX_ITEM_PER_PAGE
                 )
@@ -37,7 +37,7 @@ internal class BeerRepositoryImpl @Inject constructor(
             },
             readRemoteData = {
                 beerRemoteDataSource.getBeers(
-                    beerName = beerName,
+                    search = search,
                     page = page,
                     perPage = MAX_ITEM_PER_PAGE
                 )
