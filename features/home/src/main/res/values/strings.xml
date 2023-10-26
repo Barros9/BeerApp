@@ -2,6 +2,7 @@
 <resources>
     <string name="home_title">Beer App</string>
     <string name="home_light_mode">Light Mode</string>
+    <string name="home_search_message">Search your beer</string>
     <string name="home_info_title">Info</string>
     <string name="home_info_message">Made by Barros9\nVersion %s</string>
     <string name="home_ok">OK</string>

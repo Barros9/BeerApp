@@ -16,6 +16,7 @@ import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
 import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -63,6 +64,7 @@ class HomeViewModel @Inject constructor(
             if (page == 1 || _isPaginationExhaust.value.not()) {
                 showLoading()
                 getBeersUseCase(search = _search.value, page = page).collectLatest { result ->
+                    delay(1_000)
                     _uiState.value = when (result) {
                         is Error -> HomeUiState.Error
                         is Success -> {

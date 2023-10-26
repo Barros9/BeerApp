@@ -17,7 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -150,12 +149,13 @@ private fun HomeContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            HomeHeader(
-                modifier = modifier
-            )
+            HomeHeader(modifier = modifier)
 
-            // TODO  move outside
-            TextField(value = search, onValueChange = { text -> onSearchChange(text) })
+            HomeSearch(
+                modifier = modifier,
+                search = search,
+                onSearchChange = onSearchChange,
+            )
 
             HomeList(
                 modifier = modifier,
