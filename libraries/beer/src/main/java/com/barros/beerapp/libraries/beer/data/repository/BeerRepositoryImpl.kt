@@ -32,19 +32,19 @@ internal class BeerRepositoryImpl @Inject constructor(
                     search = search,
                     page = page,
                     perPage = MAX_ITEM_PER_PAGE
-                )
-                    .map(BeerDatabaseModel::mapToDomainModel)
+                ).map(BeerDatabaseModel::mapToDomainModel)
             },
             readRemoteData = {
                 beerRemoteDataSource.getBeers(
                     search = search,
                     page = page,
                     perPage = MAX_ITEM_PER_PAGE
-                )
-                    .map(BeerNetworkModel::mapToDomainModel)
+                ).map(BeerNetworkModel::mapToDomainModel)
             },
             saveLocalData = { beers ->
-                beerLocalDataSource.insertBeers(beers = beers.map(Beer::mapFromDomainModel))
+                beerLocalDataSource.insertBeers(
+                    beers = beers.map(Beer::mapFromDomainModel)
+                )
             }
         )
 }

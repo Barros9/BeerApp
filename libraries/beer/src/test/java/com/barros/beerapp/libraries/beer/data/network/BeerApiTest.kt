@@ -59,7 +59,7 @@ class BeerApiTest {
 
         // When
         mockWebServer.enqueue(mockResponse)
-        val response = api.getBeers()
+        val response = api.getBeers(beerName = "", page = 1, perPage = 20)
 
         // Then
         assertEquals(listOfBeerNetworkModel, response)
