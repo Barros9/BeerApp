@@ -61,7 +61,11 @@ internal fun HomeList(
                     }
                 }
 
-                LazyColumn(state = listState) {
+                LazyColumn(
+                    modifier = modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Top,
+                    state = listState
+                ) {
                     items(uiState.beers) { beer ->
                         BeerRow(
                             beer = beer,
@@ -165,35 +169,35 @@ private fun HomeListPreviewShowBeers() {
                         tagline = "A Real Bitter Experience.",
                         description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
                         imageUrl = "https://images.punkapi.com/v2/keg.png"
-                    ),
-                    Beer(
-                        id = 0,
-                        name = "Buzz",
-                        tagline = "A Real Bitter Experience.",
-                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
-                        imageUrl = "https://images.punkapi.com/v2/keg.png"
-                    ),
-                    Beer(
-                        id = 0,
-                        name = "Buzz",
-                        tagline = "A Real Bitter Experience.",
-                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
-                        imageUrl = "https://images.punkapi.com/v2/keg.png"
-                    ),
-                    Beer(
-                        id = 0,
-                        name = "Buzz",
-                        tagline = "A Real Bitter Experience.",
-                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
-                        imageUrl = "https://images.punkapi.com/v2/keg.png"
-                    ),
-                    Beer(
-                        id = 0,
-                        name = "Buzz",
-                        tagline = "A Real Bitter Experience.",
-                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
-                        imageUrl = "https://images.punkapi.com/v2/keg.png"
                     )
+//                    Beer(
+//                        id = 0,
+//                        name = "Buzz",
+//                        tagline = "A Real Bitter Experience.",
+//                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+//                        imageUrl = "https://images.punkapi.com/v2/keg.png"
+//                    ),
+//                    Beer(
+//                        id = 0,
+//                        name = "Buzz",
+//                        tagline = "A Real Bitter Experience.",
+//                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+//                        imageUrl = "https://images.punkapi.com/v2/keg.png"
+//                    ),
+//                    Beer(
+//                        id = 0,
+//                        name = "Buzz",
+//                        tagline = "A Real Bitter Experience.",
+//                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+//                        imageUrl = "https://images.punkapi.com/v2/keg.png"
+//                    ),
+//                    Beer(
+//                        id = 0,
+//                        name = "Buzz",
+//                        tagline = "A Real Bitter Experience.",
+//                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+//                        imageUrl = "https://images.punkapi.com/v2/keg.png"
+//                    )
                 )
             ),
             isLoadingNextPage = false,
