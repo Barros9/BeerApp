@@ -56,7 +56,7 @@ internal fun HomeList(
                 val listState = rememberLazyListState()
 
                 LaunchedEffect(listState.canScrollForward.not()) {
-                    if (listState.canScrollForward.not() && isLoadingNextPage.not()) {
+                    if (listState.canScrollForward.not() && isLoadingNextPage.not() && isPaginationExhaust.not()) {
                         onSearchNextPage()
                     }
                 }
