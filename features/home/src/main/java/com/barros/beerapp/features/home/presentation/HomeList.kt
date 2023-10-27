@@ -82,18 +82,6 @@ internal fun HomeList(
                             )
                         }
                     }
-                    if (isPaginationExhaust) {
-                        // TODO update this
-//                        item {
-//                            Text(
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                                    .padding(dimensionResource(com.barros.beerapp.libraries.ui.R.dimen.spacing_16))
-//                                    .wrapContentWidth(Alignment.CenterHorizontally),
-//                                text = "isPaginationExhaust"
-//                            )
-//                        }
-                    }
                 }
             }
         }
@@ -169,35 +157,35 @@ private fun HomeListPreviewShowBeers() {
                         tagline = "A Real Bitter Experience.",
                         description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
                         imageUrl = "https://images.punkapi.com/v2/keg.png"
+                    ),
+                    Beer(
+                        id = 0,
+                        name = "Buzz",
+                        tagline = "A Real Bitter Experience.",
+                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+                        imageUrl = "https://images.punkapi.com/v2/keg.png"
+                    ),
+                    Beer(
+                        id = 0,
+                        name = "Buzz",
+                        tagline = "A Real Bitter Experience.",
+                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+                        imageUrl = "https://images.punkapi.com/v2/keg.png"
+                    ),
+                    Beer(
+                        id = 0,
+                        name = "Buzz",
+                        tagline = "A Real Bitter Experience.",
+                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+                        imageUrl = "https://images.punkapi.com/v2/keg.png"
+                    ),
+                    Beer(
+                        id = 0,
+                        name = "Buzz",
+                        tagline = "A Real Bitter Experience.",
+                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+                        imageUrl = "https://images.punkapi.com/v2/keg.png"
                     )
-//                    Beer(
-//                        id = 0,
-//                        name = "Buzz",
-//                        tagline = "A Real Bitter Experience.",
-//                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
-//                        imageUrl = "https://images.punkapi.com/v2/keg.png"
-//                    ),
-//                    Beer(
-//                        id = 0,
-//                        name = "Buzz",
-//                        tagline = "A Real Bitter Experience.",
-//                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
-//                        imageUrl = "https://images.punkapi.com/v2/keg.png"
-//                    ),
-//                    Beer(
-//                        id = 0,
-//                        name = "Buzz",
-//                        tagline = "A Real Bitter Experience.",
-//                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
-//                        imageUrl = "https://images.punkapi.com/v2/keg.png"
-//                    ),
-//                    Beer(
-//                        id = 0,
-//                        name = "Buzz",
-//                        tagline = "A Real Bitter Experience.",
-//                        description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
-//                        imageUrl = "https://images.punkapi.com/v2/keg.png"
-//                    )
                 )
             ),
             isLoadingNextPage = false,
