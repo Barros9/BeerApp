@@ -31,7 +31,7 @@ import com.barros.beerapp.libraries.ui.R as R_UI
 internal fun HomeSearch(
     modifier: Modifier,
     search: String,
-    onSearchChange: (String) -> Unit,
+    onSearchChange: (String) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -53,7 +53,7 @@ internal fun HomeSearch(
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,

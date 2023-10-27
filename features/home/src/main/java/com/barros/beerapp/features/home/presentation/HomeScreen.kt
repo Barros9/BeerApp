@@ -154,7 +154,7 @@ private fun HomeContent(
             HomeSearch(
                 modifier = modifier,
                 search = search,
-                onSearchChange = onSearchChange,
+                onSearchChange = onSearchChange
             )
 
             HomeList(
