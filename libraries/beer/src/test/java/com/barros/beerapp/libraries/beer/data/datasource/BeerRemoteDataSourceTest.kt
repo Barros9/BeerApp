@@ -34,7 +34,7 @@ internal class BeerRemoteDataSourceTest {
         coEvery { beerApi.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerNetworkModel
 
         // When
-        val response = beerRemoteDataSource.getBeers(beerName = null, page = 1, perPage = 5)
+        val response = beerRemoteDataSource.getBeers(search = "", page = 1, perPage = 5)
 
         // Then
         coVerify { beerApi.getBeers(any(), any(), any()) }

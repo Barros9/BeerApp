@@ -17,7 +17,11 @@ import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +37,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private val _uiState by lazy { mutableStateOf<HomeUiState>(HomeUiState.Loading) }
-    internal val uiState: State<HomeUiState> by lazy { _uiState.apply { loadUiState() } }
+    internal val uiState: State<HomeUiState> by lazy { _uiState }
 
     private val _isLoadingNextPage by lazy { mutableStateOf(false) }
     internal val isLoadingNextPage: State<Boolean> by lazy { _isLoadingNextPage }
@@ -41,30 +45,30 @@ class HomeViewModel @Inject constructor(
     private val _isPaginationExhaust by lazy { mutableStateOf(false) }
     internal val isPaginationExhaust: State<Boolean> by lazy { _isPaginationExhaust }
 
+    private val _search by lazy { MutableStateFlow("") }
+    internal val search: StateFlow<String> by lazy { _search }
+
     private val beers = mutableSetOf<Beer>()
     private var page = 1
 
+    init {
+        viewModelScope.launch {
+            _search.debounce(1_000).collectLatest { _ ->
+                startFromBegin()
+            }
+        }
+    }
+
     private fun loadUiState() {
         viewModelScope.launch(exceptionHandler) {
-            if (page == 1 || page != 1 && _isPaginationExhaust.value.not()) {
-                if (page == 1) {
-                    _uiState.value = HomeUiState.Loading
-                } else {
-                    _isLoadingNextPage.value = true
-                }
-
-                getBeersUseCase(page = page).collectLatest { result ->
+            if (page == 1 || _isPaginationExhaust.value.not()) {
+                showLoading()
+                getBeersUseCase(search = _search.value, page = page).collectLatest { result ->
                     delay(1_000)
-
                     _uiState.value = when (result) {
                         is Error -> HomeUiState.Error
                         is Success -> {
-                            if (page == 1) {
-                                beers.clear()
-                                beers.addAll(result.data)
-                            } else {
-                                beers.addAll(result.data)
-                            }
+                            beers.addAll(result.data)
 
                             if (beers.isEmpty()) {
                                 HomeUiState.Empty
@@ -82,7 +86,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSelectBeer(beerId: Int) {
-        navigator.navigate(DetailDestination.createBeerDetailsRoute(beerId = beerId))
+        navigator.navigate(
+            DetailDestination.createBeerDetailsRoute(beerId = beerId)
+        )
     }
 
     fun onRetry() {
@@ -96,6 +102,24 @@ class HomeViewModel @Inject constructor(
     fun onSelectTheme(theme: Theme) {
         viewModelScope.launch {
             saveThemePreferenceUseCase(theme)
+        }
+    }
+
+    fun onSearchTextChange(text: String) {
+        _search.update { text }
+    }
+
+    private fun startFromBegin() {
+        page = 1
+        beers.clear()
+        loadUiState()
+    }
+
+    private fun showLoading() {
+        if (page == 1) {
+            _uiState.value = HomeUiState.Loading
+        } else {
+            _isLoadingNextPage.value = true
         }
     }
 }

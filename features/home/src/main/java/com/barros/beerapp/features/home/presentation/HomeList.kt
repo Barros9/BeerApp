@@ -56,12 +56,16 @@ internal fun HomeList(
                 val listState = rememberLazyListState()
 
                 LaunchedEffect(listState.canScrollForward.not()) {
-                    if (listState.canScrollForward.not() && isLoadingNextPage.not()) {
+                    if (listState.canScrollForward.not() && isLoadingNextPage.not() && isPaginationExhaust.not()) {
                         onSearchNextPage()
                     }
                 }
 
-                LazyColumn(state = listState) {
+                LazyColumn(
+                    modifier = modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Top,
+                    state = listState
+                ) {
                     items(uiState.beers) { beer ->
                         BeerRow(
                             beer = beer,
@@ -77,18 +81,6 @@ internal fun HomeList(
                                     .wrapContentWidth(Alignment.CenterHorizontally)
                             )
                         }
-                    }
-                    if (isPaginationExhaust) {
-                        // TODO update this
-//                        item {
-//                            Text(
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                                    .padding(dimensionResource(com.barros.beerapp.libraries.ui.R.dimen.spacing_16))
-//                                    .wrapContentWidth(Alignment.CenterHorizontally),
-//                                text = "isPaginationExhaust"
-//                            )
-//                        }
                     }
                 }
             }

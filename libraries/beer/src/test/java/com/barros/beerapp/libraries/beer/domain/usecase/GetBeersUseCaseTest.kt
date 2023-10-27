@@ -36,7 +36,7 @@ internal class GetBeersUseCaseTest {
         coEvery { beerRepository.getBeers(any(), any()) } returns flowOf(Result.Success(BeerMock.listOfBeers))
 
         // When
-        getBeersUseCase(page = 1).test {
+        getBeersUseCase(search = "", page = 1).test {
             val result = awaitItem()
             awaitComplete()
 

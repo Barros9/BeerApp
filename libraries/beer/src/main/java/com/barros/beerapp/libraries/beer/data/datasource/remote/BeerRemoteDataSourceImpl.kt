@@ -9,9 +9,9 @@ internal class BeerRemoteDataSourceImpl @Inject constructor(
 ) : BeerRemoteDataSource {
 
     override suspend fun getBeers(
-        beerName: String?,
+        search: String,
         page: Int,
         perPage: Int
     ): List<BeerNetworkModel> =
-        beerApi.getBeers(beerName = beerName, page = page, perPage = perPage)
+        beerApi.getBeers(beerName = search.ifBlank { null }, page = page, perPage = perPage)
 }

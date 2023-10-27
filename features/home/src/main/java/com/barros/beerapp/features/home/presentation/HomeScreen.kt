@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,12 +40,15 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
     val uiState by homeViewModel.uiState
     val isLoadingNextPage by homeViewModel.isLoadingNextPage
     val isPaginationExhaust by homeViewModel.isPaginationExhaust
+    val search by homeViewModel.search.collectAsState()
 
     HomeContent(
         modifier = Modifier,
         uiState = uiState,
         isLoadingNextPage = isLoadingNextPage,
         isPaginationExhaust = isPaginationExhaust,
+        search = search,
+        onSearchChange = { text -> homeViewModel.onSearchTextChange(text) },
         onSelectBeer = { beerId -> homeViewModel.onSelectBeer(beerId) },
         onRetry = { homeViewModel.onRetry() },
         onSearchNextPage = { homeViewModel.onSearchNextPage() },
@@ -59,6 +63,8 @@ private fun HomeContent(
     uiState: HomeUiState,
     isLoadingNextPage: Boolean,
     isPaginationExhaust: Boolean,
+    search: String,
+    onSearchChange: (String) -> Unit,
     onSelectBeer: (Int) -> Unit,
     onRetry: () -> Unit,
     onSearchNextPage: () -> Unit,
@@ -143,9 +149,14 @@ private fun HomeContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            HomeHeader(
-                modifier = modifier
+            HomeHeader(modifier = modifier)
+
+            HomeSearch(
+                modifier = modifier,
+                search = search,
+                onSearchChange = onSearchChange
             )
+
             HomeList(
                 modifier = modifier,
                 uiState = uiState,
@@ -168,6 +179,8 @@ private fun HomeContentPreviewEmpty() {
             uiState = HomeUiState.Empty,
             isLoadingNextPage = false,
             isPaginationExhaust = false,
+            search = "",
+            onSearchChange = {},
             onSelectBeer = {},
             onRetry = {},
             onSearchNextPage = {},
