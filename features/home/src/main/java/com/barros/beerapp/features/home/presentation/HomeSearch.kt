@@ -60,7 +60,7 @@ internal fun HomeSearch(
             imeAction = ImeAction.Search
         ),
         keyboardActions = KeyboardActions(
-            onDone = { keyboardController?.hide() }
+            onSearch = { keyboardController?.hide() }
         ),
         value = search,
         onValueChange = { text -> onSearchChange(text) }
