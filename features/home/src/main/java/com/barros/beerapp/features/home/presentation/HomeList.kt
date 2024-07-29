@@ -20,7 +20,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.barros.beerapp.features.home.R
-import com.barros.beerapp.features.home.presentation.model.HomeUiState
+import com.barros.beerapp.features.home.presentation.HomeUiState
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 

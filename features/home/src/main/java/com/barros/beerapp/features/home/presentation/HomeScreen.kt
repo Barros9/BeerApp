@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.barros.beerapp.features.home.BuildConfig
 import com.barros.beerapp.features.home.R
-import com.barros.beerapp.features.home.presentation.model.HomeUiState
+import com.barros.beerapp.features.home.presentation.HomeUiState
 import com.barros.beerapp.libraries.domain.entity.Theme
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 

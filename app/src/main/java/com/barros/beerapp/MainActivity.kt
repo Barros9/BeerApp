@@ -26,7 +26,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class MainActivity : ComponentActivity() {
-
     @Inject
     lateinit var navigator: Navigator
 
@@ -47,8 +46,8 @@ internal class MainActivity : ComponentActivity() {
                             is NavigatorEvent.NavigateUp -> navController.navigateUp()
                             is NavigatorEvent.PopBackStack -> navController.popBackStack()
                             is NavigatorEvent.Directions -> navController.navigate(
-                                event.destination,
-                                event.builder
+                                route = event.destination,
+                                builder = event.builder
                             )
                         }
                     }
@@ -57,7 +56,7 @@ internal class MainActivity : ComponentActivity() {
                 val composableDestinations: Map<NavigationDestination, @Composable () -> Unit> =
                     mapOf(
                         HomeDestination to { HomeScreen() },
-                        DetailDestination to { DetailScreen() }
+                        DetailDestination to { DetailScreen() },
                     )
 
                 NavHost(navController = navController, startDestination = HomeDestination.route()) {

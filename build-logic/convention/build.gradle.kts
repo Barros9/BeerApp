@@ -19,6 +19,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 dependencies {
     compileOnly(libs.android.gradle.plugin)
+    compileOnly(libs.compose.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.ksp.gradle.plugin)
 }
@@ -26,47 +27,47 @@ dependencies {
 gradlePlugin {
     plugins {
         register("pluginAndroidApplication") {
-            id = "beerapp.plugin.android.application"
+            id = "beerapp.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("pluginAndroidLibrary") {
-            id = "beerapp.plugin.android.library"
+            id = "beerapp.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("pluginComposeApplication") {
-            id = "beerapp.plugin.compose.application"
+            id = "beerapp.compose.application"
             implementationClass = "ComposeApplicationConventionPlugin"
         }
         register("pluginComposeLibrary") {
-            id = "beerapp.plugin.compose.library"
+            id = "beerapp.compose.library"
             implementationClass = "ComposeLibraryConventionPlugin"
         }
         register("pluginDataStore") {
-            id = "beerapp.plugin.datastore"
+            id = "beerapp.datastore"
             implementationClass = "DataStoreConventionPlugin"
         }
         register("pluginHilt") {
-            id = "beerapp.plugin.hilt"
+            id = "beerapp.hilt"
             implementationClass = "HiltConventionPlugin"
         }
         register("pluginNavigation") {
-            id = "beerapp.plugin.navigation"
+            id = "beerapp.navigation"
             implementationClass = "NavigationConventionPlugin"
         }
         register("pluginNetwork") {
-            id = "beerapp.plugin.network"
+            id = "beerapp.network"
             implementationClass = "NetworkConventionPlugin"
         }
         register("pluginRoom") {
-            id = "beerapp.plugin.room"
+            id = "beerapp.room"
             implementationClass = "RoomConventionPlugin"
         }
         register("pluginTest") {
-            id = "beerapp.plugin.test"
+            id = "beerapp.test"
             implementationClass = "TestConventionPlugin"
         }
         register("pluginWork") {
-            id = "beerapp.plugin.work"
+            id = "beerapp.work"
             implementationClass = "WorkConventionPlugin"
         }
     }

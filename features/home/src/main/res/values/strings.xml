@@ -11,5 +11,5 @@
     <string name="home_retry">Retry</string>
     <string name="home_empty">Empty list</string>
     <string name="home_card_title">Find your beer</string>
-    <string name="home_card_subtitle">You can search by category</string>
+    <string name="home_card_subtitle">You can search by name</string>
 </resources>

@@ -1,8 +1,8 @@
 plugins {
-    id("beerapp.plugin.android.library")
-    id("beerapp.plugin.compose.library")
-    id("beerapp.plugin.datastore")
-    id("beerapp.plugin.hilt")
+    alias(libs.plugins.beerapp.android.library)
+    alias(libs.plugins.beerapp.compose.library)
+    alias(libs.plugins.beerapp.datastore)
+    alias(libs.plugins.beerapp.hilt)
 }
 
 android {

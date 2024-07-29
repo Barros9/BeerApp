@@ -1,4 +1,4 @@
-package com.barros.beerapp.features.home.presentation.model
+package com.barros.beerapp.features.home.presentation
 
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 
