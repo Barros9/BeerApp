@@ -12,10 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -26,7 +26,6 @@ import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import com.barros.beerapp.libraries.ui.theme.Shapes
 import com.barros.beerapp.libraries.ui.R as R_UI
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun HomeSearch(
     modifier: Modifier,
@@ -38,7 +37,8 @@ internal fun HomeSearch(
     TextField(
         modifier = modifier
             .fillMaxWidth()
-            .padding(dimensionResource(R_UI.dimen.spacing_8)),
+            .padding(dimensionResource(R_UI.dimen.spacing_8))
+            .testTag("search"),
         shape = Shapes.medium,
         singleLine = true,
         maxLines = 1,

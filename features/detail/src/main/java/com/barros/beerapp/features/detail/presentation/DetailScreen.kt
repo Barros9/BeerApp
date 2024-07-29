@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,7 +33,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.barros.beerapp.features.detail.R
-import com.barros.beerapp.features.detail.presentation.model.DetailUiState
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import com.skydoves.landscapist.ImageOptions
@@ -41,13 +40,16 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.barros.beerapp.libraries.ui.R as R_UI
 
 @Composable
-fun DetailScreen(detailViewModel: DetailViewModel = hiltViewModel()) {
+internal fun DetailScreen(
+    onNavigateUp: () -> Unit,
+    detailViewModel: DetailViewModel = hiltViewModel()
+) {
     val uiState by detailViewModel.uiState
 
     DetailContent(
         modifier = Modifier,
         uiState = uiState,
-        onNavigateUp = { detailViewModel.onNavigateUp() },
+        onNavigateUp = onNavigateUp,
         onRetry = { detailViewModel.onRetry() }
     )
 }
@@ -69,7 +71,7 @@ private fun DetailContent(
                 navigationIcon = {
                     IconButton(onClick = { onNavigateUp() }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.detail_go_back)
                         )
                     }

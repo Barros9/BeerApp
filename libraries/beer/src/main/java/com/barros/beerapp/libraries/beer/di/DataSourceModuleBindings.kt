@@ -4,23 +4,21 @@ import com.barros.beerapp.libraries.beer.data.datasource.local.BeerLocalDataSour
 import com.barros.beerapp.libraries.beer.data.datasource.local.BeerLocalDataSourceImpl
 import com.barros.beerapp.libraries.beer.data.datasource.remote.BeerRemoteDataSource
 import com.barros.beerapp.libraries.beer.data.datasource.remote.BeerRemoteDataSourceImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-internal class DataSourceModule {
+internal interface DataSourceModuleBindings {
 
+    @Binds
     @Singleton
-    @Provides
-    fun provideBeerLocalDataSource(beerLocalDataSource: BeerLocalDataSourceImpl): BeerLocalDataSource =
-        beerLocalDataSource
+    fun bindBeerLocalDataSource(impl: BeerLocalDataSourceImpl): BeerLocalDataSource
 
+    @Binds
     @Singleton
-    @Provides
-    fun provideBeerRemoteDataSource(beerRemoteDataSource: BeerRemoteDataSourceImpl): BeerRemoteDataSource =
-        beerRemoteDataSource
+    fun bindBeerRemoteDataSource(impl: BeerRemoteDataSourceImpl): BeerRemoteDataSource
 }

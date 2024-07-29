@@ -10,11 +10,9 @@ import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import com.barros.beerapp.features.detail.R
 import com.barros.beerapp.features.detail.presentation.mock.DetailMock
-import com.barros.beerapp.features.detail.presentation.model.DetailUiState
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import org.junit.Before
 import org.junit.Rule
@@ -43,7 +41,10 @@ internal class DetailScreenTest {
         // When
         composeTestRule.setContent {
             BeerAppTheme {
-                DetailScreen(detailViewModel = detailViewModel)
+                DetailScreen(
+                    onNavigateUp = {},
+                    detailViewModel = detailViewModel
+                )
             }
         }
 
@@ -64,7 +65,10 @@ internal class DetailScreenTest {
         // When
         composeTestRule.setContent {
             BeerAppTheme {
-                DetailScreen(detailViewModel = detailViewModel)
+                DetailScreen(
+                    onNavigateUp = {},
+                    detailViewModel = detailViewModel
+                )
             }
         }
 
@@ -77,12 +81,14 @@ internal class DetailScreenTest {
     fun onNavigateUp() {
         // Given
         coEvery { detailViewModel.uiState } returns mutableStateOf(DetailUiState.ShowBeer(DetailMock.beer))
-        coEvery { detailViewModel.onNavigateUp() } returns Unit
 
         // When
         composeTestRule.setContent {
             BeerAppTheme {
-                DetailScreen(detailViewModel = detailViewModel)
+                DetailScreen(
+                    onNavigateUp = {},
+                    detailViewModel = detailViewModel
+                )
             }
         }
 
@@ -91,7 +97,5 @@ internal class DetailScreenTest {
             .assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription(context.resources.getString(R.string.detail_go_back))
             .performClick()
-
-        coVerify { detailViewModel.onNavigateUp() }
     }
 }

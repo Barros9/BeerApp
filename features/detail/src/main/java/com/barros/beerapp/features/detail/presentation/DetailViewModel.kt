@@ -5,25 +5,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.barros.beerapp.features.detail.presentation.model.DetailUiState
+import androidx.navigation.toRoute
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeerByIdUseCase
-import com.barros.beerapp.libraries.navigator.destinations.DetailDestination.BEER_ID_PARAM
-import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(
-    private val navigator: Navigator,
-    private val savedStateHandle: SavedStateHandle,
+internal class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getBeerByIdUseCase: GetBeerByIdUseCase
 ) : ViewModel() {
 
-    private val beerId
-        get() = savedStateHandle.get<Int>(BEER_ID_PARAM)
-            ?: throw IllegalStateException("Parameter beerId must not be null!")
+    private val beerId = savedStateHandle.toRoute<DetailNavigation>().beerId
 
     private val _uiState by lazy { mutableStateOf<DetailUiState>(DetailUiState.Loading) }
     internal val uiState: State<DetailUiState> by lazy { _uiState.apply { loadUiState() } }
@@ -36,10 +31,6 @@ class DetailViewModel @Inject constructor(
                 is Result.Error -> DetailUiState.Error
             }
         }
-    }
-
-    fun onNavigateUp() {
-        navigator.navigateUp()
     }
 
     fun onRetry() {

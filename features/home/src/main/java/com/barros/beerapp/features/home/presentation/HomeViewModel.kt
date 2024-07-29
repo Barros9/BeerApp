@@ -11,8 +11,6 @@ import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
 import com.barros.beerapp.libraries.beer.domain.util.MAX_ITEM_PER_PAGE
 import com.barros.beerapp.libraries.domain.entity.Theme
 import com.barros.beerapp.libraries.domain.usecase.SaveThemePreferenceUseCase
-import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
-import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.FlowPreview
@@ -27,8 +25,7 @@ import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val navigator: Navigator,
+internal class HomeViewModel @Inject constructor(
     private val getBeersUseCase: GetBeersUseCase,
     private val saveThemePreferenceUseCase: SaveThemePreferenceUseCase
 ) : ViewModel() {
@@ -84,12 +81,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun onSelectBeer(beerId: Int) {
-        navigator.navigate(
-            DetailDestination.createBeerDetailsRoute(beerId = beerId)
-        )
     }
 
     fun onRetry() {

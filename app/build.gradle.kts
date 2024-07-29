@@ -32,14 +32,12 @@ dependencies {
     implementation(project(":features:detail"))
     implementation(project(":features:home"))
     implementation(project(":libraries:beer"))
-    implementation(project(":libraries:navigator"))
     implementation(project(":libraries:ui"))
 
     // Kover
     kover(project(":features:detail"))
     kover(project(":features:home"))
     kover(project(":libraries:beer"))
-    kover(project(":libraries:navigator"))
     kover(project(":libraries:ui"))
 
     // Android

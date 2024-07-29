@@ -1,4 +1,3 @@
-import com.android.build.gradle.api.AndroidBasePlugin
 import com.barros.beerapp.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project

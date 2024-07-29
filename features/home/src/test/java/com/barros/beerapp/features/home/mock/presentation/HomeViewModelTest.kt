@@ -1,12 +1,11 @@
 package com.barros.beerapp.features.home.mock.presentation
 
 import com.barros.beerapp.features.home.mock.HomeMock
+import com.barros.beerapp.features.home.presentation.HomeUiState
 import com.barros.beerapp.features.home.presentation.HomeViewModel
-import com.barros.beerapp.features.home.presentation.model.HomeUiState
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
 import com.barros.beerapp.libraries.domain.usecase.SaveThemePreferenceUseCase
-import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -28,9 +27,6 @@ internal class HomeViewModelTest {
     private lateinit var homeViewModel: HomeViewModel
 
     @MockK
-    private lateinit var navigator: Navigator
-
-    @MockK
     private lateinit var getBeersUseCase: GetBeersUseCase
 
     @MockK
@@ -41,7 +37,6 @@ internal class HomeViewModelTest {
         MockKAnnotations.init(this, relaxUnitFun = true)
         Dispatchers.setMain(dispatcher)
         homeViewModel = HomeViewModel(
-            navigator = navigator,
             getBeersUseCase = getBeersUseCase,
             saveThemePreferenceUseCase = saveThemePreferenceUseCase
         )
@@ -135,20 +130,5 @@ internal class HomeViewModelTest {
 
         // Then
         coVerify(exactly = 2) { getBeersUseCase(any(), any()) }
-    }
-
-    @Test
-    fun `called onSelectBeer to navigate`() = runTest {
-        // Given
-        assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
-        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(HomeMock.listOfBeers))
-        coEvery { navigator.navigate(any()) } returns true
-
-        // When
-        dispatcher.scheduler.advanceUntilIdle()
-        homeViewModel.onSelectBeer(0)
-
-        // Then
-        coVerify { navigator.navigate(any()) }
     }
 }
