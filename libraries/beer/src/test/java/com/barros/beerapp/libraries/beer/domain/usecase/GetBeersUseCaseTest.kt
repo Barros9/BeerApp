@@ -1,10 +1,10 @@
 package com.barros.beerapp.libraries.beer.domain.usecase
 
 import app.cash.turbine.test
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
-import com.barros.beerapp.libraries.beer.mock.BeerMock
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -33,7 +33,7 @@ internal class GetBeersUseCaseTest {
     @Test
     fun `use case should call repository and return a list of beer`() = runTest {
         // Given
-        coEvery { beerRepository.getBeers(any(), any()) } returns flowOf(Result.Success(BeerMock.listOfBeers))
+        coEvery { beerRepository.getBeers(any(), any()) } returns flowOf(Result.Success(BeerFake.listOfBeers))
 
         // When
         getBeersUseCase(search = "", page = 1).test {
@@ -42,7 +42,7 @@ internal class GetBeersUseCaseTest {
 
             // Then
             coVerify { beerRepository.getBeers(any(), any()) }
-            assertEquals(BeerMock.listOfBeers, (result as Result.Success<List<Beer>>).data)
+            assertEquals(BeerFake.listOfBeers, (result as Result.Success<List<Beer>>).data)
         }
     }
 }

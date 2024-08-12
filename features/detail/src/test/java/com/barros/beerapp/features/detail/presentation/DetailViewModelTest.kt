@@ -1,7 +1,7 @@
 package com.barros.beerapp.features.detail.presentation
 
 import androidx.lifecycle.SavedStateHandle
-import com.barros.beerapp.features.detail.mock.DetailMock
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import com.barros.beerapp.libraries.beer.domain.model.Result.Error
 import com.barros.beerapp.libraries.beer.domain.model.Result.Success
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeerByIdUseCase
@@ -44,7 +44,7 @@ internal class DetailViewModelTest {
     @Test
     fun `called getBeersUseCase and returns successfully a beer object`() = runTest {
         // Given
-        coEvery { getBeerByIdUseCase(any()) } returns Success(DetailMock.beer)
+        coEvery { getBeerByIdUseCase(any()) } returns Success(BeerFake.buzzBeerModel)
 
         val savedStateHandle = SavedStateHandle().apply {
             set(DetailNavigation::beerId.name, 1)
@@ -59,7 +59,7 @@ internal class DetailViewModelTest {
         // Then
         assertEquals(DetailUiState.Loading, detailViewModel.uiState.value)
         dispatcher.scheduler.advanceUntilIdle()
-        assertEquals(DetailUiState.ShowBeer(DetailMock.beer), detailViewModel.uiState.value)
+        assertEquals(DetailUiState.ShowBeer(BeerFake.buzzBeerModel), detailViewModel.uiState.value)
     }
 
     @Test

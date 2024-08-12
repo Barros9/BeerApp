@@ -1,8 +1,6 @@
-package com.barros.beerapp.features.home.mock.presentation
+package com.barros.beerapp.features.home.presentation
 
-import com.barros.beerapp.features.home.mock.HomeMock
-import com.barros.beerapp.features.home.presentation.HomeUiState
-import com.barros.beerapp.features.home.presentation.HomeViewModel
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
 import com.barros.beerapp.libraries.domain.usecase.SaveThemePreferenceUseCase
@@ -51,14 +49,14 @@ internal class HomeViewModelTest {
     fun `called getBeersUseCase and returns successfully a list of beers`() = runTest {
         // Given
         assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
-        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(HomeMock.listOfBeers))
+        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(BeerFake.listOfBeers))
 
         // When
         dispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify { getBeersUseCase(any(), any()) }
-        assertEquals(HomeUiState.Success(HomeMock.listOfBeers), homeViewModel.uiState.value)
+        assertEquals(HomeUiState.Success(BeerFake.listOfBeers), homeViewModel.uiState.value)
     }
 
     @Test
@@ -107,7 +105,7 @@ internal class HomeViewModelTest {
     fun `called onRetry and verify getBeersUseCase was called`() = runTest {
         // Given
         assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
-        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(HomeMock.listOfBeers))
+        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(BeerFake.listOfBeers))
 
         // When
         dispatcher.scheduler.advanceUntilIdle()
@@ -121,7 +119,7 @@ internal class HomeViewModelTest {
     fun `called searchNextPage to show more items`() = runTest {
         // Given
         assertEquals(HomeUiState.Loading, homeViewModel.uiState.value)
-        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(HomeMock.listOfBeers))
+        coEvery { getBeersUseCase(any(), any()) } returns flowOf(Result.Success(BeerFake.listOfBeers))
 
         // When
         dispatcher.scheduler.advanceUntilIdle()

@@ -4,10 +4,10 @@ import app.cash.turbine.test
 import com.barros.beerapp.libraries.beer.data.database.mapper.mapToDomainModel
 import com.barros.beerapp.libraries.beer.data.datasource.local.BeerLocalDataSource
 import com.barros.beerapp.libraries.beer.data.datasource.remote.BeerRemoteDataSource
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
-import com.barros.beerapp.libraries.beer.mock.BeerMock
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -42,7 +42,7 @@ internal class BeerRepositoryTest {
     @Test
     fun `call getBeers and return a list of beer saved locally`() = runTest {
         // Given
-        coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerDatabaseModel
+        coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } returns BeerFake.listOfBeerDatabaseModel
 
         // When
         beerRepository.getBeers(search = "", page = 1).test {
@@ -51,7 +51,7 @@ internal class BeerRepositoryTest {
 
             // Then
             coVerify { beerLocalDataSource.getBeers(any(), any(), any()) }
-            assertEquals(BeerMock.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (localData as Result.Success<List<Beer>>).data)
+            assertEquals(BeerFake.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (localData as Result.Success<List<Beer>>).data)
         }
     }
 
@@ -78,8 +78,8 @@ internal class BeerRepositoryTest {
     @Test
     fun `call getBeers and return a list of beer fetched from remote cause local list is empty`() = runTest {
         // Given
-        coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } returnsMany listOf(emptyList(), BeerMock.listOfBeerDatabaseModel)
-        coEvery { beerRemoteDataSource.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerNetworkModel
+        coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } returnsMany listOf(emptyList(), BeerFake.listOfBeerDatabaseModel)
+        coEvery { beerRemoteDataSource.getBeers(any(), any(), any()) } returns BeerFake.listOfBeerNetworkModel
         coEvery { beerLocalDataSource.insertBeers(any()) } returns Unit
 
         // When
@@ -93,7 +93,7 @@ internal class BeerRepositoryTest {
             coVerify(exactly = 1) { beerRemoteDataSource.getBeers(any(), any(), any()) }
             coVerify(exactly = 1) { beerLocalDataSource.insertBeers(any()) }
             assertTrue { (localData as Result.Success<List<Beer>>).data.isEmpty() }
-            assertEquals(BeerMock.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (remoteData as Result.Success<List<Beer>>).data)
+            assertEquals(BeerFake.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (remoteData as Result.Success<List<Beer>>).data)
         }
     }
 
@@ -101,7 +101,7 @@ internal class BeerRepositoryTest {
     fun `call getBeers and return an error cause local list is empty, remote data is working but there is an error reading from database`() = runTest {
         // Given
         coEvery { beerLocalDataSource.getBeers(any(), any(), any()) } returns emptyList() andThenThrows Exception("Error")
-        coEvery { beerRemoteDataSource.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerNetworkModel
+        coEvery { beerRemoteDataSource.getBeers(any(), any(), any()) } returns BeerFake.listOfBeerNetworkModel
 
         // When
         beerRepository.getBeers(search = "", page = 1).test {
@@ -139,14 +139,14 @@ internal class BeerRepositoryTest {
     @Test
     fun `call getBeerById and return a Beer object`() = runTest {
         // Given
-        coEvery { beerLocalDataSource.getBeerById(any()) } returns BeerMock.listOfBeerDatabaseModel[2]
+        coEvery { beerLocalDataSource.getBeerById(any()) } returns BeerFake.listOfBeerDatabaseModel[2]
 
         // When
         val result = beerRepository.getBeerById(beerId = 2)
 
         // Then
         coVerify { beerLocalDataSource.getBeerById(any()) }
-        assertEquals(BeerMock.listOfBeerDatabaseModel[2].mapToDomainModel(), (result as Result.Success<Beer>).data)
+        assertEquals(BeerFake.listOfBeerDatabaseModel[2].mapToDomainModel(), (result as Result.Success<Beer>).data)
     }
 
     @Test

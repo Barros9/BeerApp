@@ -3,7 +3,7 @@ package com.barros.beerapp.libraries.beer.data.datasource
 import com.barros.beerapp.libraries.beer.data.database.BeerDao
 import com.barros.beerapp.libraries.beer.data.datasource.local.BeerLocalDataSource
 import com.barros.beerapp.libraries.beer.data.datasource.local.BeerLocalDataSourceImpl
-import com.barros.beerapp.libraries.beer.mock.BeerMock
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -31,14 +31,14 @@ internal class BeerLocalDataSourceTest {
     @Test
     fun `get beers with success`() = runTest {
         // Given
-        coEvery { beerDao.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerDatabaseModel
+        coEvery { beerDao.getBeers(any(), any(), any()) } returns BeerFake.listOfBeerDatabaseModel
 
         // When
         val result = beerLocalDataSource.getBeers(search = "", page = 1, perPage = 5)
 
         // Then
         coVerify { beerDao.getBeers(any(), any(), any()) }
-        assertEquals(BeerMock.listOfBeerDatabaseModel, result)
+        assertEquals(BeerFake.listOfBeerDatabaseModel, result)
     }
 
     @Test
@@ -47,7 +47,7 @@ internal class BeerLocalDataSourceTest {
         coEvery { beerDao.insertBeers(any()) } returns Unit
 
         // When
-        beerLocalDataSource.insertBeers(beers = BeerMock.listOfBeerDatabaseModel)
+        beerLocalDataSource.insertBeers(beers = BeerFake.listOfBeerDatabaseModel)
 
         // Then
         coVerify { beerDao.insertBeers(any()) }
@@ -56,13 +56,13 @@ internal class BeerLocalDataSourceTest {
     @Test
     fun `get beer by id with success`() = runTest {
         // Given
-        coEvery { beerDao.getBeerById(any()) } returns BeerMock.listOfBeerDatabaseModel[1]
+        coEvery { beerDao.getBeerById(any()) } returns BeerFake.listOfBeerDatabaseModel[1]
 
         // When
         val result = beerLocalDataSource.getBeerById(beerId = 1)
 
         // Then
         coVerify { beerDao.getBeerById(any()) }
-        assertEquals(BeerMock.listOfBeerDatabaseModel[1], result)
+        assertEquals(BeerFake.listOfBeerDatabaseModel[1], result)
     }
 }

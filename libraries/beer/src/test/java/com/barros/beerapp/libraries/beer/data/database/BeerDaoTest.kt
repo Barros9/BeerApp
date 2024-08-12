@@ -4,7 +4,7 @@ package com.barros.beerapp.libraries.beer.data.database
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.barros.beerapp.libraries.beer.mock.BeerMock
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -36,7 +36,7 @@ internal class BeerDaoTest {
     @Test
     fun `insert and get a list of beer database model`() = runTest {
         // Given
-        val listOfBeerDatabaseModel = BeerMock.listOfBeerDatabaseModel
+        val listOfBeerDatabaseModel = BeerFake.listOfBeerDatabaseModel
 
         // When
         beerAppDatabase.beerDao().insertBeers(listOfBeerDatabaseModel)
@@ -49,7 +49,7 @@ internal class BeerDaoTest {
     @Test
     fun `insert and get a single beer database model`() = runTest {
         // Given
-        val listOfBeerDatabaseModel = BeerMock.listOfBeerDatabaseModel
+        val listOfBeerDatabaseModel = BeerFake.listOfBeerDatabaseModel
 
         // When
         beerAppDatabase.beerDao().insertBeers(listOfBeerDatabaseModel)

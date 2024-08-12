@@ -9,4 +9,9 @@ plugins {
 
 android {
     namespace = "com.barros.beerapp.libraries.beer"
+
+    sourceSets {
+        getByName("main").java.srcDir("src/shared")
+        getByName("test").java.srcDir("src/shared")
+    }
 }

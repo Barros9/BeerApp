@@ -1,9 +1,9 @@
 package com.barros.beerapp.libraries.beer.domain.usecase
 
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
-import com.barros.beerapp.libraries.beer.mock.BeerMock
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -31,13 +31,13 @@ internal class GetBeerByIdUseCaseTest {
     @Test
     fun `use case should call repository and return a beer`() = runTest {
         // Given
-        coEvery { beerRepository.getBeerById(any()) } returns Result.Success(BeerMock.listOfBeers[1])
+        coEvery { beerRepository.getBeerById(any()) } returns Result.Success(BeerFake.listOfBeers[1])
 
         // When
         val result = getBeerByIdUseCase(beerId = 1)
 
         // Then
         coVerify { beerRepository.getBeerById(any()) }
-        assertEquals(BeerMock.listOfBeers[1], (result as Result.Success<Beer>).data)
+        assertEquals(BeerFake.listOfBeers[1], (result as Result.Success<Beer>).data)
     }
 }

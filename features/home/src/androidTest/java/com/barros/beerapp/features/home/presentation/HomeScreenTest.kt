@@ -1,4 +1,4 @@
-package com.barros.beerapp.features.home.mock.presentation
+package com.barros.beerapp.features.home.presentation
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
@@ -8,10 +8,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import com.barros.beerapp.features.home.R
-import com.barros.beerapp.features.home.mock.HomeMock
-import com.barros.beerapp.features.home.presentation.HomeScreen
-import com.barros.beerapp.features.home.presentation.HomeUiState
-import com.barros.beerapp.features.home.presentation.HomeViewModel
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -62,7 +59,7 @@ internal class HomeScreenTest {
     @Test
     fun beerListIsDisplayed() {
         // Given
-        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(HomeMock.listOfBeers))
+        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(BeerFake.listOfBeers))
         coEvery { homeViewModel.isLoadingNextPage } returns mutableStateOf(false)
         coEvery { homeViewModel.isPaginationExhaust } returns mutableStateOf(false)
         coEvery { homeViewModel.search } returns MutableStateFlow("")
@@ -78,14 +75,14 @@ internal class HomeScreenTest {
         }
 
         // Then
-        composeTestRule.onNodeWithText(HomeMock.listOfBeers[0].name).assertIsDisplayed()
-        composeTestRule.onNodeWithText(HomeMock.listOfBeers[1].name).assertIsDisplayed()
+        composeTestRule.onNodeWithText(BeerFake.listOfBeers[0].name).assertIsDisplayed()
+        composeTestRule.onNodeWithText(BeerFake.listOfBeers[1].name).assertIsDisplayed()
     }
 
     @Test
     fun onClickSelectBeer() {
         // Given
-        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(HomeMock.listOfBeers))
+        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(BeerFake.listOfBeers))
         coEvery { homeViewModel.isLoadingNextPage } returns mutableStateOf(false)
         coEvery { homeViewModel.isPaginationExhaust } returns mutableStateOf(false)
         coEvery { homeViewModel.search } returns MutableStateFlow("")
@@ -101,8 +98,8 @@ internal class HomeScreenTest {
         }
 
         // Then
-        composeTestRule.onNodeWithText(HomeMock.listOfBeers[0].name).assertIsDisplayed()
-        composeTestRule.onNodeWithText(HomeMock.listOfBeers[0].name).performClick()
+        composeTestRule.onNodeWithText(BeerFake.listOfBeers[0].name).assertIsDisplayed()
+        composeTestRule.onNodeWithText(BeerFake.listOfBeers[0].name).performClick()
     }
 
     @Test
@@ -134,10 +131,10 @@ internal class HomeScreenTest {
 //    @Test
 //    fun beerListSearch() {
 //        // Given
-//        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(HomeMock.listOfBeers))
+//        coEvery { homeViewModel.uiState } returns mutableStateOf(HomeUiState.Success(BeerFake.listOfBeers))
 //        coEvery { homeViewModel.isLoadingNextPage } returns mutableStateOf(false)
 //        coEvery { homeViewModel.isPaginationExhaust } returns mutableStateOf(false)
-//        coEvery { homeViewModel.search } returnsMany listOf(MutableStateFlow(""), MutableStateFlow(HomeMock.listOfBeers[0].name))
+//        coEvery { homeViewModel.search } returnsMany listOf(MutableStateFlow(""), MutableStateFlow(BeerFake.listOfBeers[0].name))
 //
 //        // When
 //        composeTestRule.setContent {
@@ -150,14 +147,14 @@ internal class HomeScreenTest {
 //        }
 //
 //        // Then
-//        composeTestRule.onNodeWithText(HomeMock.listOfBeers[0].name).assertIsDisplayed()
-//        composeTestRule.onNodeWithText(HomeMock.listOfBeers[1].name).assertIsDisplayed()
+//        composeTestRule.onNodeWithText(BeerFake.listOfBeers[0].name).assertIsDisplayed()
+//        composeTestRule.onNodeWithText(BeerFake.listOfBeers[1].name).assertIsDisplayed()
 //
 //        composeTestRule.onNodeWithTag("search").performClick()
-//        composeTestRule.onNodeWithTag("search").performTextReplacement(HomeMock.listOfBeers[0].name)
+//        composeTestRule.onNodeWithTag("search").performTextReplacement(BeerFake.listOfBeers[0].name)
 //        composeTestRule.onNodeWithTag("search").performImeAction()
-//        composeTestRule.onNodeWithTag("search").assert(hasText(HomeMock.listOfBeers[0].name))
-//        composeTestRule.onAllNodes(hasText(HomeMock.listOfBeers[0].name)).assertCountEquals(1)
-//        composeTestRule.onAllNodes(hasText(HomeMock.listOfBeers[1].name)).assertCountEquals(0)
+//        composeTestRule.onNodeWithTag("search").assert(hasText(BeerFake.listOfBeers[0].name))
+//        composeTestRule.onAllNodes(hasText(BeerFake.listOfBeers[0].name)).assertCountEquals(1)
+//        composeTestRule.onAllNodes(hasText(BeerFake.listOfBeers[1].name)).assertCountEquals(0)
 //    }
 }

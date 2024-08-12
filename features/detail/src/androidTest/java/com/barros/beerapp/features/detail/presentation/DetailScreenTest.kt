@@ -9,7 +9,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import com.barros.beerapp.features.detail.R
-import com.barros.beerapp.features.detail.presentation.mock.DetailMock
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -60,7 +60,7 @@ internal class DetailScreenTest {
     @Test
     fun beerIsDisplayed() {
         // Given
-        coEvery { detailViewModel.uiState } returns mutableStateOf(DetailUiState.ShowBeer(DetailMock.beer))
+        coEvery { detailViewModel.uiState } returns mutableStateOf(DetailUiState.ShowBeer(BeerFake.buzzBeerModel))
 
         // When
         composeTestRule.setContent {
@@ -73,14 +73,14 @@ internal class DetailScreenTest {
         }
 
         // Then
-        composeTestRule.onNodeWithText(DetailMock.beer.name).assertIsDisplayed()
-        composeTestRule.onNodeWithText(DetailMock.beer.description).assertIsDisplayed()
+        composeTestRule.onNodeWithText(BeerFake.buzzBeerModel.name).assertIsDisplayed()
+        composeTestRule.onNodeWithText(BeerFake.buzzBeerModel.description).assertIsDisplayed()
     }
 
     @Test
     fun onNavigateUp() {
         // Given
-        coEvery { detailViewModel.uiState } returns mutableStateOf(DetailUiState.ShowBeer(DetailMock.beer))
+        coEvery { detailViewModel.uiState } returns mutableStateOf(DetailUiState.ShowBeer(BeerFake.buzzBeerModel))
 
         // When
         composeTestRule.setContent {

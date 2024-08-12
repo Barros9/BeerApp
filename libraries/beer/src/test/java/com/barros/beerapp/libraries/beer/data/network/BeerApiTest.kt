@@ -1,6 +1,6 @@
 package com.barros.beerapp.libraries.beer.data.network
 
-import com.barros.beerapp.libraries.beer.mock.BeerMock
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import com.barros.beerapp.libraries.beer.utils.FileReader.readFileFromResources
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.runBlocking
@@ -52,7 +52,7 @@ class BeerApiTest {
     @Test
     fun `should fetch beer list correctly giving success response`() = runBlocking {
         // Given
-        val listOfBeerNetworkModel = BeerMock.listOfBeerNetworkModel
+        val listOfBeerNetworkModel = BeerFake.listOfBeerNetworkModel
         val mockResponse = MockResponse()
             .setResponseCode(200)
             .setBody(readFileFromResources("beers.json"))

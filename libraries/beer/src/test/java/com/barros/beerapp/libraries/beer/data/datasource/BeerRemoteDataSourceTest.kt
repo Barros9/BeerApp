@@ -3,7 +3,7 @@ package com.barros.beerapp.libraries.beer.data.datasource
 import com.barros.beerapp.libraries.beer.data.datasource.remote.BeerRemoteDataSource
 import com.barros.beerapp.libraries.beer.data.datasource.remote.BeerRemoteDataSourceImpl
 import com.barros.beerapp.libraries.beer.data.network.BeerApi
-import com.barros.beerapp.libraries.beer.mock.BeerMock
+import com.barros.beerapp.libraries.beer.domain.BeerFake
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -31,13 +31,13 @@ internal class BeerRemoteDataSourceTest {
     @Test
     fun `get beers with success`() = runTest {
         // Given
-        coEvery { beerApi.getBeers(any(), any(), any()) } returns BeerMock.listOfBeerNetworkModel
+        coEvery { beerApi.getBeers(any(), any(), any()) } returns BeerFake.listOfBeerNetworkModel
 
         // When
         val response = beerRemoteDataSource.getBeers(search = "", page = 1, perPage = 5)
 
         // Then
         coVerify { beerApi.getBeers(any(), any(), any()) }
-        assertEquals(BeerMock.listOfBeerNetworkModel, response)
+        assertEquals(BeerFake.listOfBeerNetworkModel, response)
     }
 }
