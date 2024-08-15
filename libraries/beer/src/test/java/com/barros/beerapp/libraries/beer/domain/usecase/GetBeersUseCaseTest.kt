@@ -2,7 +2,7 @@ package com.barros.beerapp.libraries.beer.domain.usecase
 
 import app.cash.turbine.test
 import com.barros.beerapp.libraries.beer.domain.BeerFake
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
 import io.mockk.MockKAnnotations
@@ -42,7 +42,7 @@ internal class GetBeersUseCaseTest {
 
             // Then
             coVerify { beerRepository.getBeers(any(), any()) }
-            assertEquals(BeerFake.listOfBeers, (result as Result.Success<List<Beer>>).data)
+            assertEquals(BeerFake.listOfBeers, (result as Result.Success<List<BeerModel>>).data)
         }
     }
 }

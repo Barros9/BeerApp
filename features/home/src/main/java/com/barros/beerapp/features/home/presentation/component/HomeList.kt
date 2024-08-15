@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.barros.beerapp.features.home.R
 import com.barros.beerapp.features.home.presentation.HomeUiState
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import com.barros.beerapp.libraries.ui.R as R_UI
 
@@ -159,42 +159,42 @@ private fun HomeListPreviewShowBeers() {
             modifier = Modifier,
             uiState = HomeUiState.Success(
                 beers = listOf(
-                    Beer(
+                    BeerModel(
                         id = 0,
                         name = "Buzz",
                         tagline = "A Real Bitter Experience.",
                         description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
                         imageUrl = "https://images.punkapi.com/v2/keg.png"
                     ),
-                    Beer(
+                    BeerModel(
                         id = 0,
                         name = "Buzz",
                         tagline = "A Real Bitter Experience.",
                         description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
                         imageUrl = "https://images.punkapi.com/v2/keg.png"
                     ),
-                    Beer(
+                    BeerModel(
                         id = 0,
                         name = "Buzz",
                         tagline = "A Real Bitter Experience.",
                         description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
                         imageUrl = "https://images.punkapi.com/v2/keg.png"
                     ),
-                    Beer(
+                    BeerModel(
                         id = 0,
                         name = "Buzz",
                         tagline = "A Real Bitter Experience.",
                         description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
                         imageUrl = "https://images.punkapi.com/v2/keg.png"
                     ),
-                    Beer(
+                    BeerModel(
                         id = 0,
                         name = "Buzz",
                         tagline = "A Real Bitter Experience.",
                         description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
                         imageUrl = "https://images.punkapi.com/v2/keg.png"
                     ),
-                    Beer(
+                    BeerModel(
                         id = 0,
                         name = "Buzz",
                         tagline = "A Real Bitter Experience.",

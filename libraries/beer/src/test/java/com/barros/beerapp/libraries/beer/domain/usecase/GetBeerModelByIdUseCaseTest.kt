@@ -1,7 +1,7 @@
 package com.barros.beerapp.libraries.beer.domain.usecase
 
 import com.barros.beerapp.libraries.beer.domain.BeerFake
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
 import io.mockk.MockKAnnotations
@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-internal class GetBeerByIdUseCaseTest {
+internal class GetBeerModelByIdUseCaseTest {
 
     @MockK
     private lateinit var beerRepository: BeerRepository
@@ -38,6 +38,6 @@ internal class GetBeerByIdUseCaseTest {
 
         // Then
         coVerify { beerRepository.getBeerById(any()) }
-        assertEquals(BeerFake.listOfBeers[1], (result as Result.Success<Beer>).data)
+        assertEquals(BeerFake.listOfBeers[1], (result as Result.Success<BeerModel>).data)
     }
 }

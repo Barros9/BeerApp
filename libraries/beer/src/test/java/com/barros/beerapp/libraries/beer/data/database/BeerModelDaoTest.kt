@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-internal class BeerDaoTest {
+internal class BeerModelDaoTest {
     private lateinit var beerAppDatabase: BeerAppDatabase
 
     @Before

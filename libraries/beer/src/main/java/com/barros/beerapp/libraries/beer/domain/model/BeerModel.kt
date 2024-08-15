@@ -1,6 +1,6 @@
-package com.barros.beerapp.libraries.beer.domain.entity
+package com.barros.beerapp.libraries.beer.domain.model
 
-data class Beer(
+data class BeerModel(
     val id: Int,
     val name: String,
     val tagline: String,

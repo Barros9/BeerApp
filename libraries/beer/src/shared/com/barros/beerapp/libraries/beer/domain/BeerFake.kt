@@ -2,11 +2,11 @@ package com.barros.beerapp.libraries.beer.domain
 
 import com.barros.beerapp.libraries.beer.data.database.model.BeerDatabaseModel
 import com.barros.beerapp.libraries.beer.data.network.model.BeerNetworkModel
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 
 object BeerFake {
 
-    val buzzBeerModel = Beer(
+    val buzzBeerModel = BeerModel(
         id = 1,
         name = "Buzz",
         tagline = "A Real Bitter Experience.",
@@ -14,7 +14,7 @@ object BeerFake {
         imageUrl = "https://images.punkapi.com/v2/keg.png"
     )
 
-    private val trashyBlondeBeerModel = Beer(
+    private val trashyBlondeBeerModel = BeerModel(
         id = 2,
         name = "Trashy Blonde",
         tagline = "You Know You Shouldn't",
@@ -22,7 +22,7 @@ object BeerFake {
         imageUrl = "https://images.punkapi.com/v2/2.png"
     )
 
-    private val berlinerWeisseBeerModel = Beer(
+    private val berlinerWeisseBeerModel = BeerModel(
         id = 3,
         name = "Berliner Weisse With Yuzu - B-Sides",
         tagline = "Japanese Citrus Berliner Weisse.",
@@ -30,7 +30,7 @@ object BeerFake {
         imageUrl = "https://images.punkapi.com/v2/keg.png"
     )
 
-    private val pilsenLagerBeerModel = Beer(
+    private val pilsenLagerBeerModel = BeerModel(
         id = 4,
         name = "Pilsen Lager",
         tagline = "Unleash the Yeast Series.",
@@ -38,7 +38,7 @@ object BeerFake {
         imageUrl = "https://images.punkapi.com/v2/4.png"
     )
 
-    private val averyBrownDredgeBeerModel = Beer(
+    private val averyBrownDredgeBeerModel = BeerModel(
         id = 5,
         name = "Avery Brown Dredge",
         tagline = "Bloggers' Imperial Pilsner.",

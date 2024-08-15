@@ -17,7 +17,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.barros.beerapp.libraries.beer.domain.BeerFake.buzzBeerModel
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 import com.barros.beerapp.libraries.ui.R
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -27,7 +27,7 @@ import com.bumptech.glide.integration.compose.placeholder
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 internal fun BeerRow(
-    beer: Beer,
+    beer: BeerModel,
     onSelectBeer: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {

@@ -5,7 +5,7 @@ import com.barros.beerapp.libraries.beer.data.database.mapper.mapToDomainModel
 import com.barros.beerapp.libraries.beer.data.datasource.local.BeerLocalDataSource
 import com.barros.beerapp.libraries.beer.data.datasource.remote.BeerRemoteDataSource
 import com.barros.beerapp.libraries.beer.domain.BeerFake
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
 import io.mockk.MockKAnnotations
@@ -20,7 +20,7 @@ import org.junit.Test
 import kotlin.test.assertTrue
 
 @ExperimentalCoroutinesApi
-internal class BeerRepositoryTest {
+internal class BeerModelRepositoryTest {
 
     @MockK
     private lateinit var beerRemoteDataSource: BeerRemoteDataSource
@@ -51,7 +51,7 @@ internal class BeerRepositoryTest {
 
             // Then
             coVerify { beerLocalDataSource.getBeers(any(), any(), any()) }
-            assertEquals(BeerFake.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (localData as Result.Success<List<Beer>>).data)
+            assertEquals(BeerFake.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (localData as Result.Success<List<BeerModel>>).data)
         }
     }
 
@@ -92,8 +92,8 @@ internal class BeerRepositoryTest {
             coVerify(exactly = 2) { beerLocalDataSource.getBeers(any(), any(), any()) }
             coVerify(exactly = 1) { beerRemoteDataSource.getBeers(any(), any(), any()) }
             coVerify(exactly = 1) { beerLocalDataSource.insertBeers(any()) }
-            assertTrue { (localData as Result.Success<List<Beer>>).data.isEmpty() }
-            assertEquals(BeerFake.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (remoteData as Result.Success<List<Beer>>).data)
+            assertTrue { (localData as Result.Success<List<BeerModel>>).data.isEmpty() }
+            assertEquals(BeerFake.listOfBeerDatabaseModel.map { it.mapToDomainModel() }, (remoteData as Result.Success<List<BeerModel>>).data)
         }
     }
 
@@ -113,7 +113,7 @@ internal class BeerRepositoryTest {
             coVerify(exactly = 2) { beerLocalDataSource.getBeers(any(), any(), any()) }
             coVerify(exactly = 1) { beerRemoteDataSource.getBeers(any(), any(), any()) }
             coVerify(exactly = 1) { beerLocalDataSource.insertBeers(any()) }
-            assertTrue { (localData as Result.Success<List<Beer>>).data.isEmpty() }
+            assertTrue { (localData as Result.Success<List<BeerModel>>).data.isEmpty() }
             assertTrue { remoteData is Result.Error }
         }
     }
@@ -132,7 +132,7 @@ internal class BeerRepositoryTest {
             // Then
             coVerify(exactly = 1) { beerLocalDataSource.getBeers(any(), any(), any()) }
             coVerify(exactly = 1) { beerRemoteDataSource.getBeers(any(), any(), any()) }
-            assertTrue { (localData as Result.Success<List<Beer>>).data.isEmpty() }
+            assertTrue { (localData as Result.Success<List<BeerModel>>).data.isEmpty() }
         }
     }
 
@@ -146,7 +146,7 @@ internal class BeerRepositoryTest {
 
         // Then
         coVerify { beerLocalDataSource.getBeerById(any()) }
-        assertEquals(BeerFake.listOfBeerDatabaseModel[2].mapToDomainModel(), (result as Result.Success<Beer>).data)
+        assertEquals(BeerFake.listOfBeerDatabaseModel[2].mapToDomainModel(), (result as Result.Success<BeerModel>).data)
     }
 
     @Test

@@ -16,7 +16,7 @@ import org.junit.Test
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
-class BeerApiTest {
+class BeerModelApiTest {
 
     private val mockWebServer = MockWebServer()
     private lateinit var client: OkHttpClient

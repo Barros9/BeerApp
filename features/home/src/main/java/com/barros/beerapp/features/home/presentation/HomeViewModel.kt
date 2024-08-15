@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 import com.barros.beerapp.libraries.beer.domain.model.Result.Error
 import com.barros.beerapp.libraries.beer.domain.model.Result.Success
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
@@ -46,7 +46,7 @@ internal class HomeViewModel @Inject constructor(
     private val _search by lazy { MutableStateFlow("") }
     internal val search: StateFlow<String> by lazy { _search }
 
-    private val beers = mutableSetOf<Beer>()
+    private val beers = mutableSetOf<BeerModel>()
     private var page = 1
 
     init {

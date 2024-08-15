@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-internal class BeerLocalDataSourceTest {
+internal class BeerModelLocalDataSourceTest {
 
     @MockK
     private lateinit var beerDao: BeerDao

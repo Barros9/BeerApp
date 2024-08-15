@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-internal class BeerRemoteDataSourceTest {
+internal class BeerModelRemoteDataSourceTest {
 
     @MockK
     private lateinit var beerApi: BeerApi

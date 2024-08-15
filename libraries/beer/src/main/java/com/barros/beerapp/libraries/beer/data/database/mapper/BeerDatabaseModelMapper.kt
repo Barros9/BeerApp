@@ -1,10 +1,10 @@
 package com.barros.beerapp.libraries.beer.data.database.mapper
 
 import com.barros.beerapp.libraries.beer.data.database.model.BeerDatabaseModel
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 
 internal fun BeerDatabaseModel.mapToDomainModel() =
-    Beer(
+    BeerModel(
         id = id,
         name = name,
         tagline = tagline,
@@ -12,7 +12,7 @@ internal fun BeerDatabaseModel.mapToDomainModel() =
         imageUrl = imageUrl
     )
 
-internal fun Beer.mapFromDomainModel() =
+internal fun BeerModel.mapFromDomainModel() =
     BeerDatabaseModel(
         id = id,
         name = name,
