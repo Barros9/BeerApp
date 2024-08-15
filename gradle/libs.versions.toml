@@ -10,13 +10,13 @@ androidx-junit = "1.2.1"
 androidx-lifecycle = "2.8.4"
 androidx-navigation = "2.8.0-beta06"
 androidx-room = "2.6.1"
-androidx-work = "2.9.0"
+androidx-work = "2.9.1"
+bumptech-glide = "1.0.0-beta01"
 google-dagger = "2.51.1"
 goole-ksp = "2.0.0-1.0.22"
 jetbrains-coroutines = "1.8.1"
 jetbrains-kotlin = "2.0.0"
 jetbrains-serialization = "1.6.3"
-landscapist-glide = "2.2.1"
 kover = "0.8.2"
 mockk = "1.13.11"
 square-okhttp3-mockwebserver = "4.11.0"
@@ -48,10 +48,10 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidx-room" }
 androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "androidx-room" }
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidx-work" }
+bumptech-glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "bumptech-glide" }
 dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "google-dagger" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "google-dagger" }
 dagger-hilt-android-compiler-test = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "google-dagger" }
-landscapist-glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "landscapist-glide" }
 jetbrains-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "jetbrains-coroutines" }
 jetbrains-kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "jetbrains-serialization" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }

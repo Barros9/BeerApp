@@ -16,5 +16,5 @@ dependencies {
     implementation(project(":libraries:ui"))
 
     // Glide
-    implementation(libs.landscapist.glide)
+    implementation(libs.bumptech.glide)
 }

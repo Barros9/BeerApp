@@ -1,9 +1,8 @@
-package com.barros.beerapp.features.home.presentation
+package com.barros.beerapp.features.home.presentation.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
@@ -14,38 +13,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.barros.beerapp.libraries.beer.domain.BeerFake.buzzBeerModel
 import com.barros.beerapp.libraries.beer.domain.entity.Beer
 import com.barros.beerapp.libraries.ui.R
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 internal fun BeerRow(
     beer: Beer,
-    onSelectBeer: (Int) -> Unit = {}
+    onSelectBeer: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = { onSelectBeer(beer.id) })
-            .padding(dimensionResource(R.dimen.spacing_16)),
+        modifier = modifier
+            .clickable(onClick = { onSelectBeer(beer.id) }),
         verticalAlignment = Alignment.CenterVertically
     ) {
         GlideImage(
             modifier = Modifier.width(dimensionResource(R.dimen.row_image_width)),
-            imageModel = { beer.imageUrl ?: "" },
-            imageOptions = ImageOptions(
-                contentScale = ContentScale.Fit
-            ),
-            previewPlaceholder = com.barros.beerapp.features.home.R.drawable.ic_loading,
-            failure = { ImageVector.vectorResource(com.barros.beerapp.features.home.R.drawable.ic_broken_image) }
+            model = beer.imageUrl,
+            contentDescription = null,
+            loading = placeholder(R.drawable.ic_loading),
+            failure = placeholder(R.drawable.ic_beer),
         )
 
         Column(
@@ -73,7 +69,6 @@ internal fun BeerRow(
                     modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_8)),
                     text = beer.description,
                     style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
             }
@@ -87,13 +82,9 @@ internal fun BeerRow(
 private fun BeerRowPreview() {
     BeerAppTheme {
         BeerRow(
-            beer = Beer(
-                id = 1,
-                name = "Buzz",
-                tagline = "A Real Bitter Experience.",
-                description = "A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
-                imageUrl = "https://images.punkapi.com/v2/keg.png"
-            )
+            modifier = Modifier,
+            beer = buzzBeerModel,
+            onSelectBeer = {}
         )
     }
 }

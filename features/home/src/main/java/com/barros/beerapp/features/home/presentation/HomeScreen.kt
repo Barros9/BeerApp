@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +32,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.barros.beerapp.features.home.BuildConfig
 import com.barros.beerapp.features.home.R
+import com.barros.beerapp.features.home.presentation.component.HomeHeader
+import com.barros.beerapp.features.home.presentation.component.HomeList
+import com.barros.beerapp.features.home.presentation.component.HomeSearch
 import com.barros.beerapp.libraries.domain.entity.Theme
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 
@@ -151,16 +155,18 @@ private fun HomeContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            HomeHeader(modifier = modifier)
+            HomeHeader(
+                modifier = Modifier.padding(dimensionResource(com.barros.beerapp.libraries.ui.R.dimen.spacing_8))
+            )
 
             HomeSearch(
-                modifier = modifier,
+                modifier = Modifier.padding(dimensionResource(com.barros.beerapp.libraries.ui.R.dimen.spacing_8)),
                 search = search,
                 onSearchChange = onSearchChange
             )
 
             HomeList(
-                modifier = modifier,
+                modifier = Modifier,
                 uiState = uiState,
                 isLoadingNextPage = isLoadingNextPage,
                 isPaginationExhaust = isPaginationExhaust,

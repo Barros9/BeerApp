@@ -1,7 +1,6 @@
-package com.barros.beerapp.features.home.presentation
+package com.barros.beerapp.features.home.presentation.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -16,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -24,20 +22,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.barros.beerapp.features.home.R
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 import com.barros.beerapp.libraries.ui.theme.Shapes
-import com.barros.beerapp.libraries.ui.R as R_UI
 
 @Composable
 internal fun HomeSearch(
-    modifier: Modifier,
     search: String,
-    onSearchChange: (String) -> Unit
+    onSearchChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
     TextField(
         modifier = modifier
             .fillMaxWidth()
-            .padding(dimensionResource(R_UI.dimen.spacing_8))
             .testTag("search"),
         shape = Shapes.medium,
         singleLine = true,

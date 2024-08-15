@@ -1,5 +1,6 @@
 package com.barros.beerapp.libraries.beer.data.repository
 
+import android.util.Log
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.model.Result.Error
 import com.barros.beerapp.libraries.beer.domain.model.Result.Success
@@ -25,16 +26,21 @@ internal fun <T> singleSourceOfTruthStrategy(
                     saveLocalData(remoteData.data)
                     when (val localDataUpdated = getResult { readLocalData() }) {
                         is Success -> emit(localDataUpdated)
-                        is Error -> emit(Error("Error reading data", localDataUpdated.throwable))
+                        is Error -> {
+                            Log.e("SingleSourceOfTruth", "Error reading updated local data ${localDataUpdated.throwable}")
+                            emit(Error("Error reading data", localDataUpdated.throwable))
+                        }
                     }
                 }
                 is Error -> {
                     // If Error, do nothing, local data already emitted
+                    Log.e("SingleSourceOfTruth", "Error reading remote data ${remoteData.throwable}")
                 }
             }
         }
         is Error -> {
             // If Error, emit the error, it means that something went wrong reading database
+            Log.e("SingleSourceOfTruth", "Error reading local data ${localData.throwable}")
             emit(Error("Error reading data", localData.throwable))
         }
     }

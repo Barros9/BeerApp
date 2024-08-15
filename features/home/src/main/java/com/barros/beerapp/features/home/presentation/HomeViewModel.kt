@@ -59,8 +59,8 @@ internal class HomeViewModel @Inject constructor(
 
     private fun loadUiState() {
         viewModelScope.launch(exceptionHandler) {
+            showLoading()
             if (page == 1 || _isPaginationExhaust.value.not()) {
-                showLoading()
                 getBeersUseCase(search = _search.value, page = page).collectLatest { result ->
                     delay(1_000)
                     _uiState.value = when (result) {
