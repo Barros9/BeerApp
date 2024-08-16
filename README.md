@@ -1,3 +1,6 @@
+# Warning ⚠️
+Since [Punk API](https://punkapi.com/) shut down, it is possible using the app with only the 20 beers items available in [BeerAppDatabase.db](https://github.com/Barros9/BeerApp/blob/master/libraries/beer/src/main/assets/BeerAppDatabase.db)
+
 # BeerApp
 
 A sample Android native app that shows a list of beers using the [Punk API](https://punkapi.com/). The app is based
