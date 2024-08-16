@@ -10,7 +10,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
-                apply("org.jlleitschuh.gradle.ktlint")
                 apply("org.jetbrains.kotlinx.kover")
             }
 
@@ -19,5 +18,4 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             }
         }
     }
-
 }

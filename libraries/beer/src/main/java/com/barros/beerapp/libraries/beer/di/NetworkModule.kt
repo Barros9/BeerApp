@@ -17,12 +17,13 @@ import javax.inject.Singleton
 internal class NetworkModule {
 
     companion object {
-        const val baseUrl = "https://api.punkapi.com/v2/"
+        const val BASE_URL = "https://api.punkapi.com/v2/"
     }
 
-    @Singleton
     @Provides
-    fun provideBaseUrl(): String = baseUrl
+    @Singleton
+    @BaseUrl
+    fun provideBaseUrl(): String = BASE_URL
 
     @Provides
     @Singleton
@@ -46,7 +47,7 @@ internal class NetworkModule {
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
         json: Json,
-        baseUrl: String
+        @BaseUrl baseUrl: String
     ): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)

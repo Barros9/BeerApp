@@ -1,10 +1,12 @@
+import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
+
 plugins {
-    id("beerapp.plugin.android.application")
-    id("beerapp.plugin.compose.application")
-    id("beerapp.plugin.hilt")
-    id("beerapp.plugin.navigation")
-    id("beerapp.plugin.test")
-    id("beerapp.plugin.work")
+    alias(libs.plugins.beerapp.android.application)
+    alias(libs.plugins.beerapp.compose.application)
+    alias(libs.plugins.beerapp.hilt)
+    alias(libs.plugins.beerapp.navigation)
+    alias(libs.plugins.beerapp.test)
+    alias(libs.plugins.beerapp.work)
 }
 
 android {
@@ -19,7 +21,7 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -30,14 +32,12 @@ dependencies {
     implementation(project(":features:detail"))
     implementation(project(":features:home"))
     implementation(project(":libraries:beer"))
-    implementation(project(":libraries:navigator"))
     implementation(project(":libraries:ui"))
 
     // Kover
     kover(project(":features:detail"))
     kover(project(":features:home"))
     kover(project(":libraries:beer"))
-    kover(project(":libraries:navigator"))
     kover(project(":libraries:ui"))
 
     // Android
@@ -46,8 +46,8 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 }
 
-extensions.configure<kotlinx.kover.gradle.plugin.dsl.KoverReportExtension> {
-    koverReport {
+extensions.configure<KoverProjectExtension>("kover") {
+    reports {
         filters {
             excludes {
                 // Hilt

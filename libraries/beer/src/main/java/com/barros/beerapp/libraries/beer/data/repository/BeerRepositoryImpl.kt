@@ -7,7 +7,7 @@ import com.barros.beerapp.libraries.beer.data.datasource.local.BeerLocalDataSour
 import com.barros.beerapp.libraries.beer.data.datasource.remote.BeerRemoteDataSource
 import com.barros.beerapp.libraries.beer.data.network.mapper.mapToDomainModel
 import com.barros.beerapp.libraries.beer.data.network.model.BeerNetworkModel
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 import com.barros.beerapp.libraries.beer.domain.model.Result
 import com.barros.beerapp.libraries.beer.domain.model.getResult
 import com.barros.beerapp.libraries.beer.domain.repository.BeerRepository
@@ -22,10 +22,10 @@ internal class BeerRepositoryImpl @Inject constructor(
     private val beerRemoteDataSource: BeerRemoteDataSource
 ) : BeerRepository {
 
-    override suspend fun getBeerById(beerId: Int): Result<Beer> =
+    override suspend fun getBeerById(beerId: Int): Result<BeerModel> =
         getResult { beerLocalDataSource.getBeerById(beerId = beerId).mapToDomainModel() }
 
-    override suspend fun getBeers(search: String, page: Int): Flow<Result<List<Beer>>> =
+    override suspend fun getBeers(search: String, page: Int): Flow<Result<List<BeerModel>>> =
         singleSourceOfTruthStrategy(
             readLocalData = {
                 beerLocalDataSource.getBeers(
@@ -43,7 +43,7 @@ internal class BeerRepositoryImpl @Inject constructor(
             },
             saveLocalData = { beers ->
                 beerLocalDataSource.insertBeers(
-                    beers = beers.map(Beer::mapFromDomainModel)
+                    beers = beers.map(BeerModel::mapFromDomainModel)
                 )
             }
         )

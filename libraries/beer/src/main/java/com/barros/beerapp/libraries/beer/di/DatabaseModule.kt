@@ -16,7 +16,7 @@ import javax.inject.Singleton
 internal class DatabaseModule {
 
     companion object {
-        const val beerAppDatabaseName = "BeerAppDatabase"
+        const val DATABASE_NAME = "BeerAppDatabase"
     }
 
     @Provides
@@ -24,8 +24,8 @@ internal class DatabaseModule {
     fun provideRoomDb(
         @ApplicationContext context: Context
     ): BeerAppDatabase = Room
-        .databaseBuilder(context, BeerAppDatabase::class.java, beerAppDatabaseName)
-        .createFromAsset("$beerAppDatabaseName.db")
+        .databaseBuilder(context, BeerAppDatabase::class.java, DATABASE_NAME)
+        .createFromAsset("$DATABASE_NAME.db")
         .build()
 
     @Provides

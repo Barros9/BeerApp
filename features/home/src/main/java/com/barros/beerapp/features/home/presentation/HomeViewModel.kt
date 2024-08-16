@@ -4,18 +4,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.barros.beerapp.features.home.presentation.model.HomeUiState
-import com.barros.beerapp.libraries.beer.domain.entity.Beer
+import com.barros.beerapp.libraries.beer.domain.model.BeerModel
 import com.barros.beerapp.libraries.beer.domain.model.Result.Error
 import com.barros.beerapp.libraries.beer.domain.model.Result.Success
 import com.barros.beerapp.libraries.beer.domain.usecase.GetBeersUseCase
 import com.barros.beerapp.libraries.beer.domain.util.MAX_ITEM_PER_PAGE
 import com.barros.beerapp.libraries.domain.entity.Theme
 import com.barros.beerapp.libraries.domain.usecase.SaveThemePreferenceUseCase
-import com.barros.beerapp.libraries.navigator.destinations.DetailDestination
-import com.barros.beerapp.libraries.navigator.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,9 +23,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val navigator: Navigator,
+internal class HomeViewModel @Inject constructor(
     private val getBeersUseCase: GetBeersUseCase,
     private val saveThemePreferenceUseCase: SaveThemePreferenceUseCase
 ) : ViewModel() {
@@ -48,7 +46,7 @@ class HomeViewModel @Inject constructor(
     private val _search by lazy { MutableStateFlow("") }
     internal val search: StateFlow<String> by lazy { _search }
 
-    private val beers = mutableSetOf<Beer>()
+    private val beers = mutableSetOf<BeerModel>()
     private var page = 1
 
     init {
@@ -61,8 +59,8 @@ class HomeViewModel @Inject constructor(
 
     private fun loadUiState() {
         viewModelScope.launch(exceptionHandler) {
+            showLoading()
             if (page == 1 || _isPaginationExhaust.value.not()) {
-                showLoading()
                 getBeersUseCase(search = _search.value, page = page).collectLatest { result ->
                     delay(1_000)
                     _uiState.value = when (result) {
@@ -83,12 +81,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun onSelectBeer(beerId: Int) {
-        navigator.navigate(
-            DetailDestination.createBeerDetailsRoute(beerId = beerId)
-        )
     }
 
     fun onRetry() {

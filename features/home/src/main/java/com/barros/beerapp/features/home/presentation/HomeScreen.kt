@@ -19,28 +19,34 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.barros.beerapp.features.home.BuildConfig
 import com.barros.beerapp.features.home.R
-import com.barros.beerapp.features.home.presentation.model.HomeUiState
+import com.barros.beerapp.features.home.presentation.component.HomeHeader
+import com.barros.beerapp.features.home.presentation.component.HomeList
+import com.barros.beerapp.features.home.presentation.component.HomeSearch
 import com.barros.beerapp.libraries.domain.entity.Theme
 import com.barros.beerapp.libraries.ui.theme.BeerAppTheme
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
+internal fun HomeScreen(
+    onSelectBeer: (Int) -> Unit,
+    homeViewModel: HomeViewModel = hiltViewModel()
+) {
     val uiState by homeViewModel.uiState
     val isLoadingNextPage by homeViewModel.isLoadingNextPage
     val isPaginationExhaust by homeViewModel.isPaginationExhaust
-    val search by homeViewModel.search.collectAsState()
+    val search by homeViewModel.search.collectAsStateWithLifecycle()
 
     HomeContent(
         modifier = Modifier,
@@ -49,7 +55,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
         isPaginationExhaust = isPaginationExhaust,
         search = search,
         onSearchChange = { text -> homeViewModel.onSearchTextChange(text) },
-        onSelectBeer = { beerId -> homeViewModel.onSelectBeer(beerId) },
+        onSelectBeer = { beerId -> onSelectBeer(beerId) },
         onRetry = { homeViewModel.onRetry() },
         onSearchNextPage = { homeViewModel.onSearchNextPage() },
         onSelectTheme = { homeViewModel.onSelectTheme(it) }
@@ -149,16 +155,18 @@ private fun HomeContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            HomeHeader(modifier = modifier)
+            HomeHeader(
+                modifier = Modifier.padding(dimensionResource(com.barros.beerapp.libraries.ui.R.dimen.spacing_8))
+            )
 
             HomeSearch(
-                modifier = modifier,
+                modifier = Modifier.padding(dimensionResource(com.barros.beerapp.libraries.ui.R.dimen.spacing_8)),
                 search = search,
                 onSearchChange = onSearchChange
             )
 
             HomeList(
-                modifier = modifier,
+                modifier = Modifier,
                 uiState = uiState,
                 isLoadingNextPage = isLoadingNextPage,
                 isPaginationExhaust = isPaginationExhaust,

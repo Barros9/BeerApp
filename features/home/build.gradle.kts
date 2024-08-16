@@ -1,8 +1,9 @@
 plugins {
-    id("beerapp.plugin.android.library")
-    id("beerapp.plugin.compose.library")
-    id("beerapp.plugin.hilt")
-    id("beerapp.plugin.test")
+    alias(libs.plugins.beerapp.android.library)
+    alias(libs.plugins.beerapp.compose.library)
+    alias(libs.plugins.beerapp.hilt)
+    alias(libs.plugins.beerapp.navigation)
+    alias(libs.plugins.beerapp.test)
 }
 
 android {
@@ -12,9 +13,8 @@ android {
 dependencies {
     // Libraries
     implementation(project(":libraries:beer"))
-    implementation(project(":libraries:navigator"))
     implementation(project(":libraries:ui"))
 
     // Glide
-    implementation(libs.landscapist.glide)
+    implementation(libs.bumptech.glide)
 }
